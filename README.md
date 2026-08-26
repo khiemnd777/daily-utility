@@ -42,6 +42,7 @@ factory/
   scripts/validate_manifest.py
   state-machine.json
 products/                          Built products, one folder per product id
+.agents/skills/                    Repository-scoped Codex workflows
 templates/
   product-manifest.json
   proposal-issue.md
@@ -67,7 +68,20 @@ Validate manifests locally with:
 ```bash
 python3 -m pip install -r factory/requirements.txt
 python3 factory/scripts/validate_manifest.py
+python3 factory/scripts/validate_skills.py
 ```
+
+## Repository Codex skills
+
+Codex discovers the checked-in skills under `.agents/skills/` automatically:
+
+- `daily-utility-factory` routes work to one approval-gated lifecycle phase.
+- `daily-utility-engineering` governs product architecture, design patterns, code splitting, testing, and packaging.
+- `daily-utility-git-delivery` handles focused branches, worktrees, pull requests, merges, and explicit cleanup.
+- `daily-utility-gumroad-release` handles approved manual Gumroad publication and release evidence.
+- `daily-utility-promotion` researches suitable communities and prepares or posts truthful promotion after exact target-and-copy approval.
+
+Repository-wide invariants remain in `AGENTS.md`; product-specific engineering and review rules live in `products/AGENTS.md`. Skills contain the reusable procedures rather than duplicating those rules.
 
 ## Automation ownership
 

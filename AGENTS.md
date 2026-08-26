@@ -37,9 +37,44 @@ The required happy path is:
 - Record acceptance checks and artifacts in the manifest.
 - Do not mark a product `READY_FOR_RELEASE` while a required check is pending or failed.
 
+## Execution rules
+
+- Identify the active lifecycle phase before acting. Do not mix idea research, product implementation, release, and promotion in one ungated step.
+- Read the linked proposal issue and current state label again before every state-sensitive action; chat summaries and stale local files are not authoritative.
+- Keep the change limited to the approved product and phase. Separate reusable factory changes from product work and give them their own focused pull request.
+- Prefer deterministic, inspectable, self-contained utilities. Do not introduce a hosted service, account system, private integration, or customer-data dependency unless a separately approved proposal requires it.
+- When modifying files under `products/`, read and follow `products/AGENTS.md` in addition to this file.
+
+## Git and worktree rules
+
+- Before a manual or scheduled factory run, inspect the main checkout, `git worktree list`, local branches, and remote tracking branches. A stale worktree for the same product and phase must be explicitly reused or cleaned before new work starts.
+- Start task work from a clean, current `main` in a uniquely named `codex/<purpose>` branch and isolated worktree. Do not modify the main checkout for product implementation.
+- Stage only named task files. Never use broad staging, force-push, history rewriting, or destructive checkout commands as routine cleanup.
+- Open pull requests as drafts unless the user explicitly asks for ready-for-review. Merge only after required checks pass, blocking review threads are resolved, and the user explicitly requests the merge.
+- Deleting a remote branch, local branch, or worktree requires an explicit cleanup request. A plain merge request does not authorize deletion. Squash-merged local branches may use force deletion only after verifying the merged tree contains their intended diff.
+- Never clean unrelated worktrees or branches while handling the current task; report them separately.
+
+## Release and promotion rules
+
+- Gumroad work is manual through the Codex desktop control plane. Publishing requires both `APPROVED_RELEASE` on the linked issue and an explicit instruction to publish.
+- Before upload, identify the exact versioned artifact, compute its SHA-256, and verify price, listing copy, support terms, and buyer delivery contents. Never silently replace an already published artifact.
+- After publishing, verify the public page, price, buyer-visible delivery, support route, and downloaded artifact checksum before creating publication evidence or marking `PUBLISHED`.
+- Promotion begins only after `PUBLISHED`. Research current communities and their self-promotion rules before proposing targets.
+- Posting, commenting, messaging, or sharing on behalf of the seller requires action-time approval for the exact destination and copy. Do not spam, conceal seller affiliation, fabricate testimonials, or make claims that the product evidence does not support.
+
 ## Change protocol
 
 - Work on a focused branch and use a pull request.
 - Keep generated artifacts out of Git unless they are intentional release assets.
 - Run `python3 factory/scripts/validate_manifest.py` before requesting review.
+- Run `python3 factory/scripts/validate_skills.py` when changing `.agents/skills/`.
 - When modifying a workflow, preserve least-privilege permissions and avoid untrusted code execution from issue comments.
+
+## Code Review Rules
+
+- Flag any issue label, manifest state, or state-machine transition that disagrees with another authoritative record.
+- Flag checked-in code or GitHub Actions that call Codex, OpenAI, Gumroad, payment, publishing, or social posting APIs.
+- Flag release evidence whose URL, price, artifact path, checksum, or timestamp was not verified against the live buyer experience.
+- Flag product architecture that duplicates business rules across UI and parsers, introduces circular dependencies, or adds abstraction without a concrete second implementation or test boundary.
+- Flag changes to published release bytes without a new version and fresh release approval.
+- Flag promotional claims that lack product evidence or outreach performed without the exact target and copy being approved.
