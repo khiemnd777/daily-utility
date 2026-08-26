@@ -1,0 +1,15 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+
+# Factory working files and generated product bundles
+.factory-work/
+products/*/.work/
+products/*/dist/
+products/*/*.zip

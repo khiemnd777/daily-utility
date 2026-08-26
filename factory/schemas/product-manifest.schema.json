@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/khiemnd777/daily-utility/factory/schemas/product-manifest.schema.json",
+  "title": "Daily Utility Product Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "product_id",
+    "name",
+    "summary",
+    "customer",
+    "problem",
+    "solution",
+    "distribution",
+    "pricing",
+    "state",
+    "source_issue",
+    "artifacts",
+    "acceptance_checks",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "product_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "minLength": 3,
+      "maxLength": 64
+    },
+    "name": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 100
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 280
+    },
+    "customer": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 200
+    },
+    "problem": {
+      "type": "string",
+      "minLength": 10
+    },
+    "solution": {
+      "type": "string",
+      "minLength": 10
+    },
+    "distribution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["format", "channel"],
+      "properties": {
+        "format": {
+          "type": "string",
+          "enum": ["download", "template", "script", "web-app", "guide", "bundle"]
+        },
+        "channel": {
+          "type": "string",
+          "enum": ["manual", "gumroad"]
+        }
+      }
+    },
+    "pricing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["currency", "amount_cents"],
+      "properties": {
+        "currency": {
+          "const": "USD"
+        },
+        "amount_cents": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "READY_FOR_BUILD",
+        "APPROVED_BUILD",
+        "BUILDING",
+        "READY_FOR_RELEASE",
+        "APPROVED_RELEASE",
+        "PUBLISHED",
+        "REJECTED"
+      ]
+    },
+    "source_issue": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^products/[a-z0-9-]+/.+"
+      },
+      "uniqueItems": true
+    },
+    "acceptance_checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "description", "required", "status"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 5
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "passed", "failed"]
+          }
+        }
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}
