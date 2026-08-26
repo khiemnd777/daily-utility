@@ -7,8 +7,9 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "package": "node scripts/package.mjs",
-    "test": "npm run build && node --test tests/*.test.mjs && npm run package",
-    "test:browser": "node tests/browser-acceptance.mjs"
+    "test": "npm run build && npm run package && node --test tests/*.test.mjs",
+    "test:browser": "node tests/browser-acceptance.mjs",
+    "test:browser:ci": "BROWSER_MATRIX=ci node tests/browser-acceptance.mjs"
   },
   "dependencies": {
     "pdfjs-dist": "6.2.108"

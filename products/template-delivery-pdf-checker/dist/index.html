@@ -4,6 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self' data:; style-src 'self' 'unsafe-inline'; worker-src data: blob:; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+    />
     <title>Template Delivery PDF Checker</title>
     <meta
       name="description"
@@ -42,7 +46,12 @@
           </div>
           <button id="choose-file" class="primary-button" type="button">Choose PDF</button>
         </div>
-        <p id="status" class="status" role="status">Choose a delivery PDF to begin.</p>
+        <div class="analysis-status">
+          <p id="status" class="status" role="status">Choose a delivery PDF to begin.</p>
+          <button id="cancel-analysis" class="text-button" type="button" hidden>Cancel check</button>
+        </div>
+        <progress id="analysis-progress" class="analysis-progress" aria-label="PDF scan progress" hidden></progress>
+        <p class="limit-note">Safety limits: 25 MB, 200 pages, and 2,000 clickable links per PDF.</p>
       </section>
 
       <section id="workspace" class="workspace" hidden aria-live="polite">

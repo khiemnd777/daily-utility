@@ -14,7 +14,7 @@
     "currency": "USD",
     "amount_cents": 1200
   },
-  "state": "READY_FOR_RELEASE",
+  "state": "BUILDING",
   "source_issue": 3,
   "artifacts": [
     "products/template-delivery-pdf-checker/README.md",
@@ -55,8 +55,38 @@
       "description": "The built app loads and analyzes a fixture with the network disabled and makes no outbound request.",
       "required": true,
       "status": "passed"
+    },
+    {
+      "id": "compatibility-security-corpus",
+      "description": "An 18-profile annotation corpus plus a real Chrome print-to-PDF export covers URI encodings, Canva patterns, internal destinations, and active-content targets.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "bounded-failure-handling",
+      "description": "File, page, and link limits, cancellation, damaged PDFs, password errors, and parser failures produce bounded behavior and customer-facing messages.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "browser-download-matrix",
+      "description": "Chrome, Edge, Firefox, and WebKit load from file://, remain network-isolated, analyze the fixture, render overlays, and download verified Markdown and CSV reports.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "release-security-integrity",
+      "description": "The release ZIP contains only intended assets, disables PDF JavaScript evaluation, enforces a restrictive CSP, contains no source map, and stays below 10 MB.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "github-ci",
+      "description": "The product pull request passes the manifest validator and the product-specific clean install, unit/PDF/release, and Chromium browser jobs on GitHub Actions.",
+      "required": true,
+      "status": "pending"
     }
   ],
   "created_at": "2026-08-26T06:43:16Z",
-  "updated_at": "2026-08-26T07:02:44Z"
+  "updated_at": "2026-08-26T07:40:08Z"
 }

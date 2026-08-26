@@ -1,0 +1,36 @@
+name: Template Delivery PDF Checker
+
+on:
+  pull_request:
+    paths:
+      - "products/template-delivery-pdf-checker/**"
+      - ".github/workflows/template-delivery-pdf-checker-check.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: products/template-delivery-pdf-checker
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: products/template-delivery-pdf-checker/package-lock.json
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Run unit, PDF corpus, and release checks
+        run: npm test
+      - name: Install Chromium test runtime
+        run: npx playwright-core install --with-deps chromium
+      - name: Run offline browser acceptance
+        run: npm run test:browser:ci
