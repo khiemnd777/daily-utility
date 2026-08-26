@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "product_id": "template-delivery-pdf-checker",
+  "channel": "gumroad",
+  "url": "https://khiemnd2.gumroad.com/l/template-delivery-pdf-checker",
+  "price": {
+    "currency": "USD",
+    "amount_cents": 1200
+  },
+  "artifact": "products/template-delivery-pdf-checker/release/template-delivery-pdf-checker-v1.0.0.zip",
+  "artifact_sha256": "a035efc717ff96bfed1071adae526d48fad5ffb448edbfdaa8d7584053106221",
+  "published_at": "2026-08-26T08:28:21Z"
+}
