@@ -1,8 +1,10 @@
 # Daily Utility Factory
 
-Daily Utility Factory is a guarded workflow for proposing, building, reviewing, and eventually releasing one small utility product at a time.
+Daily Utility Factory is a Codex-first, approval-gated workflow for proposing, building, reviewing, and eventually releasing one small utility product at a time.
 
-This repository currently contains only the factory skeleton. It does **not** connect to OpenAI/Codex, does **not** contain an `OPENAI_API_KEY`, and does **not** publish to Gumroad.
+Codex runs outside GitHub Actions as the scheduler, control plane, and implementation runtime. GitHub stores proposal state, code, pull requests, and CI evidence. The repository does **not** contain an `OPENAI_API_KEY`, GitHub Actions do not invoke an AI provider, and Gumroad publishing is not configured.
+
+The durable runtime contract is documented in [`factory/codex-first-workflow.md`](factory/codex-first-workflow.md).
 
 ## Lifecycle
 
@@ -19,15 +21,15 @@ At either approval checkpoint, `/reject` moves the proposal to `REJECTED`. The c
 
 ## Approval protocol
 
-Approval happens on a GitHub proposal issue carrying the `factory:proposal` label.
+Every Codex idea run creates a complete GitHub proposal issue carrying `factory:proposal` and exactly one state label. The issue is the durable audit ledger; the linked Codex task is the primary review surface.
 
-- `/approve` at `state:ready-for-build` moves the issue to `state:approved-build`.
-- `/approve` at `state:ready-for-release` moves the issue to `state:approved-release`.
-- `/reject` at either approval checkpoint moves the issue to `state:rejected`.
-- Only comments from an `OWNER`, `MEMBER`, or `COLLABORATOR` are accepted.
-- Commands on pull requests, unlabelled issues, or issues in any other state are ignored or rejected.
+- Reply `/approve` or `/reject` in the linked Codex task.
+- Codex relays the exact command to the linked proposal issue.
+- `approval-gate.yml` accepts commands only from an `OWNER`, `MEMBER`, or `COLLABORATOR` and records the authoritative state transition.
+- Codex verifies the resulting issue label before starting or continuing work.
+- A trusted reviewer may comment directly on the issue as a fallback.
 
-Approval never runs Codex and never publishes a product. Those integrations are deliberately left for a later, separately reviewed change.
+Approval alone never publishes a product. Build work starts only after `APPROVED_BUILD`, and publishing remains a separate, unconfigured step after `APPROVED_RELEASE`.
 
 ## Repository layout
 
@@ -43,26 +45,26 @@ templates/
   proposal-issue.md
 .github/workflows/
   approval-gate.yml
-  daily-idea.yml
   manifest-check.yml
 ```
 
 ## Working agreement
 
-1. Create or generate a proposal issue from `templates/proposal-issue.md` with labels `factory:proposal` and `state:ready-for-build`.
-2. Review the proposal and comment `/approve` or `/reject`.
-3. Build only after the issue reaches `APPROVED_BUILD`.
-4. Store the product in `products/<product-id>/` with a valid `product-manifest.json`.
-5. Move to `READY_FOR_RELEASE` only after required checks pass.
-6. Release only after a second `/approve` produces `APPROVED_RELEASE`.
+1. The Codex scheduled task researches one idea and creates a proposal issue from `templates/proposal-issue.md` with labels `factory:proposal` and `state:ready-for-build`.
+2. Codex returns the full proposal, issue URL, current state, and exact next command.
+3. A reviewer replies `/approve` or `/reject` in Codex; Codex relays the command and verifies the issue transition.
+4. After `APPROVED_BUILD`, Codex starts the Engineering Agent in an isolated worktree and focused branch.
+5. Store the product in `products/<product-id>/` with a valid `product-manifest.json`, run checks, and open a pull request.
+6. Move to `READY_FOR_RELEASE` only after required checks pass.
+7. Release only after a second `/approve` produces `APPROVED_RELEASE`.
 
 Validate manifests locally with:
 
 ```bash
-python3 -m pip install jsonschema==4.23.0
+python3 -m pip install -r factory/requirements.txt
 python3 factory/scripts/validate_manifest.py
 ```
 
-## Automation switch
+## Automation ownership
 
-The scheduled idea workflow is inert by default. A future integration can set the repository variable `FACTORY_AUTOMATION_ENABLED=true` after credentials and execution boundaries are reviewed. The current enabled path creates only a manual proposal shell; it still does not call an AI provider.
+The active schedule belongs to the Codex project automation named `Daily Utility Idea Agent`. There is no GitHub Actions cron for idea generation and no ChatGPT web task in the supported path. If Codex cannot create the proposal issue, the run must fail visibly instead of returning an orphaned proposal.

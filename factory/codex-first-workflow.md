@@ -1,0 +1,46 @@
+# Codex-first workflow contract
+
+## Responsibilities
+
+- **Codex scheduled task:** the only automatic idea scheduler; researches, deduplicates, and creates one complete proposal issue.
+- **Codex task:** the primary human review surface and control plane. It relays exact approval commands and verifies resulting GitHub state before acting.
+- **GitHub issue:** the durable proposal and state ledger.
+- **GitHub pull request and CI:** the code review and quality gate.
+- **GitHub Actions:** deterministic validation and state recording only. Actions do not invoke an AI provider.
+- **Gumroad:** manual and unconfigured until a separately reviewed publishing integration exists.
+
+## Idea run
+
+1. Read `AGENTS.md`, the state machine, Idea Agent contract, templates, products, proposal issues, and Git history.
+2. Select exactly one unique, self-contained utility.
+3. Create and verify one complete GitHub proposal issue in `READY_FOR_BUILD`.
+4. Return the proposal, issue URL, current state, exact next command, and expected effect in Codex.
+5. Stop. No build begins at this checkpoint.
+
+An idea run that cannot create and verify the issue is failed. It must not show `/approve` and must not leave an orphaned proposal in chat.
+
+## Approval relay
+
+1. A trusted reviewer enters the exact `/approve` or `/reject` command in the linked Codex task.
+2. Codex relays that exact command as a comment on the linked GitHub issue.
+3. `approval-gate.yml` authenticates the actor and updates the issue's single state label.
+4. Codex re-reads the issue and continues only after the expected state is visible.
+
+Direct issue comments remain a fallback. If a reviewer uses the fallback, Codex must still re-read the issue before acting.
+
+## Build handoff
+
+After `APPROVED_BUILD`, Codex starts the Engineering Agent in an isolated worktree and focused branch. The agent records `BUILDING`, implements only the approved scope, runs checks, validates the manifest, opens a pull request, and records `READY_FOR_RELEASE` only when all required checks pass.
+
+The release checkpoint uses the same approval relay. Publishing remains unavailable until a separate release integration is reviewed and configured.
+
+## Required handoff fields
+
+Every Codex review handoff states:
+
+- what was created or changed;
+- the linked issue and, when applicable, pull request URL;
+- the current factory state;
+- the exact next command;
+- what that command will do;
+- any blocker that prevents the command from being offered.

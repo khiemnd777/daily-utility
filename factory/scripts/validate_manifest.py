@@ -31,6 +31,7 @@ REQUIRED_HAPPY_PATH = [
     "APPROVED_RELEASE",
     "PUBLISHED",
 ]
+RELEASE_STATES = {"READY_FOR_RELEASE", "APPROVED_RELEASE", "PUBLISHED"}
 
 
 def load_json(path: Path) -> Any:
@@ -48,6 +49,10 @@ def load_json(path: Path) -> Any:
 def validate_state_machine(machine: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     states = set(machine.get("states", {}))
+    if machine.get("control_plane") != "codex":
+        errors.append("state machine control_plane must be codex")
+    if machine.get("state_ledger") != "github_issue":
+        errors.append("state machine state_ledger must be github_issue")
     if machine.get("initial_state") != REQUIRED_HAPPY_PATH[0]:
         errors.append("state machine initial_state must be READY_FOR_BUILD")
     if machine.get("happy_path") != REQUIRED_HAPPY_PATH:
@@ -75,6 +80,60 @@ def validate_state_machine(machine: dict[str, Any]) -> list[str]:
     return errors
 
 
+def validate_product_contract(path: Path, manifest: dict[str, Any]) -> list[str]:
+    """Validate repository rules that cannot be expressed cleanly in JSON Schema."""
+    if path == TEMPLATE_PATH:
+        return []
+
+    errors: list[str] = []
+    relative = path.relative_to(ROOT)
+    product_id = manifest.get("product_id")
+    expected_directory = path.parent.name
+    if product_id != expected_directory:
+        errors.append(
+            f"{relative}: product_id must match directory name {expected_directory!r}"
+        )
+    if manifest.get("source_issue") is None:
+        errors.append(f"{relative}: source_issue must reference the proposal issue")
+
+    raw_artifacts = manifest.get("artifacts", [])
+    artifacts = raw_artifacts if isinstance(raw_artifacts, list) else []
+    expected_prefix = f"products/{product_id}/"
+    if not artifacts:
+        errors.append(f"{relative}: artifacts must list at least one product file")
+    for artifact in artifacts:
+        if not isinstance(artifact, str) or not artifact.startswith(expected_prefix):
+            errors.append(
+                f"{relative}: artifact {artifact!r} must start with {expected_prefix!r}"
+            )
+
+    raw_checks = manifest.get("acceptance_checks", [])
+    checks = raw_checks if isinstance(raw_checks, list) else []
+    check_ids = [
+        item.get("id")
+        for item in checks
+        if isinstance(item, dict) and isinstance(item.get("id"), str)
+    ]
+    if len(check_ids) != len(set(check_ids)):
+        errors.append(f"{relative}: acceptance check ids must be unique")
+
+    if manifest.get("state") in RELEASE_STATES:
+        for check in checks:
+            if (
+                isinstance(check, dict)
+                and check.get("required")
+                and check.get("status") != "passed"
+            ):
+                errors.append(
+                    f"{relative}: required check {check.get('id')!r} must pass "
+                    f"before {manifest.get('state')}"
+                )
+        for artifact in artifacts:
+            if isinstance(artifact, str) and not (ROOT / artifact).is_file():
+                errors.append(f"{relative}: release artifact does not exist: {artifact}")
+    return errors
+
+
 def discover_manifests(arguments: list[str]) -> list[Path]:
     if arguments:
         return [Path(item).resolve() for item in arguments]
@@ -94,7 +153,10 @@ def main() -> int:
 
     try:
         machine = load_json(STATE_MACHINE_PATH)
-        failures.extend(validate_state_machine(machine))
+        if isinstance(machine, dict):
+            failures.extend(validate_state_machine(machine))
+        else:
+            failures.append("state machine root must be an object")
     except ValueError as exc:
         failures.append(str(exc))
 
@@ -114,6 +176,8 @@ def main() -> int:
             failures.append(
                 f"{manifest_path.relative_to(ROOT)}:{location}: {error.message}"
             )
+        if isinstance(manifest, dict):
+            failures.extend(validate_product_contract(manifest_path, manifest))
 
     if failures:
         for failure in failures:

@@ -1,5 +1,7 @@
 {
   "version": 1,
+  "control_plane": "codex",
+  "state_ledger": "github_issue",
   "initial_state": "READY_FOR_BUILD",
   "happy_path": [
     "READY_FOR_BUILD",
