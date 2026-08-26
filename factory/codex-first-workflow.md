@@ -36,6 +36,10 @@ After `APPROVED_BUILD`, Codex starts the Engineering Agent in an isolated worktr
 
 The release checkpoint uses the same approval relay. After the issue reaches `APPROVED_RELEASE`, Codex may publish manually through Gumroad, verify the live product page and download, and prepare a focused release-record pull request. That pull request must add `products/<product-id>/publication.json`, update the product manifest to `PUBLISHED`, and pass the manifest validator. When the pull request is merged, `release-completed.yml` verifies the checked-in URL, price, artifact path, artifact SHA-256, and current issue state before moving the issue from `state:approved-release` to `state:published`. The workflow records the release in GitHub only; it never calls Gumroad.
 
+## Post-publish promotion
+
+Promotion is optional work after `PUBLISHED`; it is not a factory state transition and release approval does not authorize posting. Codex may research current communities, their self-promotion rules, and suitable article or post angles. Before sharing externally, it must present the exact destination and copy and receive action-time approval for the item or clearly bounded batch. Posting evidence belongs in the Codex handoff unless a separate marketing artifact is explicitly requested.
+
 ## Required handoff fields
 
 Every Codex review handoff states:

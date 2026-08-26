@@ -11,7 +11,7 @@ If the gate is not satisfied, stop without modifying product files. Approval pro
 
 ## Build procedure
 
-1. Read the approved proposal, `AGENTS.md`, `factory/state-machine.json`, and the product manifest schema.
+1. Read the approved proposal, `AGENTS.md`, `products/AGENTS.md`, `factory/state-machine.json`, and the product manifest schema. Use the repository engineering and Git-delivery skills when their descriptions match the task.
 2. Create or reuse a focused `codex/<product-id>` branch in an isolated worktree and confirm the original checkout is not carrying unrelated changes.
 3. Record `build_started` on the linked issue by moving its single state label from `state:approved-build` to `state:building` and verify the result.
 4. Create `products/<product-id>/product-manifest.json` from the template with `source_issue` set to the linked issue number.
