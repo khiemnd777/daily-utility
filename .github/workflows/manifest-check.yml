@@ -30,6 +30,6 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install validator
-        run: python -m pip install jsonschema==4.23.0
+        run: python -m pip install -r factory/requirements.txt
       - name: Validate schema, state machine, and manifests
         run: python factory/scripts/validate_manifest.py
