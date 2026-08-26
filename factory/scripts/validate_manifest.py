@@ -3,10 +3,12 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import sys
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
 try:
     from jsonschema import Draft202012Validator, FormatChecker
@@ -22,6 +24,8 @@ ROOT = Path(__file__).resolve().parents[2]
 SCHEMA_PATH = ROOT / "factory" / "schemas" / "product-manifest.schema.json"
 STATE_MACHINE_PATH = ROOT / "factory" / "state-machine.json"
 TEMPLATE_PATH = ROOT / "templates" / "product-manifest.json"
+PUBLICATION_SCHEMA_PATH = ROOT / "factory" / "schemas" / "publication.schema.json"
+PUBLICATION_TEMPLATE_PATH = ROOT / "templates" / "publication.json"
 
 REQUIRED_HAPPY_PATH = [
     "READY_FOR_BUILD",
@@ -81,7 +85,11 @@ def validate_state_machine(machine: dict[str, Any]) -> list[str]:
     return errors
 
 
-def validate_product_contract(path: Path, manifest: dict[str, Any]) -> list[str]:
+def validate_product_contract(
+    path: Path,
+    manifest: dict[str, Any],
+    publication_validator: Draft202012Validator,
+) -> list[str]:
     """Validate repository rules that cannot be expressed cleanly in JSON Schema."""
     if path == TEMPLATE_PATH:
         return []
@@ -132,6 +140,71 @@ def validate_product_contract(path: Path, manifest: dict[str, Any]) -> list[str]
         for artifact in artifacts:
             if isinstance(artifact, str) and not (ROOT / artifact).is_file():
                 errors.append(f"{relative}: release artifact does not exist: {artifact}")
+
+    publication_path = path.parent / "publication.json"
+    if manifest.get("state") == "PUBLISHED":
+        publication_relative = publication_path.relative_to(ROOT).as_posix()
+        if publication_relative not in artifacts:
+            errors.append(
+                f"{relative}: PUBLISHED manifest must list {publication_relative!r}"
+            )
+        try:
+            publication = load_json(publication_path)
+        except ValueError as exc:
+            errors.append(str(exc))
+        else:
+            for error in sorted(
+                publication_validator.iter_errors(publication),
+                key=lambda item: list(item.path),
+            ):
+                location = ".".join(str(part) for part in error.absolute_path) or "<root>"
+                errors.append(
+                    f"{publication_relative}:{location}: {error.message}"
+                )
+
+            if isinstance(publication, dict):
+                if publication.get("product_id") != product_id:
+                    errors.append(
+                        f"{publication_relative}: product_id must match the manifest"
+                    )
+                distribution = manifest.get("distribution")
+                manifest_channel = (
+                    distribution.get("channel")
+                    if isinstance(distribution, dict)
+                    else None
+                )
+                if publication.get("channel") != manifest_channel:
+                    errors.append(
+                        f"{publication_relative}: channel must match manifest distribution"
+                    )
+                if publication.get("price") != manifest.get("pricing"):
+                    errors.append(
+                        f"{publication_relative}: price must match manifest pricing"
+                    )
+
+                artifact = publication.get("artifact")
+                if artifact not in artifacts:
+                    errors.append(
+                        f"{publication_relative}: artifact must be listed in the manifest"
+                    )
+                elif isinstance(artifact, str) and (ROOT / artifact).is_file():
+                    digest = hashlib.sha256((ROOT / artifact).read_bytes()).hexdigest()
+                    if digest != publication.get("artifact_sha256"):
+                        errors.append(
+                            f"{publication_relative}: artifact_sha256 does not match {artifact}"
+                        )
+
+                url = publication.get("url")
+                if isinstance(url, str):
+                    parsed = urlparse(url)
+                    if parsed.path.rstrip("/") != f"/l/{product_id}":
+                        errors.append(
+                            f"{publication_relative}: URL slug must match product_id"
+                        )
+    elif publication_path.exists():
+        errors.append(
+            f"{relative}: publication.json requires manifest state PUBLISHED"
+        )
     return errors
 
 
@@ -148,6 +221,8 @@ def main() -> int:
     try:
         schema = load_json(SCHEMA_PATH)
         Draft202012Validator.check_schema(schema)
+        publication_schema = load_json(PUBLICATION_SCHEMA_PATH)
+        Draft202012Validator.check_schema(publication_schema)
     except (ValueError, SchemaError) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1
@@ -162,6 +237,22 @@ def main() -> int:
         failures.append(str(exc))
 
     validator = Draft202012Validator(schema, format_checker=FormatChecker())
+    publication_validator = Draft202012Validator(
+        publication_schema, format_checker=FormatChecker()
+    )
+
+    try:
+        publication_template = load_json(PUBLICATION_TEMPLATE_PATH)
+        for error in sorted(
+            publication_validator.iter_errors(publication_template),
+            key=lambda item: list(item.path),
+        ):
+            location = ".".join(str(part) for part in error.absolute_path) or "<root>"
+            failures.append(
+                f"{PUBLICATION_TEMPLATE_PATH.relative_to(ROOT)}:{location}: {error.message}"
+            )
+    except ValueError as exc:
+        failures.append(str(exc))
     manifests = discover_manifests(sys.argv[1:])
     if not manifests:
         failures.append("no manifests found")
@@ -178,7 +269,11 @@ def main() -> int:
                 f"{manifest_path.relative_to(ROOT)}:{location}: {error.message}"
             )
         if isinstance(manifest, dict):
-            failures.extend(validate_product_contract(manifest_path, manifest))
+            failures.extend(
+                validate_product_contract(
+                    manifest_path, manifest, publication_validator
+                )
+            )
 
     if failures:
         for failure in failures:

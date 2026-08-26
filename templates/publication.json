@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "product_id": "replace-me",
+  "channel": "gumroad",
+  "url": "https://seller.gumroad.com/l/replace-me",
+  "price": {
+    "currency": "USD",
+    "amount_cents": 0
+  },
+  "artifact": "products/replace-me/release/replace-me-v1.0.0.zip",
+  "artifact_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "published_at": "2026-01-01T00:00:00Z"
+}

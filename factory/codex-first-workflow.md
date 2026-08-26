@@ -7,7 +7,7 @@
 - **GitHub issue:** the durable proposal and state ledger.
 - **GitHub pull request and CI:** the code review and quality gate.
 - **GitHub Actions:** deterministic validation and state recording only. Actions do not invoke an AI provider.
-- **Gumroad:** manual and unconfigured until a separately reviewed publishing integration exists.
+- **Gumroad:** published manually by Codex after release approval; no credentials or publishing API are stored in this repository.
 
 ## Idea run
 
@@ -34,7 +34,7 @@ Direct issue comments remain a fallback. If a reviewer uses the fallback, Codex 
 
 After `APPROVED_BUILD`, Codex starts the Engineering Agent in an isolated worktree and focused branch. The agent records `BUILDING`, implements only the approved scope, runs checks, validates the manifest, opens a pull request, and records `READY_FOR_RELEASE` only when all required checks pass.
 
-The release checkpoint uses the same approval relay. Publishing remains unavailable until a separate release integration is reviewed and configured.
+The release checkpoint uses the same approval relay. After the issue reaches `APPROVED_RELEASE`, Codex may publish manually through Gumroad, verify the live product page and download, and prepare a focused release-record pull request. That pull request must add `products/<product-id>/publication.json`, update the product manifest to `PUBLISHED`, and pass the manifest validator. When the pull request is merged, `release-completed.yml` verifies the checked-in URL, price, artifact path, artifact SHA-256, and current issue state before moving the issue from `state:approved-release` to `state:published`. The workflow records the release in GitHub only; it never calls Gumroad.
 
 ## Required handoff fields
 

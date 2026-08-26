@@ -23,7 +23,9 @@
     "products/template-delivery-pdf-checker/dist/styles.css",
     "products/template-delivery-pdf-checker/dist/README.txt",
     "products/template-delivery-pdf-checker/dist/THIRD_PARTY_NOTICES.txt",
-    "products/template-delivery-pdf-checker/release/template-delivery-pdf-checker-v1.0.0.zip"
+    "products/template-delivery-pdf-checker/release/template-delivery-pdf-checker-v1.0.0.zip",
+    "products/template-delivery-pdf-checker/marketing/gumroad-cover.png",
+    "products/template-delivery-pdf-checker/marketing/gumroad-thumbnail.png"
   ],
   "acceptance_checks": [
     {
@@ -88,5 +90,5 @@
     }
   ],
   "created_at": "2026-08-26T06:43:16Z",
-  "updated_at": "2026-08-26T07:57:31Z"
+  "updated_at": "2026-08-26T08:29:03Z"
 }
