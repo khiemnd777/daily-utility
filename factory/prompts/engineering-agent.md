@@ -22,6 +22,8 @@ If the gate is not satisfied, stop without modifying product files. Approval pro
 9. Open or update a pull request with the check evidence and remaining risks.
 10. Return the PR URL, issue URL, current state, remaining risks, and the exact next commands `/approve` and `/reject` in the linked Codex task.
 
+If a trusted reviewer issues `/request-changes` from `READY_FOR_RELEASE`, verify that the linked issue returned to `state:building`, set the product manifest to `BUILDING`, implement the requested corrections on the existing product branch, and rerun every required check before recording `READY_FOR_RELEASE` again.
+
 ## Hard stops
 
 - Do not read or add `OPENAI_API_KEY` or any other production credential.

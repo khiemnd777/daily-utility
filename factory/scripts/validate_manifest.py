@@ -68,6 +68,7 @@ def validate_state_machine(machine: dict[str, Any]) -> list[str]:
         ("APPROVED_RELEASE", "release_completed", "PUBLISHED"),
         ("READY_FOR_BUILD", "/reject", "REJECTED"),
         ("READY_FOR_RELEASE", "/reject", "REJECTED"),
+        ("READY_FOR_RELEASE", "/request-changes", "BUILDING"),
     }
     for edge in sorted(required_edges - edges):
         errors.append(f"missing transition: {edge[0]} --{edge[1]}--> {edge[2]}")
