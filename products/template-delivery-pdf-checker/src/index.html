@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self' data:; style-src 'self' 'unsafe-inline'; worker-src data: blob:; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <title>Template Delivery PDF Checker</title>
+    <meta
+      name="description"
+      content="Check Canva template delivery PDF links locally before a buyer receives the file."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script defer src="./app.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Template Delivery PDF Checker home">
+        <span class="brand-mark" aria-hidden="true">✓</span>
+        <span>PDF Delivery Check</span>
+      </a>
+      <div class="privacy-chip">
+        <span class="privacy-dot" aria-hidden="true"></span>
+        Local-only processing
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <p class="eyebrow">Pre-publish QA for template sellers</p>
+        <h1 id="hero-title">Make sure the PDF works<br />before your buyer opens it.</h1>
+        <p class="hero-copy">
+          Find missing, duplicated, malformed, and risky Canva links. Your PDF and extracted
+          URLs stay in this browser—nothing is uploaded.
+        </p>
+
+        <div id="dropzone" class="dropzone" data-dragging="false">
+          <input id="pdf-file" type="file" accept="application/pdf,.pdf" aria-label="PDF file" hidden />
+          <div class="drop-icon" aria-hidden="true">PDF</div>
+          <div>
+            <strong>Drop a delivery PDF here</strong>
+            <span>or choose one from your computer</span>
+          </div>
+          <button id="choose-file" class="primary-button" type="button">Choose PDF</button>
+        </div>
+        <div class="analysis-status">
+          <p id="status" class="status" role="status">Choose a delivery PDF to begin.</p>
+          <button id="cancel-analysis" class="text-button" type="button" hidden>Cancel check</button>
+        </div>
+        <progress id="analysis-progress" class="analysis-progress" aria-label="PDF scan progress" hidden></progress>
+        <p class="limit-note">Safety limits: 25 MB, 200 pages, and 2,000 clickable links per PDF.</p>
+      </section>
+
+      <section id="workspace" class="workspace" hidden aria-live="polite">
+        <div class="workspace-heading">
+          <div>
+            <p class="eyebrow">Check results</p>
+            <h2 id="filename">Delivery.pdf</h2>
+          </div>
+          <div class="workspace-actions">
+            <button id="export-markdown" class="secondary-button" type="button">Export Markdown</button>
+            <button id="export-csv" class="secondary-button" type="button">Export CSV</button>
+            <button id="reset-file" class="text-button" type="button">Check another PDF</button>
+          </div>
+        </div>
+
+        <div class="stats" aria-label="PDF summary">
+          <article><span id="page-count">0</span><small>Pages</small></article>
+          <article><span id="link-count">0</span><small>Clickable links</small></article>
+          <article><span id="warning-count">0</span><small>Warnings</small></article>
+        </div>
+
+        <section id="warning-panel" class="warning-panel" aria-labelledby="warning-title" hidden>
+          <h3 id="warning-title">Review before delivery</h3>
+          <ul id="warning-list"></ul>
+        </section>
+
+        <div class="results-grid">
+          <section class="panel inventory-panel" aria-labelledby="inventory-title">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Link inventory</p>
+                <h3 id="inventory-title">Every clickable target</h3>
+              </div>
+              <div class="legend" aria-label="Category legend">
+                <span data-tone="safe">Template-like</span>
+                <span data-tone="danger">Needs review</span>
+              </div>
+            </div>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Location</th>
+                    <th>Target</th>
+                    <th>Category</th>
+                    <th>Warnings</th>
+                  </tr>
+                </thead>
+                <tbody id="results-body"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="panel preview-panel" aria-labelledby="preview-title">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Clickable map</p>
+                <h3 id="preview-title">Page preview</h3>
+              </div>
+              <nav id="page-picker" class="page-picker" aria-label="Choose preview page"></nav>
+            </div>
+            <div id="preview-stage" class="preview-stage">
+              <p id="empty-preview">Select a PDF to preview clickable areas.</p>
+              <div class="page-frame">
+                <canvas id="preview-canvas"></canvas>
+                <div id="overlay-layer" class="overlay-layer" aria-label="Detected clickable areas"></div>
+              </div>
+            </div>
+            <p class="preview-note">Colored boxes show the exact clickable rectangles embedded in the PDF.</p>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p><strong>Private by design.</strong> No upload, account, analytics, or live URL check.</p>
+      <p>Classification is a QA hint—not a guarantee of Canva permissions or availability.</p>
+    </footer>
+  </body>
+</html>
