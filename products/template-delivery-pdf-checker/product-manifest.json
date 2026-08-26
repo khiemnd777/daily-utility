@@ -26,6 +26,7 @@
     "products/template-delivery-pdf-checker/release/template-delivery-pdf-checker-v1.0.0.zip",
     "products/template-delivery-pdf-checker/marketing/gumroad-cover.png",
     "products/template-delivery-pdf-checker/marketing/gumroad-thumbnail.png",
+    "products/template-delivery-pdf-checker/support/SUPPORT.txt",
     "products/template-delivery-pdf-checker/publication.json"
   ],
   "acceptance_checks": [
@@ -91,5 +92,5 @@
     }
   ],
   "created_at": "2026-08-26T06:43:16Z",
-  "updated_at": "2026-08-26T08:41:34Z"
+  "updated_at": "2026-08-26T09:53:12Z"
 }

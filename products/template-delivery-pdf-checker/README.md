@@ -12,6 +12,14 @@ Template Delivery PDF Checker is an offline browser utility for Etsy and Gumroad
 
 All parsing occurs locally. The utility has no account, analytics, upload, live URL request, or API integration.
 
+## Customer support
+
+Buyers should reply to their Gumroad purchase receipt. If receipt replies are unavailable, email `khiemnd777@gmail.com` with the subject `Template Delivery PDF Checker support — <Gumroad order ID>`.
+
+Include the Gumroad order ID or purchase email, browser and version, operating system, exact error message, reproducible steps, and a sanitized sample PDF when needed. Do not send customer data, payment information, or confidential documents.
+
+Support covers purchase access and defects in documented core functionality for the verified purchaser. It does not include custom PDF repair, Canva account or permission troubleshooting, licensing advice, OCR or QR-code extraction, marketplace uploads, or third-party service availability. The normal response target is two business days; the limited functionality guarantee and refund conditions are the terms shown on the Gumroad listing and purchase receipt.
+
 ## What it checks
 
 - Clickable PDF link annotations and their page numbers.
