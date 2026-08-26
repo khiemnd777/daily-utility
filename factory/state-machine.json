@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "initial_state": "READY_FOR_BUILD",
+  "happy_path": [
+    "READY_FOR_BUILD",
+    "APPROVED_BUILD",
+    "BUILDING",
+    "READY_FOR_RELEASE",
+    "APPROVED_RELEASE",
+    "PUBLISHED"
+  ],
+  "states": {
+    "READY_FOR_BUILD": {
+      "terminal": false,
+      "approval_checkpoint": "build"
+    },
+    "APPROVED_BUILD": {
+      "terminal": false,
+      "approval_checkpoint": null
+    },
+    "BUILDING": {
+      "terminal": false,
+      "approval_checkpoint": null
+    },
+    "READY_FOR_RELEASE": {
+      "terminal": false,
+      "approval_checkpoint": "release"
+    },
+    "APPROVED_RELEASE": {
+      "terminal": false,
+      "approval_checkpoint": null
+    },
+    "PUBLISHED": {
+      "terminal": true,
+      "approval_checkpoint": null
+    },
+    "REJECTED": {
+      "terminal": true,
+      "approval_checkpoint": null
+    }
+  },
+  "transitions": [
+    {
+      "from": "READY_FOR_BUILD",
+      "event": "/approve",
+      "to": "APPROVED_BUILD",
+      "actor": "trusted_reviewer"
+    },
+    {
+      "from": "READY_FOR_BUILD",
+      "event": "/reject",
+      "to": "REJECTED",
+      "actor": "trusted_reviewer"
+    },
+    {
+      "from": "APPROVED_BUILD",
+      "event": "build_started",
+      "to": "BUILDING",
+      "actor": "factory"
+    },
+    {
+      "from": "BUILDING",
+      "event": "required_checks_passed",
+      "to": "READY_FOR_RELEASE",
+      "actor": "factory"
+    },
+    {
+      "from": "READY_FOR_RELEASE",
+      "event": "/approve",
+      "to": "APPROVED_RELEASE",
+      "actor": "trusted_reviewer"
+    },
+    {
+      "from": "READY_FOR_RELEASE",
+      "event": "/reject",
+      "to": "REJECTED",
+      "actor": "trusted_reviewer"
+    },
+    {
+      "from": "APPROVED_RELEASE",
+      "event": "release_completed",
+      "to": "PUBLISHED",
+      "actor": "release_job"
+    }
+  ]
+}

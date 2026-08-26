@@ -1,0 +1,126 @@
+name: Approval gate
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: approval-gate-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  transition:
+    if: ${{ !github.event.issue.pull_request }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Apply an authorized state transition
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.comment.body.trim();
+            const command = body.split(/\s+/)[0].toLowerCase();
+            if (!['/approve', '/reject'].includes(command)) {
+              core.info('No factory approval command found.');
+              return;
+            }
+
+            const association = context.payload.comment.author_association;
+            const trusted = new Set(['OWNER', 'MEMBER', 'COLLABORATOR']);
+            if (!trusted.has(association)) {
+              core.setFailed(`Unauthorized approval command from ${association}.`);
+              return;
+            }
+
+            const issue = context.payload.issue;
+            const labels = issue.labels.map((label) =>
+              typeof label === 'string' ? label : label.name
+            );
+            if (!labels.includes('factory:proposal')) {
+              core.setFailed('Approval commands require the factory:proposal label.');
+              return;
+            }
+
+            const stateLabels = {
+              'state:ready-for-build': 'READY_FOR_BUILD',
+              'state:approved-build': 'APPROVED_BUILD',
+              'state:building': 'BUILDING',
+              'state:ready-for-release': 'READY_FOR_RELEASE',
+              'state:approved-release': 'APPROVED_RELEASE',
+              'state:published': 'PUBLISHED',
+              'state:rejected': 'REJECTED'
+            };
+            const active = labels.filter((label) => stateLabels[label]);
+            if (active.length !== 1) {
+              core.setFailed(`Expected one state label, found ${active.length}.`);
+              return;
+            }
+
+            const transitions = {
+              'state:ready-for-build': {
+                '/approve': 'state:approved-build',
+                '/reject': 'state:rejected'
+              },
+              'state:ready-for-release': {
+                '/approve': 'state:approved-release',
+                '/reject': 'state:rejected'
+              }
+            };
+            const current = active[0];
+            const next = transitions[current]?.[command];
+            if (!next) {
+              core.setFailed(`${command} is not valid from ${stateLabels[current]}.`);
+              return;
+            }
+
+            const definitions = {
+              'factory:proposal': ['5319e7', 'Factory proposal'],
+              'state:ready-for-build': ['d4c5f9', 'Awaiting build approval'],
+              'state:approved-build': ['0e8a16', 'Approved to build'],
+              'state:building': ['fbca04', 'Build in progress'],
+              'state:ready-for-release': ['f9d0c4', 'Awaiting release approval'],
+              'state:approved-release': ['1d76db', 'Approved to release'],
+              'state:published': ['0969da', 'Published'],
+              'state:rejected': ['b60205', 'Rejected at an approval gate']
+            };
+
+            for (const [name, [color, description]] of Object.entries(definitions)) {
+              try {
+                await github.rest.issues.getLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name
+                });
+              } catch (error) {
+                if (error.status !== 404) throw error;
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name,
+                  color,
+                  description
+                });
+              }
+            }
+
+            await github.rest.issues.removeLabel({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              name: current
+            });
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              labels: [next]
+            });
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              body: `Factory state: **${stateLabels[current]}** → **${stateLabels[next]}** via \`${command}\` by @${context.actor}.`
+            });

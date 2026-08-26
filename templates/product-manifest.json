@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "product_id": "example-utility",
+  "name": "Example Utility",
+  "summary": "Replace this example with one sentence describing the customer outcome.",
+  "customer": "A specific customer segment",
+  "problem": "Describe the narrow, recurring problem this utility solves.",
+  "solution": "Describe the smallest useful deliverable that solves the problem.",
+  "distribution": {
+    "format": "download",
+    "channel": "manual"
+  },
+  "pricing": {
+    "currency": "USD",
+    "amount_cents": 900
+  },
+  "state": "READY_FOR_BUILD",
+  "source_issue": null,
+  "artifacts": [
+    "products/example-utility/README.md"
+  ],
+  "acceptance_checks": [
+    {
+      "id": "example-check",
+      "description": "Replace with an observable product acceptance check",
+      "required": true,
+      "status": "pending"
+    }
+  ],
+  "created_at": "2026-01-01T00:00:00Z",
+  "updated_at": "2026-01-01T00:00:00Z"
+}
