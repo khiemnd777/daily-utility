@@ -19,11 +19,13 @@ READY_FOR_BUILD
 
 At either approval checkpoint, `/reject` moves the proposal to `REJECTED`. The canonical transition definition is [`factory/state-machine.json`](factory/state-machine.json).
 
+At release review, `/request-changes` moves `READY_FOR_RELEASE` back to `BUILDING` so corrections can be made without rejecting the product or granting release approval.
+
 ## Approval protocol
 
 Every Codex idea run creates a complete GitHub proposal issue carrying `factory:proposal` and exactly one state label. The issue is the durable audit ledger; the linked Codex task is the primary review surface.
 
-- Reply `/approve` or `/reject` in the linked Codex task.
+- Reply with the applicable exact command in the linked Codex task: `/approve`, `/reject`, or `/request-changes` at release review.
 - Codex relays the exact command to the linked proposal issue.
 - `approval-gate.yml` accepts commands only from an `OWNER`, `MEMBER`, or `COLLABORATOR` and records the authoritative state transition.
 - Codex verifies the resulting issue label before starting or continuing work.
@@ -52,11 +54,13 @@ templates/
 
 1. The Codex scheduled task researches one idea and creates a proposal issue from `templates/proposal-issue.md` with labels `factory:proposal` and `state:ready-for-build`.
 2. Codex returns the full proposal, issue URL, current state, and exact next command.
-3. A reviewer replies `/approve` or `/reject` in Codex; Codex relays the command and verifies the issue transition.
+3. A reviewer replies with an exact review command in Codex; Codex relays it and verifies the issue transition.
 4. After `APPROVED_BUILD`, Codex starts the Engineering Agent in an isolated worktree and focused branch.
 5. Store the product in `products/<product-id>/` with a valid `product-manifest.json`, run checks, and open a pull request.
 6. Move to `READY_FOR_RELEASE` only after required checks pass.
 7. Release only after a second `/approve` produces `APPROVED_RELEASE`.
+
+When release review finds required corrections, use `/request-changes` to return to `BUILDING`, apply and verify the corrections, then re-enter `READY_FOR_RELEASE` for a fresh review.
 
 Validate manifests locally with:
 

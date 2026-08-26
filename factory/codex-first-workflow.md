@@ -21,12 +21,14 @@ An idea run that cannot create and verify the issue is failed. It must not show 
 
 ## Approval relay
 
-1. A trusted reviewer enters the exact `/approve` or `/reject` command in the linked Codex task.
+1. A trusted reviewer enters the exact `/approve`, `/reject`, or `/request-changes` command in the linked Codex task.
 2. Codex relays that exact command as a comment on the linked GitHub issue.
 3. `approval-gate.yml` authenticates the actor and updates the issue's single state label.
 4. Codex re-reads the issue and continues only after the expected state is visible.
 
 Direct issue comments remain a fallback. If a reviewer uses the fallback, Codex must still re-read the issue before acting.
+
+`/request-changes` is a release-review correction loop. It is valid only from `READY_FOR_RELEASE`, moves the proposal back to `BUILDING`, and does not grant build or release approval. Codex must update the product manifest to `BUILDING` before modifying product files, then rerun all required checks before returning the issue and manifest to `READY_FOR_RELEASE`.
 
 ## Build handoff
 

@@ -24,7 +24,7 @@ jobs:
           script: |
             const body = context.payload.comment.body.trim();
             const command = body;
-            if (!['/approve', '/reject'].includes(command)) {
+            if (!['/approve', '/reject', '/request-changes'].includes(command)) {
               core.info('No exact factory approval command found.');
               return;
             }
@@ -67,7 +67,8 @@ jobs:
               },
               'state:ready-for-release': {
                 '/approve': 'state:approved-release',
-                '/reject': 'state:rejected'
+                '/reject': 'state:rejected',
+                '/request-changes': 'state:building'
               }
             };
             const current = active[0];

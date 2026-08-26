@@ -79,6 +79,12 @@
       "actor": "trusted_reviewer"
     },
     {
+      "from": "READY_FOR_RELEASE",
+      "event": "/request-changes",
+      "to": "BUILDING",
+      "actor": "trusted_reviewer"
+    },
+    {
       "from": "APPROVED_RELEASE",
       "event": "release_completed",
       "to": "PUBLISHED",
