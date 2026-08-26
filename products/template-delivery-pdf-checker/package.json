@@ -1,0 +1,22 @@
+{
+  "name": "template-delivery-pdf-checker",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Offline QA utility for PDF delivery links used by Canva template sellers.",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "package": "node scripts/package.mjs",
+    "test": "npm run build && node --test tests/*.test.mjs && npm run package",
+    "test:browser": "node tests/browser-acceptance.mjs"
+  },
+  "dependencies": {
+    "pdfjs-dist": "6.2.108"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "fflate": "0.8.3",
+    "pdf-lib": "1.17.1",
+    "playwright-core": "1.62.1"
+  }
+}

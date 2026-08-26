@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "product_id": "template-delivery-pdf-checker",
+  "name": "Template Delivery PDF Checker",
+  "summary": "Check a template delivery PDF for missing, duplicate, malformed, and risky Canva links before a buyer receives it.",
+  "customer": "Solo Etsy or Gumroad sellers who deliver editable Canva templates through downloadable PDF files.",
+  "problem": "A delivery PDF can look correct while containing no clickable link, a duplicated or malformed target, or a Canva view/edit link that exposes the seller's master instead of opening a buyer-safe template flow.",
+  "solution": "A downloadable offline browser utility that reads PDF link annotations locally, classifies Canva and external targets, overlays every clickable region, surfaces warnings, and exports a QA report.",
+  "distribution": {
+    "format": "download",
+    "channel": "manual"
+  },
+  "pricing": {
+    "currency": "USD",
+    "amount_cents": 1200
+  },
+  "state": "READY_FOR_RELEASE",
+  "source_issue": 3,
+  "artifacts": [
+    "products/template-delivery-pdf-checker/README.md",
+    "products/template-delivery-pdf-checker/dist/index.html",
+    "products/template-delivery-pdf-checker/dist/app.js",
+    "products/template-delivery-pdf-checker/dist/styles.css",
+    "products/template-delivery-pdf-checker/dist/README.txt",
+    "products/template-delivery-pdf-checker/dist/THIRD_PARTY_NOTICES.txt",
+    "products/template-delivery-pdf-checker/release/template-delivery-pdf-checker-v1.0.0.zip"
+  ],
+  "acceptance_checks": [
+    {
+      "id": "classify-fixture-links",
+      "description": "A three-link fixture produces exactly three rows with correct pages, URLs, and categories.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "warn-broken-links",
+      "description": "The utility warns for zero annotations, non-HTTPS or malformed targets, duplicates, and risky Canva links.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "overlay-detected-rectangles",
+      "description": "The preview exposes one visible overlay for every detected link rectangle on the selected page.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "export-complete-report",
+      "description": "Markdown and CSV exports include file metadata, category counts, rows, and all displayed warnings.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "offline-local-processing",
+      "description": "The built app loads and analyzes a fixture with the network disabled and makes no outbound request.",
+      "required": true,
+      "status": "passed"
+    }
+  ],
+  "created_at": "2026-08-26T06:43:16Z",
+  "updated_at": "2026-08-26T07:02:44Z"
+}
