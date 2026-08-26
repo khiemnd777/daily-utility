@@ -7,7 +7,7 @@ These rules apply to automated and human-assisted agents working in this reposit
 - Never commit API keys, tokens, cookies, payment data, or customer data.
 - Do not add or request `OPENAI_API_KEY` until a separately reviewed integration change explicitly authorizes it.
 - GitHub Actions and checked-in scripts must not call Codex, OpenAI, Gumroad, payment, deployment, or publishing APIs. The Codex desktop app is the external control plane and runtime for this repository.
-- Do not bypass either approval checkpoint or infer approval from prose. A reviewer must issue the exact `/approve` or `/reject` command in the linked Codex task or directly on the linked GitHub proposal issue.
+- Do not bypass either approval checkpoint or infer approval from prose. A reviewer must issue an exact `/approve`, `/reject`, or `/request-changes` command in the linked Codex task or directly on the linked GitHub proposal issue.
 - A command issued in Codex authorizes Codex to relay that exact command to the linked proposal issue. The transition is authoritative only after `approval-gate.yml` confirms it by updating the issue state label.
 - Never publish from `READY_FOR_RELEASE`; publishing is allowed only from `APPROVED_RELEASE`.
 
@@ -17,7 +17,7 @@ The required happy path is:
 
 `READY_FOR_BUILD -> APPROVED_BUILD -> BUILDING -> READY_FOR_RELEASE -> APPROVED_RELEASE -> PUBLISHED`
 
-`/reject` is valid only from `READY_FOR_BUILD` or `READY_FOR_RELEASE` and moves the proposal to `REJECTED`. Keep the linked issue state label, the product manifest state, and `factory/state-machine.json` consistent.
+`/reject` is valid only from `READY_FOR_BUILD` or `READY_FOR_RELEASE` and moves the proposal to `REJECTED`. `/request-changes` is valid only from `READY_FOR_RELEASE` and moves the proposal back to `BUILDING` without granting release approval. Keep the linked issue state label, the product manifest state, and `factory/state-machine.json` consistent.
 
 ## Codex-first handoff
 
@@ -25,7 +25,7 @@ The required happy path is:
 - An idea run must create one complete GitHub proposal issue before it presents approval commands. The issue is the durable proposal and state ledger.
 - If issue creation or labeling fails, report the run as failed, do not display `/approve`, and do not continue to a build.
 - Every review handoff must show what was created, the issue URL, the current factory state, the exact next command, and what that command will do.
-- When a reviewer replies `/approve` or `/reject` in Codex, relay the exact command to the linked issue and verify the resulting state label before continuing.
+- When a reviewer replies `/approve`, `/reject`, or `/request-changes` in Codex, relay the exact command to the linked issue and verify the resulting state label before continuing.
 - Start implementation only in a focused branch and isolated worktree after the linked issue reaches `APPROVED_BUILD`.
 - Direct commands on the GitHub proposal issue remain a fallback, but Codex must re-read and verify the issue state before acting.
 
