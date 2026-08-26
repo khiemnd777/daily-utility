@@ -14,7 +14,7 @@
     "currency": "USD",
     "amount_cents": 1200
   },
-  "state": "BUILDING",
+  "state": "READY_FOR_RELEASE",
   "source_issue": 3,
   "artifacts": [
     "products/template-delivery-pdf-checker/README.md",
@@ -84,9 +84,9 @@
       "id": "github-ci",
       "description": "The product pull request passes the manifest validator and the product-specific clean install, unit/PDF/release, and Chromium browser jobs on GitHub Actions.",
       "required": true,
-      "status": "pending"
+      "status": "passed"
     }
   ],
   "created_at": "2026-08-26T06:43:16Z",
-  "updated_at": "2026-08-26T07:40:08Z"
+  "updated_at": "2026-08-26T07:44:28Z"
 }
