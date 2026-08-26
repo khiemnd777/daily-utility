@@ -8,13 +8,13 @@
   "solution": "A downloadable offline browser utility that reads PDF link annotations locally, classifies Canva and external targets, overlays every clickable region, surfaces warnings, and exports a QA report.",
   "distribution": {
     "format": "download",
-    "channel": "manual"
+    "channel": "gumroad"
   },
   "pricing": {
     "currency": "USD",
     "amount_cents": 1200
   },
-  "state": "APPROVED_RELEASE",
+  "state": "PUBLISHED",
   "source_issue": 3,
   "artifacts": [
     "products/template-delivery-pdf-checker/README.md",
@@ -25,7 +25,8 @@
     "products/template-delivery-pdf-checker/dist/THIRD_PARTY_NOTICES.txt",
     "products/template-delivery-pdf-checker/release/template-delivery-pdf-checker-v1.0.0.zip",
     "products/template-delivery-pdf-checker/marketing/gumroad-cover.png",
-    "products/template-delivery-pdf-checker/marketing/gumroad-thumbnail.png"
+    "products/template-delivery-pdf-checker/marketing/gumroad-thumbnail.png",
+    "products/template-delivery-pdf-checker/publication.json"
   ],
   "acceptance_checks": [
     {
@@ -90,5 +91,5 @@
     }
   ],
   "created_at": "2026-08-26T06:43:16Z",
-  "updated_at": "2026-08-26T08:29:03Z"
+  "updated_at": "2026-08-26T08:41:34Z"
 }
