@@ -23,10 +23,27 @@ The trust uplift must not replace either release archive, change either price, o
 
 ## Release verification
 
-- [ ] Issue #14 is re-read and verified as `APPROVED_RELEASE` immediately before live changes.
-- [ ] KNA Software's public profile shows both utility products and leaves Tianna unchanged.
-- [ ] Public product title, summary, price, attributes, description, images, preview links, support route, and refund policy match the reviewed files.
-- [ ] Buyer-facing delivery still provides the same versioned ZIP.
-- [ ] A downloaded buyer artifact matches the approved SHA-256.
+- [x] Issue #14 was re-read and verified as `APPROVED_RELEASE` immediately before live changes.
+- [x] KNA Software's public profile shows both utility products and leaves Tianna unchanged.
+- [x] Public product title, summary, price, description, evidence images, preview destinations, support route, release facts, and refund policy were verified against the reviewed files; Gumroad-specific presentation constraints are recorded below.
+- [x] Buyer-facing delivery still provides the same versioned ZIP.
+- [x] Both downloaded buyer artifacts match the approved SHA-256 values.
 
 No live checkbox may be marked from repository evidence alone; release verification requires the public buyer experience.
+
+## Publication evidence
+
+Verified at `2026-08-27T10:02:17Z` through the authenticated seller editor and fresh buyer-facing views.
+
+| Surface | Verified result |
+| --- | --- |
+| Public storefront | https://khiemnd2.gumroad.com/ shows the approved bio, **Offline QA Tools** as the first tab, both utilities at $12/$15, and the unchanged **Commercial Source Code** tab with Tianna's $249/$799/$1,499 tiers. |
+| PDF Checker | https://khiemnd2.gumroad.com/l/template-delivery-pdf-checker shows version 1.0.0, 754.8 KB, four new evidence images plus the retained original cover, the approved summary/description/support language, buyer-visible sample-report URLs, and the aligned seven-day refund promise. |
+| SVG Preflight | https://khiemnd2.gumroad.com/l/svg-bundle-preflight shows version 1.0.0, 61.3 KB, four new evidence images plus the retained original cover, the approved summary/description/support language, buyer-visible sample-report URLs, and the aligned seven-day refund promise. |
+| Buyer delivery | The seller-accessible buyer delivery for each product still exposes the original versioned ZIP and support file. Downloaded ZIP checksums matched the immutable facts above. |
+
+## Gumroad presentation constraints
+
+- The current cover uploader appends new media after an existing cover. Both listings therefore retain their original cover first, followed by the four approved evidence images in workflow, results, report-preview, and contents order. No cover was deleted or replaced.
+- The current product editor persists four editable additional-detail rows. PDF Checker uses **Runs**, **Version**, **Download**, and **Exports**; its Detects, Browsers, and License facts remain in the reviewed description. SVG Preflight retains its automatic **Size** row plus **Runs**, **Checks**, **Exports**, and **Version**.
+- Gumroad rendered the raw sample-report destinations as visible text in the product description rather than clickable rich-text links. The exact approved destinations remain buyer-visible and publicly accessible.
