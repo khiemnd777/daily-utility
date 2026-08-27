@@ -21,7 +21,7 @@ A stale worktree for the same product and phase must be inspected and either exp
 
 ## Merge
 
-Before merge, verify the current head SHA, mergeability, required CI, blocking reviews, and that the PR still contains only the intended diff. Merge only on an explicit user request. Prefer the repository's established merge method; for a one-commit focused change, squash merge is acceptable.
+Before merge, verify the current head SHA, mergeability, required CI, blocking reviews, and that the PR still contains only the intended diff. A verified release `/approve` is standing merge authorization for the linked product pull request and its focused release-record pull request; do not request another confirmation for those two merges while their reviewed scope remains unchanged. Every other merge requires an explicit user request. Prefer the repository's established merge method; for a one-commit focused change, squash merge is acceptable.
 
 ## Cleanup
 

@@ -7,7 +7,7 @@ description: Prepare, manually upload, publish, verify, and record an approved D
 
 ## Gate
 
-Read `AGENTS.md`, the linked issue, product manifest, approved proposal, release artifact, and existing publication evidence. Continue only when the issue is `APPROVED_RELEASE`, required checks passed, and the user explicitly instructed Codex to publish. Do not request or store credentials, cookies, tokens, or a Gumroad API key.
+Read `AGENTS.md`, the linked issue, product manifest, approved proposal, release artifact, and existing publication evidence. Continue only when the issue is `APPROVED_RELEASE` and required checks passed. The verified release `/approve` is standing authorization to publish the exact reviewed version, so do not request another publish confirmation while the artifact, price, listing copy, support terms, and seller destination remain unchanged. Do not request or store credentials, cookies, tokens, or a Gumroad API key.
 
 ## Preflight
 
@@ -30,4 +30,4 @@ Use the authenticated browser session manually. Upload only the preflighted arti
 
 ## Record
 
-Only after live verification, create or update `products/<product-id>/publication.json`, set the manifest to `PUBLISHED`, and open a focused release-record pull request. Record the verified URL, price, artifact path, checksum, and publication timestamp. Publication recording does not authorize promotion.
+Only after live verification, create or update `products/<product-id>/publication.json`, set the manifest to `PUBLISHED`, and open, verify, and merge a focused release-record pull request under the release checkpoint's standing authorization. Record the verified URL, price, artifact path, checksum, and publication timestamp, then verify that the issue reaches `PUBLISHED`. Publication recording does not authorize promotion posts.

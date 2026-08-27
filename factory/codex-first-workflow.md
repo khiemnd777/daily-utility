@@ -28,17 +28,19 @@ An idea run that cannot create and verify the issue is failed. It must not show 
 
 Direct issue comments remain a fallback. If a reviewer uses the fallback, Codex must still re-read the issue before acting.
 
+Each verified approval grants checkpoint-scoped standing authorization. Build approval means Codex continues without reminders through implementation, testing, packaging, a draft product pull request, CI, and the `READY_FOR_RELEASE` handoff. Release approval means Codex continues without repeated confirmation through final product-PR verification and merge, manual Gumroad publication of the exact approved version, live buyer verification, creation and merge of the release-record pull request, and verification of `PUBLISHED`. The authorization ends at the next approval checkpoint, after publication, or when state, scope, artifacts, price, copy, checks, access, or destinations materially differ from what was reviewed.
+
 `/request-changes` is a release-review correction loop. It is valid only from `READY_FOR_RELEASE`, moves the proposal back to `BUILDING`, and does not grant build or release approval. Codex must update the product manifest to `BUILDING` before modifying product files, then rerun all required checks before returning the issue and manifest to `READY_FOR_RELEASE`.
 
 ## Build handoff
 
 After `APPROVED_BUILD`, Codex starts the Engineering Agent in an isolated worktree and focused branch. The agent records `BUILDING`, implements only the approved scope, runs checks, validates the manifest, opens a pull request, and records `READY_FOR_RELEASE` only when all required checks pass.
 
-The release checkpoint uses the same approval relay. After the issue reaches `APPROVED_RELEASE`, Codex may publish manually through Gumroad, verify the live product page and download, and prepare a focused release-record pull request. That pull request must add `products/<product-id>/publication.json`, update the product manifest to `PUBLISHED`, and pass the manifest validator. When the pull request is merged, `release-completed.yml` verifies the checked-in URL, price, artifact path, artifact SHA-256, and current issue state before moving the issue from `state:approved-release` to `state:published`. The workflow records the release in GitHub only; it never calls Gumroad.
+The release checkpoint uses the same approval relay. After the issue reaches `APPROVED_RELEASE`, Codex autonomously verifies and merges the linked product pull request, publishes manually through Gumroad, verifies the live product page and download, and prepares and merges a focused release-record pull request without asking for another confirmation. That pull request must add `products/<product-id>/publication.json`, update the product manifest to `PUBLISHED`, and pass the manifest validator. When the pull request is merged, `release-completed.yml` verifies the checked-in URL, price, artifact path, artifact SHA-256, and current issue state before moving the issue from `state:approved-release` to `state:published`. The workflow records the release in GitHub only; it never calls Gumroad.
 
 ## Post-publish promotion
 
-Promotion is optional work after `PUBLISHED`; it is not a factory state transition and release approval does not authorize posting. Codex may research current communities, their self-promotion rules, and suitable article or post angles. Before sharing externally, it must present the exact destination and copy and receive action-time approval for the item or clearly bounded batch. Posting evidence belongs in the Codex handoff unless a separate marketing artifact is explicitly requested.
+Promotion is optional work after `PUBLISHED`; it is not a factory state transition and release approval does not authorize posting. Codex automatically researches current communities, their self-promotion rules, and suitable article or post angles and prepares tailored drafts without waiting to be reminded. Before sharing externally, it must present the exact destination, account context, and final copy and receive action-time approval for the item or clearly bounded batch. Posting evidence belongs in the Codex handoff unless a separate marketing artifact is explicitly requested.
 
 ## Required handoff fields
 
@@ -50,3 +52,5 @@ Every Codex review handoff states:
 - the exact next command;
 - what that command will do;
 - any blocker that prevents the command from being offered.
+
+The handoff must finish with a visibly labeled **Recommended next action**. It must recommend one primary command or instruction that is appropriate for the verified current state and state its effect; do not leave the recommendation only in a collapsed UI element or implicit in preceding prose. When blocked, finish with the concrete blocker and exact prerequisite instead of an action that cannot safely run.
