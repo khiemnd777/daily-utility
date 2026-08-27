@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 
 const productRoot = new URL("../", import.meta.url);
 const marketingRoot = new URL("marketing/", productRoot);
@@ -37,9 +39,14 @@ test("ships deterministic, legible Gumroad evidence assets", async () => {
   assert.match(listing, /raw\.githubusercontent\.com/);
 });
 
-test("preserves the published buyer ZIP bytes", async () => {
-  const release = await readFile(
-    new URL("release/template-delivery-pdf-checker-v1.0.0.zip", productRoot),
+test("preserves the published buyer ZIP bytes in the committed artifact", () => {
+  const release = execFileSync(
+    "git",
+    [
+      "show",
+      "HEAD:products/template-delivery-pdf-checker/release/template-delivery-pdf-checker-v1.0.0.zip",
+    ],
+    { cwd: fileURLToPath(new URL("../../", productRoot)), maxBuffer: 10 * 1024 * 1024 },
   );
   assert.equal(
     createHash("sha256").update(release).digest("hex"),
