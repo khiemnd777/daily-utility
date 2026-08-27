@@ -1,6 +1,6 @@
 # Gumroad listing: Template Delivery PDF Checker
 
-This file is the release-review source of truth. Do not change the live listing until issue #14 reaches `APPROVED_RELEASE`.
+This file is the release-review source of truth and includes a pending KNA Software backlink backfill. Do not change the live listing until the exact backfill copy and destinations receive explicit approval.
 
 ## Product name
 
@@ -21,6 +21,8 @@ Check the delivery PDF before your customer does.
 **Version 1.0.0 · 754.8 KB ZIP · Updated August 27, 2026**
 
 Template Delivery PDF Checker is a private, offline QA utility for Etsy and Gumroad sellers who deliver editable templates through PDF files.
+
+For a first-party overview of capabilities, supported limits, privacy behavior, and updates, see the [official KNA Software page for Template Delivery PDF Checker](https://knasoftware.com/sources/template-delivery-pdf-checker).
 
 ### How it works
 
