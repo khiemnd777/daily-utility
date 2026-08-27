@@ -45,7 +45,7 @@ Use `daily-utility-knasoftware-catalog` for the KNA publication step. Keep the K
 
 ## Post-publish promotion
 
-Promotion is optional work after `PUBLISHED`; it is not a factory state transition and release approval does not authorize posting. Codex automatically researches current communities, their self-promotion rules, and suitable article or post angles and prepares tailored drafts without waiting to be reminded. Before sharing externally, it must present the exact destination, account context, and final copy and receive action-time approval for the item or clearly bounded batch. Posting evidence belongs in the Codex handoff unless a separate marketing artifact is explicitly requested.
+Promotion is optional work after `PUBLISHED`; it is not a factory state transition and release approval does not authorize posting. Before new research, Codex reads `factory/promotion/channels.json` and the product's promotion log when present, reuses eligible known channels after a current rule check, treats same-product `published` and `pending` entries as already used, and researches only remaining audience gaps. Before sharing externally, it must present the exact destination, account context, and final copy and receive action-time approval for the item or clearly bounded batch. Every approved attempt is recorded durably in `products/<product-id>/marketing/promotion-log.json`, and genuinely new reusable destinations are added to the shared registry; credentials, cookies, and private account data never belong there.
 
 ## Required handoff fields
 

@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/khiemnd777/daily-utility/factory/schemas/promotion-log.schema.json",
+  "title": "Daily Utility Product Promotion Log",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "product_id",
+    "product_url",
+    "updated_at",
+    "entries"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "product_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "product_url": { "type": "string", "format": "uri" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "channel_id",
+          "destination_url",
+          "status",
+          "account_context",
+          "submitted_at",
+          "published_at",
+          "post_url",
+          "last_verified_at",
+          "evidence_notes"
+        ],
+        "properties": {
+          "channel_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "destination_url": { "type": "string", "format": "uri" },
+          "status": {
+            "type": "string",
+            "enum": ["published", "pending", "rejected", "skipped"]
+          },
+          "account_context": { "type": "string", "minLength": 2 },
+          "submitted_at": {
+            "type": ["string", "null"],
+            "format": "date-time"
+          },
+          "published_at": {
+            "type": ["string", "null"],
+            "format": "date-time"
+          },
+          "post_url": {
+            "type": ["string", "null"],
+            "format": "uri"
+          },
+          "last_verified_at": { "type": "string", "format": "date-time" },
+          "evidence_notes": { "type": "string", "minLength": 3 }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": { "status": { "const": "published" } },
+              "required": ["status"]
+            },
+            "then": {
+              "properties": { "post_url": { "type": "string", "format": "uri" } }
+            }
+          },
+          {
+            "if": {
+              "properties": { "status": { "const": "pending" } },
+              "required": ["status"]
+            },
+            "then": {
+              "properties": {
+                "submitted_at": { "type": "string", "format": "date-time" },
+                "post_url": { "type": "null" }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}
