@@ -25,6 +25,7 @@ The required happy path is:
 - An idea run must create one complete GitHub proposal issue before it presents approval commands. The issue is the durable proposal and state ledger.
 - If issue creation or labeling fails, report the run as failed, do not display `/approve`, and do not continue to a build.
 - Every review handoff must show what was created, the issue URL, the current factory state, the exact next command, and what that command will do.
+- End every factory handoff with a clearly labeled **Recommended next action** in visible prose, not only in a collapsed UI directive or metadata. Recommend one primary command or instruction that is valid for the verified current state and explain its effect. If work is blocked, state the concrete blocker and the exact prerequisite to clear it instead of suggesting an inapplicable action.
 - When a reviewer replies `/approve`, `/reject`, or `/request-changes` in Codex, relay the exact command to the linked issue and verify the resulting state label before continuing.
 - Start implementation only in a focused branch and isolated worktree after the linked issue reaches `APPROVED_BUILD`.
 - Direct commands on the GitHub proposal issue remain a fallback, but Codex must re-read and verify the issue state before acting.

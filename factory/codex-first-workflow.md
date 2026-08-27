@@ -50,3 +50,5 @@ Every Codex review handoff states:
 - the exact next command;
 - what that command will do;
 - any blocker that prevents the command from being offered.
+
+The handoff must finish with a visibly labeled **Recommended next action**. It must recommend one primary command or instruction that is appropriate for the verified current state and state its effect; do not leave the recommendation only in a collapsed UI element or implicit in preceding prose. When blocked, finish with the concrete blocker and exact prerequisite instead of an action that cannot safely run.
