@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "product_id": "svg-bundle-preflight",
+  "channel": "gumroad",
+  "url": "https://khiemnd2.gumroad.com/l/svg-bundle-preflight",
+  "price": {
+    "currency": "USD",
+    "amount_cents": 1500
+  },
+  "artifact": "products/svg-bundle-preflight/release/svg-bundle-preflight-v1.0.0.zip",
+  "artifact_sha256": "fd6cc04cab9f9306ccba844c43b598031540bfb73abfd27d5db5be0f8c0683fd",
+  "published_at": "2026-08-27T06:33:06Z"
+}
