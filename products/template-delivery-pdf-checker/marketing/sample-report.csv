@@ -1,0 +1,9 @@
+"filename","page_count","clickable_links","warning_count"
+"sample-delivery.pdf","2","3","1"
+
+"page","category","target","warnings"
+"1","Canva template-like","https://www.canva.com/design/FICTIONAL/view?mode=preview",""
+"1","Canva likely non-template","https://www.canva.com/design/FICTIONAL-MASTER/edit","Canva target does not look like a template-copy link; verify that buyers cannot open the seller master."
+"2","External HTTPS","https://example.com/fictional-help",""
+
+"document_warning"

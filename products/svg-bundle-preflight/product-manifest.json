@@ -19,6 +19,13 @@
   "artifacts": [
     "products/svg-bundle-preflight/README.md",
     "products/svg-bundle-preflight/release/svg-bundle-preflight-v1.0.0.zip",
+    "products/svg-bundle-preflight/marketing/gumroad-listing.md",
+    "products/svg-bundle-preflight/marketing/gumroad-workflow.png",
+    "products/svg-bundle-preflight/marketing/gumroad-results.png",
+    "products/svg-bundle-preflight/marketing/gumroad-report-preview.png",
+    "products/svg-bundle-preflight/marketing/gumroad-contents.png",
+    "products/svg-bundle-preflight/marketing/sample-report.html",
+    "products/svg-bundle-preflight/marketing/sample-report.csv",
     "products/svg-bundle-preflight/support/SUPPORT.txt",
     "products/svg-bundle-preflight/publication.json"
   ],
@@ -70,8 +77,20 @@
       "description": "The product pull request passes manifest validation plus clean-install unit, release, and Chromium offline-browser checks on GitHub Actions.",
       "required": true,
       "status": "passed"
+    },
+    {
+      "id": "buyer-facing-trust-assets",
+      "description": "Deterministic sanitized fixtures generate four 1600x900 buyer-facing evidence images plus exact sample HTML and CSV reports without customer, payment, or confidential data.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "published-bytes-preserved",
+      "description": "The trust uplift leaves the published v1.0.0 ZIP unchanged at SHA-256 fd6cc04cab9f9306ccba844c43b598031540bfb73abfd27d5db5be0f8c0683fd.",
+      "required": true,
+      "status": "passed"
     }
   ],
   "created_at": "2026-08-27T01:31:33Z",
-  "updated_at": "2026-08-27T06:33:06Z"
+  "updated_at": "2026-08-27T08:40:07Z"
 }
