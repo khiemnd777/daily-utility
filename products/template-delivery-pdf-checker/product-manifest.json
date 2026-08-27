@@ -27,6 +27,7 @@
     "products/template-delivery-pdf-checker/marketing/gumroad-cover.png",
     "products/template-delivery-pdf-checker/marketing/gumroad-thumbnail.png",
     "products/template-delivery-pdf-checker/marketing/gumroad-listing.md",
+    "products/template-delivery-pdf-checker/marketing/knasoftware-listing.md",
     "products/template-delivery-pdf-checker/marketing/gumroad-workflow.png",
     "products/template-delivery-pdf-checker/marketing/gumroad-results.png",
     "products/template-delivery-pdf-checker/marketing/gumroad-report-preview.png",
@@ -111,5 +112,5 @@
     }
   ],
   "created_at": "2026-08-26T06:43:16Z",
-  "updated_at": "2026-08-27T08:40:07Z"
+  "updated_at": "2026-08-27T13:33:25Z"
 }
