@@ -1,10 +1,10 @@
 # KNA Software backfill: SVG Bundle Preflight
 
-- Status: `PREPARED_FOR_REVIEW`
-- Live KNA or Gumroad changes performed while preparing this file: none
+- Status: `VERIFIED_LIVE`
+- Live KNA or Gumroad changes performed: exact KNA page published and exact reciprocal Gumroad backlink added on August 27, 2026
 - Factory source issue: [#10](https://github.com/khiemnd777/daily-utility/issues/10), verified `PUBLISHED`
 - Gumroad listing: <https://khiemnd2.gumroad.com/l/svg-bundle-preflight>
-- Planned KNA URL: <https://knasoftware.com/sources/svg-bundle-preflight>
+- Live KNA URL: <https://knasoftware.com/sources/svg-bundle-preflight>
 
 This file is the exact review source for the KNA CMS page, the required taxonomy, and the reciprocal Gumroad backlink. Stop if the live form, price, version, product facts, or either destination differs at action time.
 
@@ -214,3 +214,27 @@ Expected link directions after the approved live backfill:
 5. Publish the reviewed KNA draft only under explicit backfill approval.
 6. Verify the public KNA page, direct Gumroad CTA, Gumroad backlink, price/version/support facts, self-canonical URL, metadata, OG image, crawlability, sitemap membership, JSON-LD if available, and `/llms.txt` behavior.
 7. Record the verification timestamp and any unsupported SEO/AI-discovery surfaces without claiming ranking improvement.
+
+## Live verification evidence
+
+Verified at `2026-08-27 20:56 ICT (UTC+07:00)` after the exact approved backfill.
+
+### Publication and taxonomy
+
+- Factory issue #10 and the local manifest were re-verified as `PUBLISHED` immediately before the live change.
+- PR #18 was merged before publication. The KNA CMS record `Z9bdrwZTUemeg1bLFBTh` is published at the live URL above.
+- The active `seller-qa-utilities` category and the exact JavaScript, SVG, Offline, Etsy, and Gumroad tag records were created before the product draft. The public page renders the Seller QA Utilities category.
+- The live page renders version `1.0.0`, `$15 USD · Buy on Gumroad`, the approved Contact CTA, approved copy, media, features, package contents, requirements, and documentation link.
+
+### Reciprocal links
+
+- KNA → Gumroad: the buyer-visible anchor `Buy SVG Bundle Preflight on Gumroad — $15 USD` resolves to `https://khiemnd2.gumroad.com/l/svg-bundle-preflight` with `rel="noopener noreferrer"`.
+- Gumroad → KNA: the buyer-visible anchor `official KNA Software page for SVG Bundle Preflight` resolves to the live KNA URL with `rel="noopener noreferrer nofollow"`.
+- The Gumroad public page still renders `$15` and version `1.0.0`; the product file, delivery settings, refund policy, and support terms were not changed.
+- The reciprocal links improve buyer navigation and corroborate the first-party product identity. No ranking improvement is claimed, and Gumroad's `nofollow` limits the reverse link's direct search-ranking signal.
+
+### SEO and AI-discovery verification
+
+- The JavaScript-rendered page sets the approved title, meta description, self-canonical URL, Open Graph title/description, and approved OG image.
+- `robots.txt` allows `/`, disallows `/admin`, and declares `https://knasoftware.com/sitemap.xml`.
+- Current platform gaps: `sitemap.xml` does not include this product URL; the page emits no Product or SoftwareApplication JSON-LD; `/llms.txt` returns the generic SPA HTML shell; and the initial non-JavaScript HTML contains the generic CodeChill title/description with an empty app root. Crawlers or AI agents that do not render JavaScript therefore receive weaker product evidence.
