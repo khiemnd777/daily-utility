@@ -26,6 +26,13 @@
     "products/template-delivery-pdf-checker/release/template-delivery-pdf-checker-v1.0.0.zip",
     "products/template-delivery-pdf-checker/marketing/gumroad-cover.png",
     "products/template-delivery-pdf-checker/marketing/gumroad-thumbnail.png",
+    "products/template-delivery-pdf-checker/marketing/gumroad-listing.md",
+    "products/template-delivery-pdf-checker/marketing/gumroad-workflow.png",
+    "products/template-delivery-pdf-checker/marketing/gumroad-results.png",
+    "products/template-delivery-pdf-checker/marketing/gumroad-report-preview.png",
+    "products/template-delivery-pdf-checker/marketing/gumroad-contents.png",
+    "products/template-delivery-pdf-checker/marketing/sample-report.md",
+    "products/template-delivery-pdf-checker/marketing/sample-report.csv",
     "products/template-delivery-pdf-checker/support/SUPPORT.txt",
     "products/template-delivery-pdf-checker/publication.json"
   ],
@@ -89,8 +96,20 @@
       "description": "The product pull request passes the manifest validator and the product-specific clean install, unit/PDF/release, and Chromium browser jobs on GitHub Actions.",
       "required": true,
       "status": "passed"
+    },
+    {
+      "id": "buyer-facing-trust-assets",
+      "description": "Deterministic sanitized fixtures generate four 1600x900 buyer-facing evidence images plus exact sample Markdown and CSV reports without customer, payment, or confidential data.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "published-bytes-preserved",
+      "description": "The trust uplift leaves the published v1.0.0 ZIP unchanged at SHA-256 a035efc717ff96bfed1071adae526d48fad5ffb448edbfdaa8d7584053106221.",
+      "required": true,
+      "status": "passed"
     }
   ],
   "created_at": "2026-08-26T06:43:16Z",
-  "updated_at": "2026-08-26T09:53:12Z"
+  "updated_at": "2026-08-27T08:40:07Z"
 }
