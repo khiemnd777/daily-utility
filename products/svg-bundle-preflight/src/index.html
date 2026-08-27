@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' data: blob:; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'"
+    >
+    <meta name="referrer" content="no-referrer">
+    <title>SVG Bundle Preflight</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <header class="hero">
+        <div class="eyebrow">Offline release QA for cut-file sellers</div>
+        <h1>Check the whole SVG bundle before a buyer does.</h1>
+        <p class="lede">
+          Scan one ZIP or a selection of SVGs for import blockers, duplicate files, and filename collisions.
+          Your artwork stays in this browser and is never uploaded.
+        </p>
+        <div class="trust-row" aria-label="Product guarantees">
+          <span>Local-only</span><span>No account</span><span>No file changes</span><span>English report</span>
+        </div>
+      </header>
+
+      <section class="workspace" aria-labelledby="scan-title">
+        <div class="section-heading">
+          <div>
+            <p class="step">Step 1</p>
+            <h2 id="scan-title">Choose release files</h2>
+          </div>
+          <p class="limits">1 ZIP up to 50 MB · or up to 500 SVGs · 2 MB per SVG</p>
+        </div>
+
+        <label class="drop-zone" id="drop-zone" for="file-input">
+          <span class="drop-icon" aria-hidden="true">↗</span>
+          <strong>Drop one ZIP or SVG files here</strong>
+          <span>or choose files from this computer</span>
+          <span class="choose-button">Choose files</span>
+          <input id="file-input" type="file" accept=".zip,.svg,application/zip,image/svg+xml" multiple>
+        </label>
+
+        <div id="status" class="status" role="status" aria-live="polite">
+          Ready. Nothing is read until you choose files.
+        </div>
+      </section>
+
+      <section id="results" class="results" aria-labelledby="results-title" hidden>
+        <div class="section-heading results-heading">
+          <div>
+            <p class="step">Step 2</p>
+            <h2 id="results-title">Review release findings</h2>
+            <p id="bundle-meta" class="bundle-meta"></p>
+          </div>
+          <div class="actions">
+            <button id="export-csv" type="button">Export CSV</button>
+            <button id="export-html" class="primary" type="button">Export HTML report</button>
+          </div>
+        </div>
+
+        <div class="summary-grid" aria-label="Scan summary">
+          <article><span>SVG files</span><strong id="file-count">0</strong></article>
+          <article class="danger"><span>Blockers</span><strong id="blocker-count">0</strong></article>
+          <article class="warning"><span>Warnings</span><strong id="warning-count">0</strong></article>
+          <article><span>Duplicate groups</span><strong id="duplicate-count">0</strong></article>
+        </div>
+
+        <div class="legend" aria-label="Finding legend">
+          <span><i class="dot blocker"></i> Blocker: likely incompatible or unsafe</span>
+          <span><i class="dot review"></i> Warning: review bundle hygiene</span>
+          <span><i class="dot passed"></i> Passed: no static findings</span>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Status</th><th>File path</th><th>Findings and evidence</th></tr></thead>
+            <tbody id="result-rows"></tbody>
+          </table>
+        </div>
+
+        <aside class="boundary-note">
+          <strong>Static preflight, not a cutting guarantee.</strong>
+          Test representative files in the target software and perform a real cut before release. This utility does not repair files or give licensing advice.
+        </aside>
+      </section>
+    </main>
+
+    <footer>
+      <span>SVG Bundle Preflight 1.0.0</span>
+      <span>Not affiliated with or endorsed by Cricut or Etsy.</span>
+    </footer>
+  </body>
+</html>

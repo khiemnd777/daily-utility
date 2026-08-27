@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "product_id": "svg-bundle-preflight",
+  "name": "SVG Bundle Preflight",
+  "summary": "Batch-check a ZIP of SVG cut files for documented import blockers, duplicate content, and filename collisions before release.",
+  "customer": "Solo Etsy or Gumroad sellers who create and maintain original English-market Cricut-compatible SVG bundles containing roughly 20 to 500 cut files per release.",
+  "problem": "A large SVG bundle can contain live text, clipping paths, gradients, raster content, scripts, external references, duplicate files, or colliding paths that are difficult to catch with one-file-at-a-time release checks.",
+  "solution": "A downloadable offline browser utility that inventories one ZIP or a direct SVG selection, applies deterministic compatibility and bundle-hygiene rules locally, hashes exact content, and exports CSV and self-contained HTML evidence reports.",
+  "distribution": {
+    "format": "download",
+    "channel": "manual"
+  },
+  "pricing": {
+    "currency": "USD",
+    "amount_cents": 1500
+  },
+  "state": "APPROVED_RELEASE",
+  "source_issue": 10,
+  "artifacts": [
+    "products/svg-bundle-preflight/README.md",
+    "products/svg-bundle-preflight/release/svg-bundle-preflight-v1.0.0.zip",
+    "products/svg-bundle-preflight/support/SUPPORT.txt"
+  ],
+  "acceptance_checks": [
+    {
+      "id": "valid-nested-bundle",
+      "description": "A deterministic nested fixture ZIP inventories exactly four valid SVG files and produces zero compatibility blockers.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "documented-blocker-corpus",
+      "description": "Malformed XML, live text, clipping paths, gradients or patterns, external images, embedded bitmaps, scripts, and missing sizing metadata report the expected path, check ID, and severity.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "bundle-duplicate-collisions",
+      "description": "Exact duplicate SVG bytes and case-insensitive path collisions form one correct group each without grouping distinct files.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "complete-evidence-reports",
+      "description": "CSV and self-contained HTML reports include bundle metadata, totals, every path, check ID, severity, and evidence without modifying input files.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "offline-private-artifact",
+      "description": "The packaged utility scans fixtures from file:// with the network disabled, uses bundled assets only, makes no outbound request, and creates no persistent browser storage.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "bounded-safe-failures",
+      "description": "Unsafe paths, invalid UTF-8, damaged or encrypted archives, unsupported selections, and file, archive, count, and expansion limits fail safely with customer-facing messages.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "release-package-integrity",
+      "description": "The versioned release ZIP is deterministic, contains only intended buyer assets and dependency notices, enforces restrictive CSP, and includes no source maps or development files.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "github-ci",
+      "description": "The product pull request passes manifest validation plus clean-install unit, release, and Chromium offline-browser checks on GitHub Actions.",
+      "required": true,
+      "status": "passed"
+    }
+  ],
+  "created_at": "2026-08-27T01:31:33Z",
+  "updated_at": "2026-08-27T02:06:14Z"
+}
