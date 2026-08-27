@@ -26,6 +26,11 @@ STATE_MACHINE_PATH = ROOT / "factory" / "state-machine.json"
 TEMPLATE_PATH = ROOT / "templates" / "product-manifest.json"
 PUBLICATION_SCHEMA_PATH = ROOT / "factory" / "schemas" / "publication.schema.json"
 PUBLICATION_TEMPLATE_PATH = ROOT / "templates" / "publication.json"
+PROMOTION_CHANNELS_SCHEMA_PATH = (
+    ROOT / "factory" / "schemas" / "promotion-channels.schema.json"
+)
+PROMOTION_LOG_SCHEMA_PATH = ROOT / "factory" / "schemas" / "promotion-log.schema.json"
+PROMOTION_CHANNELS_PATH = ROOT / "factory" / "promotion" / "channels.json"
 
 REQUIRED_HAPPY_PATH = [
     "READY_FOR_BUILD",
@@ -208,6 +213,116 @@ def validate_product_contract(
     return errors
 
 
+def validate_promotion_contract(
+    registry: dict[str, Any],
+    log_paths: list[Path],
+    log_validator: Draft202012Validator,
+) -> list[str]:
+    """Validate relationships among the shared channel registry and product logs."""
+    errors: list[str] = []
+    raw_channels = registry.get("channels", [])
+    channels = raw_channels if isinstance(raw_channels, list) else []
+    channel_ids = [
+        channel.get("id")
+        for channel in channels
+        if isinstance(channel, dict) and isinstance(channel.get("id"), str)
+    ]
+    if len(channel_ids) != len(set(channel_ids)):
+        errors.append("factory/promotion/channels.json: channel ids must be unique")
+
+    channel_urls = [
+        channel.get("url")
+        for channel in channels
+        if isinstance(channel, dict) and isinstance(channel.get("url"), str)
+    ]
+    if len(channel_urls) != len(set(channel_urls)):
+        errors.append("factory/promotion/channels.json: channel URLs must be unique")
+
+    channels_by_id = {
+        channel["id"]: channel
+        for channel in channels
+        if isinstance(channel, dict) and isinstance(channel.get("id"), str)
+    }
+
+    for log_path in log_paths:
+        relative = log_path.relative_to(ROOT)
+        try:
+            log = load_json(log_path)
+        except ValueError as exc:
+            errors.append(str(exc))
+            continue
+
+        for error in sorted(
+            log_validator.iter_errors(log), key=lambda item: list(item.path)
+        ):
+            location = ".".join(str(part) for part in error.absolute_path) or "<root>"
+            errors.append(f"{relative}:{location}: {error.message}")
+
+        if not isinstance(log, dict):
+            continue
+
+        product_directory = log_path.parent.parent.name
+        product_id = log.get("product_id")
+        if product_id != product_directory:
+            errors.append(
+                f"{relative}: product_id must match directory {product_directory!r}"
+            )
+
+        manifest_path = log_path.parent.parent / "product-manifest.json"
+        try:
+            manifest = load_json(manifest_path)
+        except ValueError as exc:
+            errors.append(str(exc))
+        else:
+            if isinstance(manifest, dict):
+                if manifest.get("state") != "PUBLISHED":
+                    errors.append(f"{relative}: promotion requires a PUBLISHED product")
+                artifacts = manifest.get("artifacts", [])
+                if relative.as_posix() not in artifacts:
+                    errors.append(
+                        f"{relative}: promotion log must be listed in the product manifest"
+                    )
+
+        publication_path = log_path.parent.parent / "publication.json"
+        try:
+            publication = load_json(publication_path)
+        except ValueError as exc:
+            errors.append(str(exc))
+        else:
+            if (
+                isinstance(publication, dict)
+                and log.get("product_url") != publication.get("url")
+            ):
+                errors.append(f"{relative}: product_url must match publication.json")
+
+        raw_entries = log.get("entries", [])
+        entries = raw_entries if isinstance(raw_entries, list) else []
+        entry_channel_ids = [
+            entry.get("channel_id")
+            for entry in entries
+            if isinstance(entry, dict) and isinstance(entry.get("channel_id"), str)
+        ]
+        if len(entry_channel_ids) != len(set(entry_channel_ids)):
+            errors.append(f"{relative}: channel_id entries must be unique per product")
+
+        for entry in entries:
+            if not isinstance(entry, dict):
+                continue
+            channel_id = entry.get("channel_id")
+            channel = channels_by_id.get(channel_id)
+            if channel is None:
+                errors.append(
+                    f"{relative}: unknown promotion channel {channel_id!r}"
+                )
+                continue
+            if entry.get("destination_url") != channel.get("url"):
+                errors.append(
+                    f"{relative}: destination_url must match registry channel {channel_id!r}"
+                )
+
+    return errors
+
+
 def discover_manifests(arguments: list[str]) -> list[Path]:
     if arguments:
         return [Path(item).resolve() for item in arguments]
@@ -223,6 +338,10 @@ def main() -> int:
         Draft202012Validator.check_schema(schema)
         publication_schema = load_json(PUBLICATION_SCHEMA_PATH)
         Draft202012Validator.check_schema(publication_schema)
+        promotion_channels_schema = load_json(PROMOTION_CHANNELS_SCHEMA_PATH)
+        Draft202012Validator.check_schema(promotion_channels_schema)
+        promotion_log_schema = load_json(PROMOTION_LOG_SCHEMA_PATH)
+        Draft202012Validator.check_schema(promotion_log_schema)
     except (ValueError, SchemaError) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1
@@ -239,6 +358,12 @@ def main() -> int:
     validator = Draft202012Validator(schema, format_checker=FormatChecker())
     publication_validator = Draft202012Validator(
         publication_schema, format_checker=FormatChecker()
+    )
+    promotion_channels_validator = Draft202012Validator(
+        promotion_channels_schema, format_checker=FormatChecker()
+    )
+    promotion_log_validator = Draft202012Validator(
+        promotion_log_schema, format_checker=FormatChecker()
     )
 
     try:
@@ -275,13 +400,39 @@ def main() -> int:
                 )
             )
 
+    try:
+        promotion_channels = load_json(PROMOTION_CHANNELS_PATH)
+    except ValueError as exc:
+        failures.append(str(exc))
+    else:
+        for error in sorted(
+            promotion_channels_validator.iter_errors(promotion_channels),
+            key=lambda item: list(item.path),
+        ):
+            location = ".".join(str(part) for part in error.absolute_path) or "<root>"
+            failures.append(
+                f"{PROMOTION_CHANNELS_PATH.relative_to(ROOT)}:{location}: {error.message}"
+            )
+        if isinstance(promotion_channels, dict):
+            promotion_logs = sorted(
+                (ROOT / "products").glob("*/marketing/promotion-log.json")
+            )
+            failures.extend(
+                validate_promotion_contract(
+                    promotion_channels, promotion_logs, promotion_log_validator
+                )
+            )
+
     if failures:
         for failure in failures:
             print(f"ERROR: {failure}", file=sys.stderr)
         return 1
 
     relative = ", ".join(str(path.relative_to(ROOT)) for path in manifests)
-    print(f"Validated schema, state machine, and manifests: {relative}")
+    print(
+        "Validated schema, state machine, manifests, and promotion records: "
+        f"{relative}"
+    )
     return 0
 
 

@@ -21,6 +21,7 @@
     "products/svg-bundle-preflight/release/svg-bundle-preflight-v1.0.0.zip",
     "products/svg-bundle-preflight/marketing/gumroad-listing.md",
     "products/svg-bundle-preflight/marketing/knasoftware-listing.md",
+    "products/svg-bundle-preflight/marketing/promotion-log.json",
     "products/svg-bundle-preflight/marketing/gumroad-workflow.png",
     "products/svg-bundle-preflight/marketing/gumroad-results.png",
     "products/svg-bundle-preflight/marketing/gumroad-report-preview.png",
@@ -93,5 +94,5 @@
     }
   ],
   "created_at": "2026-08-27T01:31:33Z",
-  "updated_at": "2026-08-27T13:56:08Z"
+  "updated_at": "2026-08-27T15:06:30Z"
 }

@@ -73,8 +73,9 @@ The required happy path is:
 - KNA Software pages must use a stable lowercase product slug, self-canonical URL, descriptive reciprocal-link anchors, original page copy rather than a wholesale duplicate of the sales listing, and complete factual fields for product name, maker, audience, problem, version, price, features, limits, support, and purchase destination. Do not point the KNA canonical URL at Gumroad, misuse a documentation field as a purchase field, keyword-stuff, fabricate schema or reviews, or promise ranking gains.
 - For SEO and AI discoverability, verify the public KNA page, title, description, canonical, OG image, crawlability, sitemap membership, and reciprocal links. Check available `Product`/`SoftwareApplication` structured data and AI-readable discovery files such as `llms.txt`; if the platform does not expose them correctly, record the gap and do not claim SEO or AI-SEO completion.
 - After publishing, verify the Gumroad public page, price, buyer-visible delivery, support route, downloaded artifact checksum, KNA Software page, and both backlink directions before creating publication evidence or marking `PUBLISHED`.
-- Promotion begins only after `PUBLISHED`. Research current communities and their self-promotion rules before proposing targets.
+- Promotion begins only after `PUBLISHED`. Read `factory/promotion/channels.json` and the product's promotion log when present before researching; reuse eligible known channels after a current rule check, skip same-product channels already marked `published` or `pending`, and search only for uncovered audiences.
 - Posting, commenting, messaging, or sharing on behalf of the seller requires action-time approval for the exact destination and copy. Do not spam, conceal seller affiliation, fabricate testimonials, or make claims that the product evidence does not support.
+- After an approved outreach attempt, record its `published`, `pending`, `rejected`, or `skipped` state in the product promotion log and add genuinely new reusable destinations to the shared registry. Never store credentials, cookies, or private account data in promotion artifacts.
 
 ## Change protocol
 

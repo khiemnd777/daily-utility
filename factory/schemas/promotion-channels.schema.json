@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/khiemnd777/daily-utility/factory/schemas/promotion-channels.schema.json",
+  "title": "Daily Utility Promotion Channel Registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "updated_at", "channels"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "channels": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "platform",
+          "name",
+          "url",
+          "destination_type",
+          "audience",
+          "product_fit",
+          "membership_status",
+          "posting_flow",
+          "reuse_policy",
+          "rules",
+          "last_verified_at",
+          "verification_notes"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "platform": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "name": { "type": "string", "minLength": 3 },
+          "url": { "type": "string", "format": "uri" },
+          "destination_type": {
+            "type": "string",
+            "enum": [
+              "group",
+              "forum",
+              "directory",
+              "newsletter",
+              "article",
+              "other"
+            ]
+          },
+          "audience": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "type": "string", "minLength": 2 }
+          },
+          "product_fit": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["scope", "tags", "notes"],
+            "properties": {
+              "scope": {
+                "type": "string",
+                "enum": ["general-digital-products", "topic-specific"]
+              },
+              "tags": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+                }
+              },
+              "notes": { "type": "string", "minLength": 3 }
+            }
+          },
+          "membership_status": {
+            "type": "string",
+            "enum": ["approved", "pending", "not-required", "unknown", "restricted"]
+          },
+          "posting_flow": {
+            "type": "string",
+            "enum": ["direct", "admin-review", "unknown"]
+          },
+          "reuse_policy": {
+            "type": "string",
+            "enum": ["reuse-after-rule-check", "do-not-reuse"]
+          },
+          "rules": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["status", "notes"],
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": ["must-recheck-before-post", "do-not-post"]
+              },
+              "notes": { "type": "string", "minLength": 3 }
+            }
+          },
+          "last_verified_at": { "type": "string", "format": "date-time" },
+          "verification_notes": { "type": "string", "minLength": 3 }
+        }
+      }
+    }
+  }
+}

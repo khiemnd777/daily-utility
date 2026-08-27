@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "product_id": "template-delivery-pdf-checker",
+  "product_url": "https://khiemnd2.gumroad.com/l/template-delivery-pdf-checker",
+  "updated_at": "2026-08-27T15:06:30Z",
+  "entries": [
+    {
+      "channel_id": "facebook-group-1486520659655365",
+      "destination_url": "https://www.facebook.com/groups/1486520659655365/",
+      "status": "published",
+      "account_context": "Nguyễn Khiêm (Facebook)",
+      "submitted_at": null,
+      "published_at": null,
+      "post_url": "https://www.facebook.com/groups/1486520659655365/posts/1640049157635847/",
+      "last_verified_at": "2026-08-27T15:06:30Z",
+      "evidence_notes": "The post was publicly visible and admin-approved; the exact historical publish timestamp was not recovered."
+    },
+    {
+      "channel_id": "facebook-group-4056998801242895",
+      "destination_url": "https://www.facebook.com/groups/4056998801242895/",
+      "status": "pending",
+      "account_context": "Nguyễn Khiêm (Facebook)",
+      "submitted_at": "2026-08-26T16:42:00+07:00",
+      "published_at": null,
+      "post_url": null,
+      "last_verified_at": "2026-08-27T15:06:30Z",
+      "evidence_notes": "Facebook My pending content showed the submission awaiting admin review; no public permalink exists yet."
+    },
+    {
+      "channel_id": "facebook-group-485483650066909",
+      "destination_url": "https://www.facebook.com/groups/485483650066909/",
+      "status": "published",
+      "account_context": "Nguyễn Khiêm (Facebook)",
+      "submitted_at": null,
+      "published_at": "2026-08-27T21:47:06+07:00",
+      "post_url": "https://www.facebook.com/groups/485483650066909/posts/1463748122240452/",
+      "last_verified_at": "2026-08-27T15:06:30Z",
+      "evidence_notes": "The post was publicly visible in the group."
+    }
+  ]
+}
