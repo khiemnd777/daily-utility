@@ -6,7 +6,7 @@ These rules apply to automated and human-assisted agents working in this reposit
 
 - Never commit API keys, tokens, cookies, payment data, or customer data.
 - Do not add or request `OPENAI_API_KEY` until a separately reviewed integration change explicitly authorizes it.
-- GitHub Actions and checked-in scripts must not call Codex, OpenAI, Gumroad, payment, deployment, or publishing APIs. The Codex desktop app is the external control plane and runtime for this repository.
+- GitHub Actions and checked-in scripts must not call Codex, OpenAI, Gumroad, KNA Software admin/CMS, payment, deployment, or publishing APIs. The Codex desktop app is the external control plane and runtime for this repository.
 - Do not bypass either approval checkpoint or infer approval from prose. A reviewer must issue an exact `/approve`, `/reject`, or `/request-changes` command in the linked Codex task or directly on the linked GitHub proposal issue.
 - A command issued in Codex authorizes Codex to relay that exact command to the linked proposal issue. The transition is authoritative only after `approval-gate.yml` confirms it by updating the issue state label.
 - Never publish from `READY_FOR_RELEASE`; publishing is allowed only from `APPROVED_RELEASE`.
@@ -23,7 +23,7 @@ The required happy path is:
 
 - After Codex relays an exact `/approve` and verifies the expected issue state label, continue autonomously through every in-scope action authorized by that checkpoint. Do not wait for reminders or ask for repeated confirmation while the approved scope, reviewed artifacts, price, listing terms, checks, and destinations remain unchanged.
 - Build approval authorizes implementation, tests, packaging, commits, a draft product pull request, CI follow-through, and preparation of the `READY_FOR_RELEASE` handoff. It does not authorize release or promotion.
-- Release approval authorizes final verification and merge of the linked product pull request, manual Gumroad publication of the exact approved version, live buyer verification, creation and merge of the focused release-record pull request, and follow-through until the issue reaches `PUBLISHED`. It does not authorize external promotion posts.
+- Release approval authorizes final verification and merge of the linked product pull request, manual Gumroad publication of the exact approved version, publication of the exact reviewed KNA Software catalog page, reciprocal-link verification, live buyer verification, creation and merge of the focused release-record pull request, and follow-through until the issue reaches `PUBLISHED`. It does not authorize external promotion posts.
 - Stop at the next approval checkpoint or on a state mismatch, scope change, unexpected bytes, failed check, blocking review, CAPTCHA, missing seller access, credential request, changed price or copy, ambiguous destination, or any other condition that makes the standing approval no longer specific enough.
 - After `PUBLISHED`, automatically research suitable promotion targets and prepare tailored drafts without waiting to be asked. Posting, commenting, messaging, or sharing still requires action-time approval for the exact destination, account context, and final copy.
 
@@ -44,6 +44,7 @@ The required happy path is:
 - Give every product a `product-manifest.json` that validates against `factory/schemas/product-manifest.schema.json`.
 - Use lowercase kebab-case for `product_id` and its directory name.
 - Record acceptance checks and artifacts in the manifest.
+- Before `READY_FOR_RELEASE`, add `products/<product-id>/marketing/knasoftware-listing.md` as the reviewed source of truth for every KNA Software CMS field and both reciprocal-link destinations, and list it in the manifest artifacts.
 - Do not mark a product `READY_FOR_RELEASE` while a required check is pending or failed.
 
 ## Execution rules
@@ -63,11 +64,15 @@ The required happy path is:
 - Deleting a remote branch, local branch, or worktree requires an explicit cleanup request. A plain merge request does not authorize deletion. Squash-merged local branches may use force deletion only after verifying the merged tree contains their intended diff.
 - Never clean unrelated worktrees or branches while handling the current task; report them separately.
 
-## Release and promotion rules
+## Release, catalog, and promotion rules
 
 - Gumroad work is manual through the Codex desktop control plane. Publishing requires `APPROVED_RELEASE` on the linked issue; the verified release `/approve` is the explicit instruction to publish the exact reviewed product version without another confirmation.
 - Before upload, identify the exact versioned artifact, compute its SHA-256, and verify price, listing copy, support terms, and buyer delivery contents. Never silently replace an already published artifact.
-- After publishing, verify the public page, price, buyer-visible delivery, support route, and downloaded artifact checksum before creating publication evidence or marking `PUBLISHED`.
+- Every released utility must also have a public product page on `https://knasoftware.com/`. The KNA Software page must link directly to every approved active sales listing, and each sales listing must link back to the exact KNA Software product page. All destinations, anchor copy, page copy, price, version, support terms, and media must be part of release review; do not invent or silently change them while publishing.
+- Use `daily-utility-knasoftware-catalog` for KNA Software catalog work. Log in only through the approved Google admin flow in the Codex desktop browser, never store credentials or tokens, create or update the product as a draft first, and publish only from `APPROVED_RELEASE` or under a separately approved backfill for an already `PUBLISHED` product.
+- KNA Software pages must use a stable lowercase product slug, self-canonical URL, descriptive reciprocal-link anchors, original page copy rather than a wholesale duplicate of the sales listing, and complete factual fields for product name, maker, audience, problem, version, price, features, limits, support, and purchase destination. Do not point the KNA canonical URL at Gumroad, misuse a documentation field as a purchase field, keyword-stuff, fabricate schema or reviews, or promise ranking gains.
+- For SEO and AI discoverability, verify the public KNA page, title, description, canonical, OG image, crawlability, sitemap membership, and reciprocal links. Check available `Product`/`SoftwareApplication` structured data and AI-readable discovery files such as `llms.txt`; if the platform does not expose them correctly, record the gap and do not claim SEO or AI-SEO completion.
+- After publishing, verify the Gumroad public page, price, buyer-visible delivery, support route, downloaded artifact checksum, KNA Software page, and both backlink directions before creating publication evidence or marking `PUBLISHED`.
 - Promotion begins only after `PUBLISHED`. Research current communities and their self-promotion rules before proposing targets.
 - Posting, commenting, messaging, or sharing on behalf of the seller requires action-time approval for the exact destination and copy. Do not spam, conceal seller affiliation, fabricate testimonials, or make claims that the product evidence does not support.
 
@@ -82,8 +87,9 @@ The required happy path is:
 ## Code Review Rules
 
 - Flag any issue label, manifest state, or state-machine transition that disagrees with another authoritative record.
-- Flag checked-in code or GitHub Actions that call Codex, OpenAI, Gumroad, payment, publishing, or social posting APIs.
+- Flag checked-in code or GitHub Actions that call Codex, OpenAI, Gumroad, KNA Software admin/CMS, payment, publishing, or social posting APIs.
 - Flag release evidence whose URL, price, artifact path, checksum, or timestamp was not verified against the live buyer experience.
 - Flag product architecture that duplicates business rules across UI and parsers, introduces circular dependencies, or adds abstraction without a concrete second implementation or test boundary.
 - Flag changes to published release bytes without a new version and fresh release approval.
 - Flag promotional claims that lack product evidence or outreach performed without the exact target and copy being approved.
+- Flag a release marked `PUBLISHED` without a verified KNA Software product page, a sales-channel-to-KNA link, a KNA-to-sales link, or truthful SEO/AI-discovery evidence. Also flag external canonicals, misleading purchase links, duplicated keyword-stuffed copy, and claims of ranking improvement without measured evidence.
