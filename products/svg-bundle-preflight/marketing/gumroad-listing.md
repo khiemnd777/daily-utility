@@ -1,6 +1,6 @@
 # Gumroad listing: SVG Bundle Preflight
 
-This file is the release-review source of truth. Do not change the live listing until issue #14 reaches `APPROVED_RELEASE`.
+This file is the release-review source of truth and includes a pending KNA Software backlink backfill. Do not change the live listing until the exact backfill copy and destinations receive explicit approval.
 
 ## Product name
 
@@ -21,6 +21,8 @@ Check the whole SVG bundle before a buyer does.
 **Version 1.0.0 · 61.3 KB ZIP · Updated August 27, 2026**
 
 SVG Bundle Preflight is a private, offline release-QA utility for Etsy and Gumroad sellers who package original Cricut-compatible SVG cut-file bundles.
+
+For a first-party overview of capabilities, supported limits, privacy behavior, and updates, see the [official KNA Software page for SVG Bundle Preflight](https://knasoftware.com/sources/svg-bundle-preflight).
 
 ### How it works
 
