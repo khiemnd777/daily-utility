@@ -19,6 +19,14 @@ The required happy path is:
 
 `/reject` is valid only from `READY_FOR_BUILD` or `READY_FOR_RELEASE` and moves the proposal to `REJECTED`. `/request-changes` is valid only from `READY_FOR_RELEASE` and moves the proposal back to `BUILDING` without granting release approval. Keep the linked issue state label, the product manifest state, and `factory/state-machine.json` consistent.
 
+## Checkpoint-scoped autonomy
+
+- After Codex relays an exact `/approve` and verifies the expected issue state label, continue autonomously through every in-scope action authorized by that checkpoint. Do not wait for reminders or ask for repeated confirmation while the approved scope, reviewed artifacts, price, listing terms, checks, and destinations remain unchanged.
+- Build approval authorizes implementation, tests, packaging, commits, a draft product pull request, CI follow-through, and preparation of the `READY_FOR_RELEASE` handoff. It does not authorize release or promotion.
+- Release approval authorizes final verification and merge of the linked product pull request, manual Gumroad publication of the exact approved version, live buyer verification, creation and merge of the focused release-record pull request, and follow-through until the issue reaches `PUBLISHED`. It does not authorize external promotion posts.
+- Stop at the next approval checkpoint or on a state mismatch, scope change, unexpected bytes, failed check, blocking review, CAPTCHA, missing seller access, credential request, changed price or copy, ambiguous destination, or any other condition that makes the standing approval no longer specific enough.
+- After `PUBLISHED`, automatically research suitable promotion targets and prepare tailored drafts without waiting to be asked. Posting, commenting, messaging, or sharing still requires action-time approval for the exact destination, account context, and final copy.
+
 ## Codex-first handoff
 
 - The Codex scheduled task is the only automatic idea scheduler. GitHub Actions must not run a competing daily idea schedule.
@@ -51,13 +59,13 @@ The required happy path is:
 - Before a manual or scheduled factory run, inspect the main checkout, `git worktree list`, local branches, and remote tracking branches. A stale worktree for the same product and phase must be explicitly reused or cleaned before new work starts.
 - Start task work from a clean, current `main` in a uniquely named `codex/<purpose>` branch and isolated worktree. Do not modify the main checkout for product implementation.
 - Stage only named task files. Never use broad staging, force-push, history rewriting, or destructive checkout commands as routine cleanup.
-- Open pull requests as drafts unless the user explicitly asks for ready-for-review. Merge only after required checks pass, blocking review threads are resolved, and the user explicitly requests the merge.
+- Open pull requests as drafts unless the user explicitly asks for ready-for-review. Merge only after required checks pass and blocking review threads are resolved. A verified release `/approve` is standing merge authorization only for the linked product pull request and its focused release-record pull request; every other merge still requires an explicit user request.
 - Deleting a remote branch, local branch, or worktree requires an explicit cleanup request. A plain merge request does not authorize deletion. Squash-merged local branches may use force deletion only after verifying the merged tree contains their intended diff.
 - Never clean unrelated worktrees or branches while handling the current task; report them separately.
 
 ## Release and promotion rules
 
-- Gumroad work is manual through the Codex desktop control plane. Publishing requires both `APPROVED_RELEASE` on the linked issue and an explicit instruction to publish.
+- Gumroad work is manual through the Codex desktop control plane. Publishing requires `APPROVED_RELEASE` on the linked issue; the verified release `/approve` is the explicit instruction to publish the exact reviewed product version without another confirmation.
 - Before upload, identify the exact versioned artifact, compute its SHA-256, and verify price, listing copy, support terms, and buyer delivery contents. Never silently replace an already published artifact.
 - After publishing, verify the public page, price, buyer-visible delivery, support route, and downloaded artifact checksum before creating publication evidence or marking `PUBLISHED`.
 - Promotion begins only after `PUBLISHED`. Research current communities and their self-promotion rules before proposing targets.
