@@ -20,8 +20,9 @@ Prepare a proposal issue body using `templates/proposal-issue.md`. The proposal 
 2. One narrow problem and one specific target customer.
 3. The smallest useful solution that can be built and checked in one focused cycle.
 4. Delivery format, proposed USD price, and why the customer would pay.
-5. Three to five observable acceptance checks.
-6. Risks, dependencies, and explicit out-of-scope items.
+5. The default Gumroad sales channel, planned `knasoftware.com/sources/<product-id>` catalog URL, reciprocal-link anchors, and the factual SEO/AI-discovery angle.
+6. Three to five observable acceptance checks.
+7. Risks, dependencies, and explicit out-of-scope items.
 
 The proposal starts in `READY_FOR_BUILD`. Do not claim that it is approved. Do not write product code, run a build, create credentials, or publish anything.
 

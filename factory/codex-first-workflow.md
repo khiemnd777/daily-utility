@@ -7,7 +7,8 @@
 - **GitHub issue:** the durable proposal and state ledger.
 - **GitHub pull request and CI:** the code review and quality gate.
 - **GitHub Actions:** deterministic validation and state recording only. Actions do not invoke an AI provider.
-- **Gumroad:** published manually by Codex after release approval; no credentials or publishing API are stored in this repository.
+- **Gumroad:** the current sales and buyer-delivery channel, published manually by Codex after release approval; no credentials or publishing API are stored in this repository.
+- **KNA Software catalog:** the public first-party product record on `knasoftware.com`, created through the Google-authenticated admin UI after release approval and reciprocally linked with the approved sales listing. No admin credentials, tokens, or CMS API calls are stored in this repository.
 
 ## Idea run
 
@@ -28,7 +29,7 @@ An idea run that cannot create and verify the issue is failed. It must not show 
 
 Direct issue comments remain a fallback. If a reviewer uses the fallback, Codex must still re-read the issue before acting.
 
-Each verified approval grants checkpoint-scoped standing authorization. Build approval means Codex continues without reminders through implementation, testing, packaging, a draft product pull request, CI, and the `READY_FOR_RELEASE` handoff. Release approval means Codex continues without repeated confirmation through final product-PR verification and merge, manual Gumroad publication of the exact approved version, live buyer verification, creation and merge of the release-record pull request, and verification of `PUBLISHED`. The authorization ends at the next approval checkpoint, after publication, or when state, scope, artifacts, price, copy, checks, access, or destinations materially differ from what was reviewed.
+Each verified approval grants checkpoint-scoped standing authorization. Build approval means Codex continues without reminders through implementation, testing, packaging, a draft product pull request, CI, and the `READY_FOR_RELEASE` handoff. Release approval means Codex continues without repeated confirmation through final product-PR verification and merge, manual Gumroad publication of the exact approved version, publication of the exact reviewed KNA Software product page, reciprocal-link verification, live buyer verification, creation and merge of the release-record pull request, and verification of `PUBLISHED`. The authorization ends at the next approval checkpoint, after publication, or when state, scope, artifacts, price, copy, checks, access, backlink destinations, or other reviewed release facts materially differ.
 
 `/request-changes` is a release-review correction loop. It is valid only from `READY_FOR_RELEASE`, moves the proposal back to `BUILDING`, and does not grant build or release approval. Codex must update the product manifest to `BUILDING` before modifying product files, then rerun all required checks before returning the issue and manifest to `READY_FOR_RELEASE`.
 
@@ -36,7 +37,11 @@ Each verified approval grants checkpoint-scoped standing authorization. Build ap
 
 After `APPROVED_BUILD`, Codex starts the Engineering Agent in an isolated worktree and focused branch. The agent records `BUILDING`, implements only the approved scope, runs checks, validates the manifest, opens a pull request, and records `READY_FOR_RELEASE` only when all required checks pass.
 
-The release checkpoint uses the same approval relay. After the issue reaches `APPROVED_RELEASE`, Codex autonomously verifies and merges the linked product pull request, publishes manually through Gumroad, verifies the live product page and download, and prepares and merges a focused release-record pull request without asking for another confirmation. That pull request must add `products/<product-id>/publication.json`, update the product manifest to `PUBLISHED`, and pass the manifest validator. When the pull request is merged, `release-completed.yml` verifies the checked-in URL, price, artifact path, artifact SHA-256, and current issue state before moving the issue from `state:approved-release` to `state:published`. The workflow records the release in GitHub only; it never calls Gumroad.
+The release checkpoint uses the same approval relay. After the issue reaches `APPROVED_RELEASE`, Codex autonomously verifies and merges the linked product pull request, publishes manually through Gumroad, verifies the live sales page and buyer download, creates or updates the reviewed KNA Software product page as a draft, establishes and verifies both backlink directions, publishes the KNA page, and prepares and merges a focused release-record pull request without asking for another confirmation. The reviewed release materials must include `products/<product-id>/marketing/knasoftware-listing.md` with the exact KNA SKU, slug, category/tags, page copy, metadata, media, price/version facts, sales URL, reverse-link destination, and support terms before approval.
+
+The release-record pull request must add `products/<product-id>/publication.json`, update the product manifest to `PUBLISHED`, pass the manifest validator, and include or reference verification evidence for the KNA page and both backlink directions. When the pull request is merged, `release-completed.yml` verifies the checked-in sales URL, price, artifact path, artifact SHA-256, and current issue state before moving the issue from `state:approved-release` to `state:published`. Live catalog and link checks remain Codex-controlled release evidence; GitHub Actions never call Gumroad or KNA Software.
+
+Use `daily-utility-knasoftware-catalog` for the KNA publication step. Keep the KNA product URL self-canonical, use distinct factual copy rather than mirroring the Gumroad description word-for-word, and verify title, description, OG image, sitemap membership, crawlability, and any available structured data or AI-readable discovery files. Missing platform support must be reported as a gap rather than represented as completed SEO work.
 
 ## Post-publish promotion
 

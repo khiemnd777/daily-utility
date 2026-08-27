@@ -16,11 +16,12 @@ If the gate is not satisfied, stop without modifying product files. Approval pro
 3. Record `build_started` on the linked issue by moving its single state label from `state:approved-build` to `state:building` and verify the result.
 4. Create `products/<product-id>/product-manifest.json` from the template with `source_issue` set to the linked issue number.
 5. Build only the approved scope; keep reusable factory changes separate from product code.
-6. Run every required acceptance check and record its result in the manifest.
-7. Install validation dependencies from `factory/requirements.txt` and run `python3 factory/scripts/validate_manifest.py`.
-8. Move the manifest and linked issue to `READY_FOR_RELEASE` only when all required checks pass and the artifacts list is accurate.
-9. Open or update a pull request with the check evidence and remaining risks.
-10. Return the PR URL, issue URL, current state, remaining risks, and the exact next commands `/approve` and `/reject` in the linked Codex task.
+6. Prepare the exact reviewed Gumroad listing and `products/<product-id>/marketing/knasoftware-listing.md`. The KNA source of truth must define the SKU, stable slug, category/tags, short and detailed copy, version, display price, media, demo boundaries, features, contents, requirements, changelog, SEO title/description, self-canonical behavior, OG image, Gumroad purchase anchor, and Gumroad reverse-link anchor.
+7. Run every required acceptance check and record its result in the manifest.
+8. Install validation dependencies from `factory/requirements.txt` and run `python3 factory/scripts/validate_manifest.py`.
+9. Move the manifest and linked issue to `READY_FOR_RELEASE` only when all required checks pass, the artifacts list is accurate, and both sales/catalog destinations and page copy are reviewable.
+10. Open or update a pull request with the check evidence and remaining risks.
+11. Return the PR URL, issue URL, current state, remaining risks, and the exact next commands `/approve` and `/reject` in the linked Codex task.
 
 If a trusted reviewer issues `/request-changes` from `READY_FOR_RELEASE`, verify that the linked issue returned to `state:building`, set the product manifest to `BUILDING`, implement the requested corrections on the existing product branch, and rerun every required check before recording `READY_FOR_RELEASE` again.
 

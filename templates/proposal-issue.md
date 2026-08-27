@@ -19,9 +19,20 @@ What is the smallest useful deliverable? State explicit out-of-scope items.
 ## Distribution and price
 
 - Format: `<download | template | script | web-app | guide | bundle>`
-- Channel: `manual` (Gumroad publishing is not configured)
+- Sales channel: `Gumroad` (manual through Codex after release approval)
+- First-party catalog: `https://knasoftware.com/sources/<product-id>`
+- Reciprocal links: Gumroad → KNA product page and KNA product page → Gumroad listing
 - Proposed price: `$<amount> USD`
 - Why the customer would pay:
+
+## Catalog and discovery plan
+
+- KNA slug: `<product-id>`
+- Distinct first-party angle:
+- Primary sales-link anchor:
+- Gumroad reverse-link anchor:
+- SEO/AI-discovery facts to expose: audience, problem, maker, version, price, capabilities, limits, privacy behavior, support, and purchase URL
+- Platform gaps that must be verified rather than assumed: sitemap membership, structured data, and `llms.txt`
 
 ## Acceptance checks
 
