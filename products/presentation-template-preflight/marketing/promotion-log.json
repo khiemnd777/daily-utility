@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "product_id": "presentation-template-preflight",
+  "product_url": "https://khiemnd2.gumroad.com/l/presentation-template-preflight",
+  "updated_at": "2026-08-28T17:00:45Z",
+  "entries": [
+    {
+      "channel_id": "reddit-r-powerpoint-products-tools",
+      "destination_url": "https://www.reddit.com/r/powerpoint/comments/1ktliik/products_tools/",
+      "status": "published",
+      "account_context": "u/Rare-Star-8120 (Reddit)",
+      "submitted_at": null,
+      "published_at": null,
+      "post_url": "https://www.reddit.com/r/powerpoint/comments/1ktliik/comment/p6g8sen/",
+      "last_verified_at": "2026-08-28T17:00:45Z",
+      "evidence_notes": "Reddit displayed 'Comment posted successfully', and the approved copy was immediately visible at the public permalink. Reddit did not expose an exact server-side publish timestamp."
+    }
+  ]
+}
