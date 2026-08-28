@@ -5,10 +5,10 @@
 - Product name: `Presentation Template Preflight`
 - Product type: Standard digital download
 - Variant: One-time purchase, one buyer variant
-- Next remaining-channel review mode: `exact-url` after the blockers below are cleared and a new checkpoint is prepared
+- Next remaining-channel review mode: `exact-url`; this checked-in source is the review candidate while issue #23 and the manifest remain `GUMROAD_PUBLISHED`
 - Seller dashboard product: Live product ID `1323100` at `https://app.lemonsqueezy.com/products/1323100`
 - Seller dashboard status: `Draft` with Test mode off after required rollback
-- Known stable hosted checkout URL: `https://knasoftware.lemonsqueezy.com/checkout/buy/429ed96b-ad38-4f63-92c4-bdcac78059a7` (inactive while the product is Draft)
+- Stable hosted checkout URL for review: `https://knasoftware.lemonsqueezy.com/checkout/buy/429ed96b-ad38-4f63-92c4-bdcac78059a7` (verified during the approved bootstrap and intentionally inactive while the product is Draft)
 - Expected checkout host: `knasoftware.lemonsqueezy.com`
 - Required reusable checkout path prefix: `/checkout/buy/`
 - Price: `$19 USD`
@@ -79,4 +79,17 @@ The bootstrap could not continue because every visible KNA admin product edit ro
 
 Following the approved failure rule, product `1323100` was returned to `Draft` at 2026-08-28T13:09:37Z. The exact checkout URL then returned `404: Page Not Found`, confirming that no Lemon Squeezy sale remains active. This is `publish_bootstrap_failed`; the factory state returns to `GUMROAD_PUBLISHED`, and `publication.json` remains the existing schema-v3 partial record with Lemon Squeezy pending.
 
-Before a new `remaining_channels_ready` checkpoint, the KNA admin edit form must render and an authorized seller/test-order delivery path must be available. Because the reusable URL is now known, the next review can use `exact-url` mode while the product remains Draft. A real paid purchase is not authorized by this record.
+## Exact-url checkpoint recovery
+
+The two blockers from the failed bootstrap were cleared on 2026-08-28:
+
+- the KNA admin edit route rendered the complete existing product form again and was inspected read-only; no KNA field changed; and
+- the reviewer explicitly authorized one real Live verification purchase for product `1323100` at `$19 USD` plus any tax displayed by checkout, with an instruction to stop immediately before payment for action-time confirmation.
+
+Lemon Squeezy's official Test Mode documentation states that file downloads are disabled for test purchases, and its Testing and Going Live guide states that Test and Live products, orders, IDs, and checkout URLs are separate. The authorized Live purchase is therefore the buyer-delivery verification path for this exact product. No purchase, customer-data entry, payment-data entry, or financial transaction occurred while preparing this source.
+
+After this review source is merged and issue #23 plus the manifest are synchronized to `READY_FOR_REMAINING_CHANNELS`, a fresh exact `/approve` will authorize only this `exact-url` release: publish Live product `1323100`, require the exact URL above to reactivate, and verify its product name, one-time `$19.00 USD` price, listing copy, media, support terms, artifact identity, and KNA backlink. A different host, path, product, price, tax category, artifact, copy, media order, support term, or backlink is a material mismatch and must stop the release.
+
+At the buyer checkout, Codex must stop immediately before the payment action as instructed. Only after the required action-time confirmation may the authorized payment be submitted. The delivered file must then be downloaded through the buyer order, confirmed as `presentation-template-preflight-v1.0.0.zip`, checked for the documented contents and primary offline workflow, and hash to `720002d28820022b957653fb945ee772162c278b61023d3d9b5d54891266b550`.
+
+Only after buyer delivery passes may Codex apply the exact reviewed KNA Markdown update, preserve the Gumroad destination, add the Lemon Squeezy purchase anchor, verify both KNA outbound links and both sales-channel backlinks, and record the schema-v3 completed publication evidence. The public KNA page must remain unchanged until the issue reaches `APPROVED_REMAINING_CHANNELS`; no inactive checkout URL may be exposed before republication.
