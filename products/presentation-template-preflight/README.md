@@ -35,7 +35,7 @@ The tool never modifies the presentation. It does not render slides, prove visua
 
 ## Customer support
 
-Buyers should reply to their Gumroad or Lemon Squeezy purchase receipt. If receipt replies are unavailable, email `khiemnd777@gmail.com` with the subject `Presentation Template Preflight support — <order ID>`.
+Buyers should reply to their Gumroad purchase receipt. If receipt replies are unavailable, email `khiemnd777@gmail.com` with the subject `Presentation Template Preflight support — <order ID>`.
 
 Include the purchase channel and order ID, browser and version, operating system, exact error message, reproducible steps, and a minimal sanitized presentation only if you are authorized to share it. Never send payment data, credentials, customer information, confidential client decks, or licensed assets that cannot be shared.
 
