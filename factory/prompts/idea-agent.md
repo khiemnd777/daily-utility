@@ -20,7 +20,7 @@ Prepare a proposal issue body using `templates/proposal-issue.md`. The proposal 
 2. One narrow problem and one specific target customer.
 3. The smallest useful solution that can be built and checked in one focused cycle.
 4. Delivery format, proposed USD price, and why the customer would pay.
-5. The required Gumroad and Lemon Squeezy sales channels, shared USD price, planned `knasoftware.com/sources/<product-id>` catalog URL, all reciprocal-link anchors, and the factual SEO/AI-discovery angle.
+5. The required Gumroad and Lemon Squeezy sales channels, shared USD price, explicit release sequence (`simultaneous` by default or `gumroad-first` when a real channel-access dependency justifies it), planned `knasoftware.com/sources/<product-id>` catalog URL, all reciprocal-link anchors, and the factual SEO/AI-discovery angle.
 6. Three to five observable acceptance checks.
 7. Risks, dependencies, and explicit out-of-scope items.
 

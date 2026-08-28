@@ -8,7 +8,8 @@
   "solution": "Describe the smallest useful deliverable that solves the problem.",
   "distribution": {
     "format": "download",
-    "channels": ["gumroad", "lemon-squeezy"]
+    "channels": ["gumroad", "lemon-squeezy"],
+    "release_sequence": "simultaneous"
   },
   "pricing": {
     "currency": "USD",

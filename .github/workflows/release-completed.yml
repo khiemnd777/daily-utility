@@ -42,21 +42,29 @@ jobs:
             const path = require('path');
 
             const productsRoot = path.join(process.env.GITHUB_WORKSPACE, 'products');
-            try {
-              await github.rest.issues.getLabel({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                name: 'state:published'
-              });
-            } catch (error) {
-              if (error.status !== 404) throw error;
-              await github.rest.issues.createLabel({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                name: 'state:published',
-                color: '0969da',
-                description: 'Published'
-              });
+            const definitions = {
+              'state:gumroad-published': ['0e8a16', 'Gumroad and KNA live; remaining channels pending'],
+              'state:ready-for-remaining-channels': ['f9d0c4', 'Awaiting remaining-channel approval'],
+              'state:approved-remaining-channels': ['1d76db', 'Approved to publish remaining channels'],
+              'state:published': ['0969da', 'Published']
+            };
+            for (const [name, [color, description]] of Object.entries(definitions)) {
+              try {
+                await github.rest.issues.getLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name
+                });
+              } catch (error) {
+                if (error.status !== 404) throw error;
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name,
+                  color,
+                  description
+                });
+              }
             }
 
             const stateLabels = new Set([
@@ -65,6 +73,9 @@ jobs:
               'state:building',
               'state:ready-for-release',
               'state:approved-release',
+              'state:gumroad-published',
+              'state:ready-for-remaining-channels',
+              'state:approved-remaining-channels',
               'state:published',
               'state:rejected'
             ]);
@@ -77,7 +88,9 @@ jobs:
               if (!fs.existsSync(manifestPath)) continue;
 
               const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-              if (manifest.state !== 'PUBLISHED') continue;
+              if (!['GUMROAD_PUBLISHED', 'PUBLISHED'].includes(manifest.state)) {
+                continue;
+              }
 
               const publicationPath = path.join(productRoot, 'publication.json');
               const publication = JSON.parse(fs.readFileSync(publicationPath, 'utf8'));
@@ -110,19 +123,32 @@ jobs:
                   `Issue #${issueNumber} must have exactly one state label; found ${activeStates.length}.`
                 );
               }
-              const allowedReleaseStates = new Set([
-                'state:approved-release',
-                'state:published'
-              ]);
+              const partial = manifest.state === 'GUMROAD_PUBLISHED';
+              const stagedCompletion =
+                manifest.state === 'PUBLISHED' &&
+                publication.schema_version === 3 &&
+                publication.release_sequence === 'gumroad-first';
+              const targetState = partial
+                ? 'state:gumroad-published'
+                : 'state:published';
+              const allowedReleaseStates = partial
+                ? new Set(['state:approved-release', 'state:gumroad-published'])
+                : stagedCompletion
+                  ? new Set([
+                      'state:approved-remaining-channels',
+                      'state:published'
+                    ])
+                  : new Set(['state:approved-release', 'state:published']);
               if (!allowedReleaseStates.has(activeStates[0])) {
                 throw new Error(
-                  `Issue #${issueNumber} must be APPROVED_RELEASE before release completion; found ${activeStates[0]}.`
+                  `Issue #${issueNumber} cannot record ${manifest.state} from ${activeStates[0]}.`
                 );
               }
 
-              if (activeStates[0] === 'state:approved-release') {
+              const previousState = activeStates[0];
+              if (previousState !== targetState) {
                 const nextLabels = labels.filter((label) => !stateLabels.has(label));
-                nextLabels.push('state:published');
+                nextLabels.push(targetState);
                 await github.rest.issues.setLabels({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
@@ -131,7 +157,10 @@ jobs:
                 });
               }
 
-              const marker = `<!-- release-completed:${manifest.product_id}:${publication.artifact_sha256} -->`;
+              const eventName = partial
+                ? 'gumroad_release_completed'
+                : 'release_completed';
+              const marker = `<!-- ${eventName}:${manifest.product_id}:${publication.artifact_sha256} -->`;
               const comments = await github.paginate(github.rest.issues.listComments, {
                 owner: context.repo.owner,
                 repo: context.repo.repo,
@@ -150,24 +179,33 @@ jobs:
                       `- KNA Software: ${publication.catalog.url}`,
                       `  - Published at: ${publication.catalog.published_at}`,
                       `  - Gumroad link verified at: ${publication.catalog.gumroad_link_verified_at}`,
-                      `  - Lemon Squeezy link verified at: ${publication.catalog.lemon_squeezy_link_verified_at}`
+                      ...(publication.catalog.lemon_squeezy_link_verified_at
+                        ? [`  - Lemon Squeezy link verified at: ${publication.catalog.lemon_squeezy_link_verified_at}`]
+                        : [])
                     ]
                   : [];
+                const previousStateName = previousState
+                  .replace('state:', '')
+                  .replaceAll('-', '_')
+                  .toUpperCase();
                 await github.rest.issues.createComment({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   issue_number: issueNumber,
                   body: [
                     marker,
-                    'Factory state: **APPROVED_RELEASE** → **PUBLISHED** via `release_completed`.',
+                    `Factory state: **${previousStateName}** → **${manifest.state}** via \`${eventName}\`.`,
                     '',
                     `- Product: \`${manifest.product_id}\``,
                     ...salesEvidence,
                     ...catalogEvidence,
                     `- Artifact: \`${publication.artifact}\``,
                     `- SHA-256: \`${publication.artifact_sha256}\``,
+                    ...(partial
+                      ? ['- Pending channel: Lemon Squeezy']
+                      : []),
                     '',
-                    'The release was published manually after approval. This job only verified and recorded the checked-in evidence; it did not call a sales or publishing API.'
+                    'The release evidence was produced manually after approval. This job only verified and recorded checked-in evidence; it did not call a sales or publishing API.'
                   ].join('\n')
                 });
               } else {

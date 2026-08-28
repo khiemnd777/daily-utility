@@ -18,14 +18,15 @@ Use the repository state machine as the lifecycle authority and GitHub proposal 
 
 - Idea research follows `factory/prompts/idea-agent.md` and stops after a verified `READY_FOR_BUILD` issue.
 - Product implementation or hardening uses `daily-utility-engineering` and `daily-utility-git-delivery`.
-- Manual Gumroad publishing uses `daily-utility-gumroad-release` only after `APPROVED_RELEASE`; the verified release `/approve` is the explicit publish instruction for the reviewed version.
-- Manual Lemon Squeezy publishing uses `daily-utility-lemonsqueezy-release` under the same verified release approval and reviewed artifact, price, copy, and destination.
-- First-party catalog publication and reciprocal sales-channel linking use `daily-utility-knasoftware-catalog` after `APPROVED_RELEASE`, or under an explicitly approved backfill for an already `PUBLISHED` product.
+- Manual Gumroad publishing uses `daily-utility-gumroad-release` only after `APPROVED_RELEASE`; the verified release `/approve` is the explicit publish instruction for the reviewed version and release sequence.
+- Manual Lemon Squeezy publishing uses `daily-utility-lemonsqueezy-release` under `APPROVED_RELEASE` for simultaneous releases or `APPROVED_REMAINING_CHANNELS` for an explicitly reviewed Gumroad-first release.
+- An unpublished Lemon Squeezy review draft may be prepared from `GUMROAD_PUBLISHED` under that skill solely to obtain the exact remaining-channel URL; it must not be published before the second approval.
+- First-party catalog publication and reciprocal sales-channel linking use `daily-utility-knasoftware-catalog` after `APPROVED_RELEASE`, after `APPROVED_REMAINING_CHANNELS` for a staged update, or under an explicitly approved backfill for an already `PUBLISHED` product.
 - Community research or posting uses `daily-utility-promotion` only after the product is `PUBLISHED`.
 
 Do not collapse approval relay, build, publish, publication recording, and promotion into one implied authorization. Finish the active phase and present the next boundary clearly.
 
-After a verified approval, continue autonomously through the actions authorized by that checkpoint without asking for reminders or repeated confirmation. Build approval runs through implementation, checks, a draft product pull request, CI, and the `READY_FOR_RELEASE` handoff. Release approval runs through verified product-PR merge, Gumroad and Lemon Squeezy publication, live buyer verification on both channels, KNA Software catalog publication, every reciprocal-link and SEO-surface check, release-record PR creation and merge, and verification of `PUBLISHED`. Stop when the next checkpoint is reached or reviewed state, scope, artifacts, price, copy, checks, access, backlink destinations, or other release facts change materially.
+After a verified approval, continue autonomously through the actions authorized by that checkpoint without asking for reminders or repeated confirmation. Build approval runs through implementation, checks, a draft product pull request, CI, and the `READY_FOR_RELEASE` handoff. Simultaneous release approval runs through both sales channels, KNA publication, final evidence, and `PUBLISHED`. Gumroad-first release approval runs only through Gumroad, the first-stage KNA page, partial schema-v3 evidence, and `GUMROAD_PUBLISHED`; a second exact approval from `READY_FOR_REMAINING_CHANNELS` is required for Lemon Squeezy, the KNA update, and final `PUBLISHED` evidence. Stop at either next checkpoint or when reviewed facts change materially.
 
 After `PUBLISHED`, automatically research promotion targets and prepare tailored drafts. Do not publish promotion content until the exact destination, account context, and final copy receive action-time approval.
 

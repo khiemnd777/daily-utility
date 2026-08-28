@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "control_plane": "codex",
   "state_ledger": "github_issue",
   "initial_state": "READY_FOR_BUILD",
@@ -9,6 +9,14 @@
     "BUILDING",
     "READY_FOR_RELEASE",
     "APPROVED_RELEASE",
+    "PUBLISHED"
+  ],
+  "staged_release_path": [
+    "READY_FOR_RELEASE",
+    "APPROVED_RELEASE",
+    "GUMROAD_PUBLISHED",
+    "READY_FOR_REMAINING_CHANNELS",
+    "APPROVED_REMAINING_CHANNELS",
     "PUBLISHED"
   ],
   "states": {
@@ -29,6 +37,18 @@
       "approval_checkpoint": "release"
     },
     "APPROVED_RELEASE": {
+      "terminal": false,
+      "approval_checkpoint": null
+    },
+    "GUMROAD_PUBLISHED": {
+      "terminal": false,
+      "approval_checkpoint": null
+    },
+    "READY_FOR_REMAINING_CHANNELS": {
+      "terminal": false,
+      "approval_checkpoint": "remaining_channels"
+    },
+    "APPROVED_REMAINING_CHANNELS": {
       "terminal": false,
       "approval_checkpoint": null
     },
@@ -86,6 +106,36 @@
     },
     {
       "from": "APPROVED_RELEASE",
+      "event": "release_completed",
+      "to": "PUBLISHED",
+      "actor": "release_job"
+    },
+    {
+      "from": "APPROVED_RELEASE",
+      "event": "gumroad_release_completed",
+      "to": "GUMROAD_PUBLISHED",
+      "actor": "release_job"
+    },
+    {
+      "from": "GUMROAD_PUBLISHED",
+      "event": "remaining_channels_ready",
+      "to": "READY_FOR_REMAINING_CHANNELS",
+      "actor": "factory"
+    },
+    {
+      "from": "READY_FOR_REMAINING_CHANNELS",
+      "event": "/approve",
+      "to": "APPROVED_REMAINING_CHANNELS",
+      "actor": "trusted_reviewer"
+    },
+    {
+      "from": "READY_FOR_REMAINING_CHANNELS",
+      "event": "/request-changes",
+      "to": "GUMROAD_PUBLISHED",
+      "actor": "trusted_reviewer"
+    },
+    {
+      "from": "APPROVED_REMAINING_CHANNELS",
       "event": "release_completed",
       "to": "PUBLISHED",
       "actor": "release_job"
