@@ -1,0 +1,67 @@
+{
+  "schema_version": 2,
+  "product_id": "presentation-template-preflight",
+  "name": "Presentation Template Preflight",
+  "summary": "Audit one editable PowerPoint template locally for broken package links, font portability risks, hidden content, and release evidence.",
+  "customer": "Freelance PowerPoint template designers and boutique presentation studios that deliver editable .pptx or .potx templates several times per month.",
+  "problem": "Presentation templates can look correct while retaining missing OOXML parts, linked local assets, unembedded fonts, comments, notes, hidden slides, embedded objects, macros, or author metadata that create buyer support and privacy risks.",
+  "solution": "A downloadable offline browser utility that non-destructively scans one .pptx or .potx package, inventories its structure, applies deterministic release checks, and exports self-contained HTML and CSV evidence reports.",
+  "distribution": {
+    "format": "download",
+    "channels": ["gumroad", "lemon-squeezy"]
+  },
+  "pricing": {
+    "currency": "USD",
+    "amount_cents": 1900
+  },
+  "state": "BUILDING",
+  "source_issue": 23,
+  "artifacts": [
+    "products/presentation-template-preflight/README.md",
+    "products/presentation-template-preflight/release/presentation-template-preflight-v1.0.0.zip",
+    "products/presentation-template-preflight/marketing/gumroad-listing.md",
+    "products/presentation-template-preflight/marketing/lemonsqueezy-listing.md",
+    "products/presentation-template-preflight/marketing/knasoftware-listing.md",
+    "products/presentation-template-preflight/marketing/sales-workflow.png",
+    "products/presentation-template-preflight/marketing/sales-results.png",
+    "products/presentation-template-preflight/marketing/sales-report-preview.png",
+    "products/presentation-template-preflight/marketing/sales-contents.png",
+    "products/presentation-template-preflight/marketing/sample-report.html",
+    "products/presentation-template-preflight/marketing/sample-report.csv",
+    "products/presentation-template-preflight/support/SUPPORT.txt"
+  ],
+  "acceptance_checks": [
+    {
+      "id": "clean-presentation-and-template",
+      "description": "Deterministic clean .pptx and .potx fixtures show exact slide, layout, master, dimension, and aspect-ratio inventories with every internal relationship resolved and zero blockers.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "relationship-evidence",
+      "description": "Missing internal targets and external local-file, data, and HTTPS relationships report stable check IDs, severities, source parts, relationship types, and targets.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "hidden-content-and-fonts",
+      "description": "Unembedded fonts, comments, speaker notes, hidden slides, embedded objects, macros, and personal metadata report the correct check ID and slide or OOXML part.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "complete-nondestructive-reports",
+      "description": "HTML and CSV reports include file identity, SHA-256, scan time, package inventory, severity totals, and every finding while the input bytes and checksum remain unchanged.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "offline-private-release",
+      "description": "The packaged utility scans deterministic fixtures from file:// with the network disabled, makes no outbound request, persists no presentation content, bundles licenses, and enforces documented safety limits.",
+      "required": true,
+      "status": "passed"
+    }
+  ],
+  "created_at": "2026-08-28T01:56:15Z",
+  "updated_at": "2026-08-28T02:16:37Z"
+}
