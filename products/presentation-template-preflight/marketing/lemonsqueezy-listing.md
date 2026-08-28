@@ -5,8 +5,14 @@
 - Product name: `Presentation Template Preflight`
 - Product type: Standard digital download
 - Variant: One-time purchase, one buyer variant
-- Stable hosted checkout URL: pending until an unpublished Lemon Squeezy draft is prepared after the Gumroad-first stage reaches `GUMROAD_PUBLISHED`
+- Remaining-channel review mode: `publish-bootstrap`
+- Seller dashboard product: Live product ID `1323100` at `https://app.lemonsqueezy.com/products/1323100`
+- Seller dashboard status: `Draft` with Test mode off
+- Stable hosted checkout URL: withheld by Lemon Squeezy until this exact Live draft is published after `APPROVED_REMAINING_CHANNELS`
+- Expected checkout host: `knasoftware.lemonsqueezy.com`
+- Required reusable checkout path prefix: `/checkout/buy/`
 - Price: `$19 USD`
+- Tax category: `Software`
 - Version: `1.0.0`
 - Delivery file: `presentation-template-preflight-v1.0.0.zip`
 - Delivery bytes: `66,026`
@@ -54,8 +60,21 @@ If the verified buyer cannot complete the documented core workflow and support c
 
 ## Remaining-channel preparation and verification
 
-This reviewed copy, `$19 USD` price, versioned ZIP, checksum, support terms, media order, and KNA reverse-link destination are fixed for the staged release. Lemon Squeezy is not part of the first release approval and must not be published during the Gumroad-first stage.
+This checkpoint is `READY_FOR_REMAINING_CHANNELS` in constrained `publish-bootstrap` mode. The reviewed copy, `$19 USD` one-time price, `Software` tax category, versioned ZIP, checksum, support and refund terms, media order, KNA reverse-link destination, Live draft identity, and generated-URL boundary are fixed. The only unresolved field is the reusable Share URL that Lemon Squeezy generates after publication.
 
-After the product reaches `GUMROAD_PUBLISHED`, prepare an unpublished Lemon Squeezy draft solely to obtain the reusable dashboard Share URL containing `/checkout/buy/`. Never substitute a customer-specific `/checkout/?cart=` URL. Add the exact reusable URL to this source and the KNA source, rerun the required checks, and stop at `READY_FOR_REMAINING_CHANNELS` for a fresh exact `/approve` before publishing Lemon Squeezy.
+Pre-approval verification on 2026-08-28 established all of the following in the seller dashboard:
 
-Before publication, confirm the shared `$19 USD` price, reviewed text/media, exact KNA link, delivery filename/bytes/SHA-256, and authorized seller/test-order delivery checksum.
+- Live product ID `1323100` is the only product selected for this checkpoint and remains `Draft`;
+- Test mode is off;
+- the product is a one-time purchase with Standard pricing at `$19.00 USD` and tax category `Software`;
+- the delivery is `presentation-template-preflight-v1.0.0.zip`, displayed as `64.48 KB`, matching the reviewed `66,026` bytes and SHA-256 `720002d28820022b957653fb945ee772162c278b61023d3d9b5d54891266b550`;
+- the four reviewed media files appear in the order above;
+- the product links back to `https://knasoftware.com/sources/presentation-template-preflight` with label `Product details, privacy, and support`;
+- license keys are disabled; and
+- no `Share` control or reusable checkout URL is exposed while the Live product is Draft.
+
+An exact `/approve` from this checkpoint authorizes Codex to publish only Live product `1323100` once, copy the generated dashboard Share URL without using a customer cart, and accept it only when the host is exactly `knasoftware.lemonsqueezy.com` and the path begins with `/checkout/buy/`. Never accept or publish a customer-specific `/checkout/?cart=` URL, a different host, a different product, or a changed listing fact.
+
+After that URL passes the host, path, public checkout, `$19 USD` price, copy, artifact, support, and KNA-backlink checks, persist the exact URL in this source and the KNA source before changing the live KNA page. Then add the reviewed KNA purchase anchor, verify both reciprocal links and buyer delivery checksum, and complete the schema-v3 release evidence.
+
+If the generated URL or any checkout fact differs, immediately return product `1323100` to Draft, leave the public KNA page unchanged, record `publish_bootstrap_failed`, return the factory state to `GUMROAD_PUBLISHED`, and stop. No Lemon Squeezy publication or KNA mutation is authorized before the fresh exact `/approve`.
