@@ -31,7 +31,7 @@ test("reviewed sales media and sample reports are deterministic and sanitized", 
   assert.doesNotMatch(`${html}\n${csv}`, /khiemnd|gmail|payment data|customer data/i);
 });
 
-test("final remaining-channel sources record the exact reusable Lemon Squeezy URL", async () => {
+test("failed publish-bootstrap records the exact inactive URL without exposing it on KNA", async () => {
   const [gumroad, lemon, kna] = await Promise.all([
     readFile(new URL("gumroad-listing.md", marketingRoot), "utf8"),
     readFile(new URL("lemonsqueezy-listing.md", marketingRoot), "utf8"),
@@ -57,12 +57,15 @@ test("final remaining-channel sources record the exact reusable Lemon Squeezy UR
   assert.match(lemon, /Test mode is off/);
   assert.match(lemon, /APPROVED_REMAINING_CHANNELS/);
   assert.match(lemon, /no query string/i);
+  assert.match(lemon, /publish_bootstrap_failed/);
+  assert.match(lemon, /GUMROAD_PUBLISHED/);
+  assert.match(lemon, /404: Page Not Found/);
   assert.match(kna, /Buy Presentation Template Preflight on Gumroad/);
   assert.match(kna, /Buy Presentation Template Preflight on Lemon Squeezy/);
   assert.match(kna, /product ID `1323100`/);
   assert.match(kna, /knasoftware\.lemonsqueezy\.com/);
   assert.match(kna, /\/checkout\/buy\//);
   assert.match(`${lemon}\n${kna}`, /\/checkout\/\?cart=/);
-  assert.match(kna, /\[Buy Presentation Template Preflight on Lemon Squeezy\]\(https:\/\/knasoftware\.lemonsqueezy\.com\/checkout\/buy\/429ed96b-ad38-4f63-92c4-bdcac78059a7\)/);
-  assert.doesNotMatch(kna, /Pending final Lemon Squeezy release approval/i);
+  assert.match(kna, /Pending remaining-channel recovery/i);
+  assert.doesNotMatch(kna, /\[Buy Presentation Template Preflight on Lemon Squeezy\]\(/);
 });

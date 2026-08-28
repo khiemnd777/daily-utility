@@ -5,10 +5,10 @@
 - Product name: `Presentation Template Preflight`
 - Product type: Standard digital download
 - Variant: One-time purchase, one buyer variant
-- Remaining-channel review mode: `publish-bootstrap`
+- Next remaining-channel review mode: `exact-url` after the blockers below are cleared and a new checkpoint is prepared
 - Seller dashboard product: Live product ID `1323100` at `https://app.lemonsqueezy.com/products/1323100`
-- Seller dashboard status: `Published` with Test mode off
-- Stable hosted checkout URL: `https://knasoftware.lemonsqueezy.com/checkout/buy/429ed96b-ad38-4f63-92c4-bdcac78059a7`
+- Seller dashboard status: `Draft` with Test mode off after required rollback
+- Known stable hosted checkout URL: `https://knasoftware.lemonsqueezy.com/checkout/buy/429ed96b-ad38-4f63-92c4-bdcac78059a7` (inactive while the product is Draft)
 - Expected checkout host: `knasoftware.lemonsqueezy.com`
 - Required reusable checkout path prefix: `/checkout/buy/`
 - Price: `$19 USD`
@@ -58,13 +58,13 @@ If the verified buyer cannot complete the documented core workflow and support c
 3. `marketing/sales-report-preview.png`
 4. `marketing/sales-contents.png`
 
-## Remaining-channel publication and verification
+## Publish-bootstrap failure record
 
-Issue #23 reached `APPROVED_REMAINING_CHANNELS` and the constrained `publish-bootstrap` succeeded on 2026-08-28. The reviewed copy, `$19 USD` one-time price, `Software` tax category, versioned ZIP, checksum, support and refund terms, media order, KNA reverse-link destination, and Live product identity remained unchanged.
+Issue #23 reached `APPROVED_REMAINING_CHANNELS` and the constrained `publish-bootstrap` ran on 2026-08-28. The reviewed copy, `$19 USD` one-time price, `Software` tax category, versioned ZIP, checksum, support and refund terms, media order, KNA reverse-link destination, and Live product identity remained unchanged.
 
 Pre-approval verification on 2026-08-28 established all of the following in the seller dashboard:
 
-- Live product ID `1323100` is the only product selected for this checkpoint and is now `Published`;
+- Live product ID `1323100` was the only product selected for this checkpoint;
 - Test mode is off;
 - the product is a one-time purchase with Standard pricing at `$19.00 USD` and tax category `Software`;
 - the delivery is `presentation-template-preflight-v1.0.0.zip`, displayed as `64.48 KB`, matching the reviewed `66,026` bytes and SHA-256 `720002d28820022b957653fb945ee772162c278b61023d3d9b5d54891266b550`;
@@ -75,4 +75,8 @@ Pre-approval verification on 2026-08-28 established all of the following in the 
 
 The captured URL has HTTPS scheme, exact host `knasoftware.lemonsqueezy.com`, path `/checkout/buy/429ed96b-ad38-4f63-92c4-bdcac78059a7`, and no query string. It is not a customer-specific `/checkout/?cart=` URL. The public checkout was opened only after those constraints passed and showed the exact product name, `$19.00` price, reviewed description, and link to `https://knasoftware.com/sources/presentation-template-preflight`.
 
-This exact URL is persisted here before any live KNA mutation. The remaining release steps are to add the reviewed KNA purchase anchor, verify both reciprocal links, verify buyer delivery through an authorized seller/test-order path when available, and complete the schema-v3 release evidence.
+The bootstrap could not continue because every visible KNA admin product edit route rendered a blank page after access verification, including both the target record and a control product. The public KNA page therefore could not receive or verify the required Lemon Squeezy reciprocal link, and it remained unchanged with no inactive placeholder link.
+
+Following the approved failure rule, product `1323100` was returned to `Draft` at 2026-08-28T13:09:37Z. The exact checkout URL then returned `404: Page Not Found`, confirming that no Lemon Squeezy sale remains active. This is `publish_bootstrap_failed`; the factory state returns to `GUMROAD_PUBLISHED`, and `publication.json` remains the existing schema-v3 partial record with Lemon Squeezy pending.
+
+Before a new `remaining_channels_ready` checkpoint, the KNA admin edit form must render and an authorized seller/test-order delivery path must be available. Because the reusable URL is now known, the next review can use `exact-url` mode while the product remains Draft. A real paid purchase is not authorized by this record.
