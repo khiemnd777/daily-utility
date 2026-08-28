@@ -1,6 +1,6 @@
 # KNA Software catalog source — Presentation Template Preflight 1.0.0
 
-This file is the remaining-channel `publish-bootstrap` review source of truth for the KNA Software page. The public page must continue to expose only Gumroad until the approved Lemon Squeezy Live draft produces a valid reusable Share URL.
+This file is the final remaining-channel source of truth for the KNA Software page. The approved Lemon Squeezy bootstrap produced and verified the reusable Share URL before this live CMS update.
 
 ## Basic information
 
@@ -27,18 +27,18 @@ This file is the remaining-channel `publish-bootstrap` review source of truth fo
 - Documentation URL: leave empty; neither sales URL is documentation
 - Gumroad purchase URL: `https://khiemnd2.gumroad.com/l/presentation-template-preflight`
 - Gumroad purchase anchor: `Buy Presentation Template Preflight on Gumroad`
-- Lemon Squeezy current public availability: `Pending final Lemon Squeezy release approval; do not render an inactive or placeholder purchase link.`
+- Lemon Squeezy purchase URL: `https://knasoftware.lemonsqueezy.com/checkout/buy/429ed96b-ad38-4f63-92c4-bdcac78059a7`
 - Lemon Squeezy review mode: `publish-bootstrap`
 - Lemon Squeezy approved Live draft: product ID `1323100` at `https://app.lemonsqueezy.com/products/1323100`
 - Lemon Squeezy expected checkout host: `knasoftware.lemonsqueezy.com`
 - Lemon Squeezy required reusable checkout path prefix: `/checkout/buy/`
-- Lemon Squeezy purchase anchor after the exact generated URL is verified: `Buy Presentation Template Preflight on Lemon Squeezy`
+- Lemon Squeezy purchase anchor: `Buy Presentation Template Preflight on Lemon Squeezy`
 - Gumroad reverse-link destination: `https://knasoftware.com/sources/presentation-template-preflight`
 - Gumroad reverse-link anchor: `View product details, privacy behavior, and support on KNA Software`
 - Lemon Squeezy reverse-link destination: `https://knasoftware.com/sources/presentation-template-preflight`
 - Lemon Squeezy reverse-link anchor: `View product details, privacy behavior, and support on KNA Software`
 
-All existing CMS fields not named in the bounded purchase-link update remain exactly as reviewed in this file. After a fresh exact `/approve`, publish only Live draft `1323100`, copy its generated Share URL without opening a customer cart, and accept it only when the host and path satisfy the constraints above. Persist the exact URL in the repository before adding the reviewed Lemon Squeezy anchor to the live page. Never render a guessed URL or a customer-specific `/checkout/?cart=` link.
+All existing CMS fields not named in the bounded purchase-link update remain exactly as reviewed in this file. The exact generated URL passed the approved host and path constraints and was persisted here before the live KNA change. Never substitute a guessed URL or a customer-specific `/checkout/?cart=` link.
 
 ## Media
 
@@ -67,10 +67,9 @@ This is static OOXML inspection. It does not render or repair slides, prove visu
 ### Purchase
 
 - [Buy Presentation Template Preflight on Gumroad](https://khiemnd2.gumroad.com/l/presentation-template-preflight)
+- [Buy Presentation Template Preflight on Lemon Squeezy](https://knasoftware.lemonsqueezy.com/checkout/buy/429ed96b-ad38-4f63-92c4-bdcac78059a7)
 
-Lemon Squeezy availability is pending final remaining-channel release approval and will be added here only after its generated reusable checkout URL is verified. It will deliver the same version 1.0.0 ZIP at the same `$19 USD` price. Primary support is by purchase-receipt reply, with `khiemnd777@gmail.com` as fallback and a normal response target of two business days. A verified buyer may request a full refund within seven days only when the documented core workflow is defective and support cannot resolve it; the explicit non-capabilities above are excluded.
-
-After the approved bootstrap succeeds, replace only the pending-availability sentence above with a second purchase bullet using anchor text `Buy Presentation Template Preflight on Lemon Squeezy` and the exact generated Share URL. The URL must use host `knasoftware.lemonsqueezy.com` and a path beginning `/checkout/buy/`; its platform-generated identifier is intentionally unresolved at review time. Keep the Gumroad bullet, all product facts, price, version, support terms, limits, media, title, description, canonical, and public slug unchanged.
+Both channels deliver the same version 1.0.0 ZIP at the same `$19 USD` price. Primary support is by purchase-receipt reply, with `khiemnd777@gmail.com` as fallback and a normal response target of two business days. A verified buyer may request a full refund within seven days only when the documented core workflow is defective and support cannot resolve it; the explicit non-capabilities above are excluded.
 
 ## Features
 
@@ -115,4 +114,4 @@ After the approved bootstrap succeeds, replace only the pending-availability sen
 
 ## Remaining-channel release review status
 
-The live KNA page, Gumroad destination and reciprocal-link pair remain unchanged while issue #23 is prepared for `READY_FOR_REMAINING_CHANNELS`. This review fixes every post-bootstrap KNA field and purchase anchor except the platform-generated Lemon Squeezy URL. No inactive or placeholder Lemon Squeezy link appears in this source. If the generated URL or checkout does not satisfy the reviewed boundary, leave KNA unchanged and return to `GUMROAD_PUBLISHED`.
+The Gumroad destination and reciprocal-link pair remain unchanged. The exact Lemon Squeezy URL now appears behind its reviewed descriptive purchase anchor, and every other KNA field remains fixed. The live page may be updated only with these exact values and must then be verified for both outbound purchase links, both reverse links, and truthful discovery evidence.
