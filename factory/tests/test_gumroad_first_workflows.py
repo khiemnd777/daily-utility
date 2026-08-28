@@ -19,11 +19,33 @@ class GumroadFirstWorkflowTests(unittest.TestCase):
             (ROOT / "factory/state-machine.json").read_text(encoding="utf-8")
         )
         self.assertEqual([], validate_state_machine(machine))
+        self.assertEqual(3, machine["version"])
         self.assertEqual(
             "remaining_channels",
             machine["states"]["READY_FOR_REMAINING_CHANNELS"][
                 "approval_checkpoint"
             ],
+        )
+        self.assertEqual(
+            ["exact-url", "publish-bootstrap"],
+            machine["states"]["READY_FOR_REMAINING_CHANNELS"]["review_modes"],
+        )
+
+    def test_publish_bootstrap_has_a_safe_failure_transition(self) -> None:
+        machine = json.loads(
+            (ROOT / "factory/state-machine.json").read_text(encoding="utf-8")
+        )
+        edges = {
+            (transition["from"], transition["event"], transition["to"])
+            for transition in machine["transitions"]
+        }
+        self.assertIn(
+            (
+                "APPROVED_REMAINING_CHANNELS",
+                "publish_bootstrap_failed",
+                "GUMROAD_PUBLISHED",
+            ),
+            edges,
         )
 
     def test_approval_gate_accepts_only_review_commands_for_remaining_channels(

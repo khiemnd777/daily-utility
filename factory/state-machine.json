@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "control_plane": "codex",
   "state_ledger": "github_issue",
   "initial_state": "READY_FOR_BUILD",
@@ -46,7 +46,11 @@
     },
     "READY_FOR_REMAINING_CHANNELS": {
       "terminal": false,
-      "approval_checkpoint": "remaining_channels"
+      "approval_checkpoint": "remaining_channels",
+      "review_modes": [
+        "exact-url",
+        "publish-bootstrap"
+      ]
     },
     "APPROVED_REMAINING_CHANNELS": {
       "terminal": false,
@@ -139,6 +143,12 @@
       "event": "release_completed",
       "to": "PUBLISHED",
       "actor": "release_job"
+    },
+    {
+      "from": "APPROVED_REMAINING_CHANNELS",
+      "event": "publish_bootstrap_failed",
+      "to": "GUMROAD_PUBLISHED",
+      "actor": "factory"
     }
   ]
 }

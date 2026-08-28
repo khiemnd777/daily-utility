@@ -51,6 +51,7 @@ REQUIRED_STAGED_RELEASE_PATH = [
     "APPROVED_REMAINING_CHANNELS",
     "PUBLISHED",
 ]
+REQUIRED_REMAINING_CHANNEL_REVIEW_MODES = ["exact-url", "publish-bootstrap"]
 GUMROAD_FIRST_STATES = {
     "GUMROAD_PUBLISHED",
     "READY_FOR_REMAINING_CHANNELS",
@@ -135,6 +136,8 @@ def publication_public_urls(publication: dict[str, Any]) -> set[str]:
 def validate_state_machine(machine: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     states = set(machine.get("states", {}))
+    if machine.get("version") != 3:
+        errors.append("state machine version must be 3")
     if machine.get("control_plane") != "codex":
         errors.append("state machine control_plane must be codex")
     if machine.get("state_ledger") != "github_issue":
@@ -146,6 +149,16 @@ def validate_state_machine(machine: dict[str, Any]) -> list[str]:
     if machine.get("staged_release_path") != REQUIRED_STAGED_RELEASE_PATH:
         errors.append(
             "state machine staged_release_path does not match the Gumroad-first lifecycle"
+        )
+    remaining_channels_state = machine.get("states", {}).get(
+        "READY_FOR_REMAINING_CHANNELS", {}
+    )
+    if (
+        remaining_channels_state.get("review_modes")
+        != REQUIRED_REMAINING_CHANNEL_REVIEW_MODES
+    ):
+        errors.append(
+            "READY_FOR_REMAINING_CHANNELS must support exact-url and publish-bootstrap review modes"
         )
 
     transitions = machine.get("transitions", [])
@@ -179,6 +192,11 @@ def validate_state_machine(machine: dict[str, Any]) -> list[str]:
             "APPROVED_REMAINING_CHANNELS",
             "release_completed",
             "PUBLISHED",
+        ),
+        (
+            "APPROVED_REMAINING_CHANNELS",
+            "publish_bootstrap_failed",
+            "GUMROAD_PUBLISHED",
         ),
     }
     for edge in sorted(required_edges - edges):
