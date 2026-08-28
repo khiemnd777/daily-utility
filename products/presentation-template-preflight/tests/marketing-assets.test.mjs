@@ -31,7 +31,7 @@ test("reviewed sales media and sample reports are deterministic and sanitized", 
   assert.doesNotMatch(`${html}\n${csv}`, /khiemnd|gmail|payment data|customer data/i);
 });
 
-test("all channel sources keep the shared price, version, links, and explicit boundaries", async () => {
+test("Gumroad-first channel sources keep shared facts without exposing an inactive Lemon Squeezy link", async () => {
   const [gumroad, lemon, kna] = await Promise.all([
     readFile(new URL("gumroad-listing.md", marketingRoot), "utf8"),
     readFile(new URL("lemonsqueezy-listing.md", marketingRoot), "utf8"),
@@ -47,7 +47,11 @@ test("all channel sources keep the shared price, version, links, and explicit bo
   assert.match(gumroad, /66,026/);
   assert.match(gumroad, /720002d28820022b957653fb945ee772162c278b61023d3d9b5d54891266b550/);
   assert.doesNotMatch(`${gumroad}\n${lemon}`, /<FINAL_(?:BYTES|SHA256)>/);
-  assert.match(lemon, /<REQUIRED_LEMONSQUEEZY_CHECKOUT_BUY_URL>/);
+  assert.doesNotMatch(`${lemon}\n${kna}`, /<REQUIRED_LEMONSQUEEZY_CHECKOUT_BUY_URL>/);
+  assert.doesNotMatch(`${lemon}\n${kna}`, /https:\/\/[a-z0-9-]+\.lemonsqueezy\.com\/checkout\/buy\//i);
+  assert.match(lemon, /GUMROAD_PUBLISHED/);
+  assert.match(lemon, /READY_FOR_REMAINING_CHANNELS/);
   assert.match(kna, /Buy Presentation Template Preflight on Gumroad/);
-  assert.match(kna, /Buy Presentation Template Preflight on Lemon Squeezy/);
+  assert.match(kna, /Lemon Squeezy availability is pending store review/i);
+  assert.doesNotMatch(kna, /\[Buy Presentation Template Preflight on Lemon Squeezy\]\(/);
 });

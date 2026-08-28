@@ -1,6 +1,6 @@
 # KNA Software catalog source — Presentation Template Preflight 1.0.0
 
-This file is the release-review source of truth for every KNA Software CMS field and both reciprocal sales-channel link pairs.
+This file is the release-review source of truth for the Gumroad-first KNA Software page. The first stage exposes only the exact Gumroad purchase link and truthfully identifies Lemon Squeezy as pending.
 
 ## Basic information
 
@@ -27,12 +27,11 @@ This file is the release-review source of truth for every KNA Software CMS field
 - Documentation URL: leave empty; neither sales URL is documentation
 - Gumroad purchase URL: `https://khiemnd2.gumroad.com/l/presentation-template-preflight`
 - Gumroad purchase anchor: `Buy Presentation Template Preflight on Gumroad`
-- Lemon Squeezy purchase URL: `<REQUIRED_LEMONSQUEEZY_CHECKOUT_BUY_URL>`
-- Lemon Squeezy purchase anchor: `Buy Presentation Template Preflight on Lemon Squeezy`
+- Lemon Squeezy availability: `Pending store review; do not render an inactive or placeholder purchase link during the Gumroad-first stage.`
 - Gumroad reverse-link destination: `https://knasoftware.com/sources/presentation-template-preflight`
 - Gumroad reverse-link anchor: `View product details, privacy behavior, and support on KNA Software`
-- Lemon Squeezy reverse-link destination: `https://knasoftware.com/sources/presentation-template-preflight`
-- Lemon Squeezy reverse-link anchor: `Product details, privacy, and support`
+
+The later remaining-channel update will add the exact Lemon Squeezy `/checkout/buy/` URL, the anchor `Buy Presentation Template Preflight on Lemon Squeezy`, and the reverse link to this same KNA URL only after those fields reach `READY_FOR_REMAINING_CHANNELS` and receive a fresh exact `/approve`.
 
 ## Media
 
@@ -61,9 +60,8 @@ This is static OOXML inspection. It does not render or repair slides, prove visu
 ### Purchase
 
 - [Buy Presentation Template Preflight on Gumroad](https://khiemnd2.gumroad.com/l/presentation-template-preflight)
-- [Buy Presentation Template Preflight on Lemon Squeezy](<REQUIRED_LEMONSQUEEZY_CHECKOUT_BUY_URL>)
 
-Both channels deliver the same version 1.0.0 ZIP at the same `$19 USD` price. Primary support is by purchase-receipt reply, with `khiemnd777@gmail.com` as fallback and a normal response target of two business days. A verified buyer may request a full refund within seven days only when the documented core workflow is defective and support cannot resolve it; the explicit non-capabilities above are excluded.
+Lemon Squeezy availability is pending store review and will be added here only after its remaining-channel approval. It will deliver the same version 1.0.0 ZIP at the same `$19 USD` price. Primary support is by purchase-receipt reply, with `khiemnd777@gmail.com` as fallback and a normal response target of two business days. A verified buyer may request a full refund within seven days only when the documented core workflow is defective and support cannot resolve it; the explicit non-capabilities above are excluded.
 
 ## Features
 
@@ -106,6 +104,6 @@ Both channels deliver the same version 1.0.0 ZIP at the same `$19 USD` price. Pr
 - `llms.txt` claim: none until verified live
 - Discovery verification after publication: title, description, self-canonical, OG image, crawlability, sitemap membership, reciprocal links, available `Product`/`SoftwareApplication` JSON-LD, and a real AI-readable `llms.txt`; record unsupported surfaces as gaps
 
-## Release blocker
+## Gumroad-first release review status
 
-Do not mark this catalog source release-ready until `<REQUIRED_LEMONSQUEEZY_CHECKOUT_BUY_URL>` is replaced everywhere by the exact reusable Lemon Squeezy `/checkout/buy/` Share URL and the final ZIP bytes/SHA-256 are recorded in both sales listing sources.
+The first-stage KNA fields, Gumroad destination, Gumroad reverse-link pair, `$19 USD` price, version 1.0.0 artifact, support terms, and media are reviewable. Lemon Squeezy is explicitly pending, and this source contains no inactive or placeholder Lemon Squeezy purchase link. After `GUMROAD_PUBLISHED`, add the exact reusable Lemon Squeezy `/checkout/buy/` Share URL through the separately reviewed remaining-channel update.

@@ -5,7 +5,7 @@
 - Product name: `Presentation Template Preflight`
 - Product type: Standard digital download
 - Variant: One-time purchase, one buyer variant
-- Stable hosted checkout URL: `<REQUIRED_LEMONSQUEEZY_CHECKOUT_BUY_URL>`
+- Stable hosted checkout URL: pending until an unpublished Lemon Squeezy draft is prepared after the Gumroad-first stage reaches `GUMROAD_PUBLISHED`
 - Price: `$19 USD`
 - Version: `1.0.0`
 - Delivery file: `presentation-template-preflight-v1.0.0.zip`
@@ -52,8 +52,10 @@ If the verified buyer cannot complete the documented core workflow and support c
 3. `marketing/sales-report-preview.png`
 4. `marketing/sales-contents.png`
 
-## Release blocker and verification
+## Remaining-channel preparation and verification
 
-The exact reusable Lemon Squeezy dashboard Share URL containing `/checkout/buy/` must replace `<REQUIRED_LEMONSQUEEZY_CHECKOUT_BUY_URL>` before release approval. Never substitute a customer-specific `/checkout/?cart=` URL.
+This reviewed copy, `$19 USD` price, versioned ZIP, checksum, support terms, media order, and KNA reverse-link destination are fixed for the staged release. Lemon Squeezy is not part of the first release approval and must not be published during the Gumroad-first stage.
+
+After the product reaches `GUMROAD_PUBLISHED`, prepare an unpublished Lemon Squeezy draft solely to obtain the reusable dashboard Share URL containing `/checkout/buy/`. Never substitute a customer-specific `/checkout/?cart=` URL. Add the exact reusable URL to this source and the KNA source, rerun the required checks, and stop at `READY_FOR_REMAINING_CHANNELS` for a fresh exact `/approve` before publishing Lemon Squeezy.
 
 Before publication, confirm the shared `$19 USD` price, reviewed text/media, exact KNA link, delivery filename/bytes/SHA-256, and authorized seller/test-order delivery checksum.
