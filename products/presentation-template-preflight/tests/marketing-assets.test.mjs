@@ -31,7 +31,7 @@ test("reviewed sales media and sample reports are deterministic and sanitized", 
   assert.doesNotMatch(`${html}\n${csv}`, /khiemnd|gmail|payment data|customer data/i);
 });
 
-test("failed publish-bootstrap records the exact inactive URL without exposing it on KNA", async () => {
+test("exact-url review candidate locks the final Lemon and KNA destinations without changing live state", async () => {
   const [gumroad, lemon, kna] = await Promise.all([
     readFile(new URL("gumroad-listing.md", marketingRoot), "utf8"),
     readFile(new URL("lemonsqueezy-listing.md", marketingRoot), "utf8"),
@@ -49,15 +49,18 @@ test("failed publish-bootstrap records the exact inactive URL without exposing i
   assert.doesNotMatch(`${gumroad}\n${lemon}`, /<FINAL_(?:BYTES|SHA256)>/);
   assert.doesNotMatch(`${lemon}\n${kna}`, /<REQUIRED_LEMONSQUEEZY_CHECKOUT_BUY_URL>/);
   assert.match(`${lemon}\n${kna}`, /https:\/\/knasoftware\.lemonsqueezy\.com\/checkout\/buy\/429ed96b-ad38-4f63-92c4-bdcac78059a7/);
-  assert.match(lemon, /publish-bootstrap/);
+  assert.match(lemon, /review mode: `exact-url`/);
   assert.match(lemon, /product ID `1323100`/);
   assert.match(lemon, /knasoftware\.lemonsqueezy\.com/);
   assert.match(lemon, /\/checkout\/buy\//);
   assert.match(lemon, /Tax category: `Software`/);
   assert.match(lemon, /Test mode is off/);
+  assert.match(lemon, /READY_FOR_REMAINING_CHANNELS/);
   assert.match(lemon, /APPROVED_REMAINING_CHANNELS/);
   assert.match(lemon, /no query string/i);
-  assert.match(lemon, /publish_bootstrap_failed/);
+  assert.match(lemon, /explicitly authorized one real Live verification purchase/i);
+  assert.match(lemon, /stop immediately before payment/i);
+  assert.match(lemon, /file downloads are disabled for test purchases/i);
   assert.match(lemon, /GUMROAD_PUBLISHED/);
   assert.match(lemon, /404: Page Not Found/);
   assert.match(kna, /Buy Presentation Template Preflight on Gumroad/);
@@ -66,6 +69,7 @@ test("failed publish-bootstrap records the exact inactive URL without exposing i
   assert.match(kna, /knasoftware\.lemonsqueezy\.com/);
   assert.match(kna, /\/checkout\/buy\//);
   assert.match(`${lemon}\n${kna}`, /\/checkout\/\?cart=/);
-  assert.match(kna, /Pending remaining-channel recovery/i);
-  assert.doesNotMatch(kna, /\[Buy Presentation Template Preflight on Lemon Squeezy\]\(/);
+  assert.match(kna, /Pending remaining-channel approval/i);
+  assert.match(kna, /\[Buy Presentation Template Preflight on Lemon Squeezy\]\(https:\/\/knasoftware\.lemonsqueezy\.com\/checkout\/buy\/429ed96b-ad38-4f63-92c4-bdcac78059a7\)/);
+  assert.match(kna, /public page must keep its current Gumroad-only Markdown/i);
 });
