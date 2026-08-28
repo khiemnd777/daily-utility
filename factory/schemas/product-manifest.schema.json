@@ -23,7 +23,7 @@
   ],
   "properties": {
     "schema_version": {
-      "const": 1
+      "enum": [1, 2]
     },
     "product_id": {
       "type": "string",
@@ -57,7 +57,7 @@
     "distribution": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["format", "channel"],
+      "required": ["format"],
       "properties": {
         "format": {
           "type": "string",
@@ -66,6 +66,19 @@
         "channel": {
           "type": "string",
           "enum": ["manual", "gumroad"]
+        },
+        "channels": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "enum": ["gumroad", "lemon-squeezy"]
+          },
+          "allOf": [
+            { "contains": { "const": "gumroad" } },
+            { "contains": { "const": "lemon-squeezy" } }
+          ]
         }
       }
     },
@@ -148,5 +161,29 @@
       "type": "string",
       "format": "date-time"
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "schema_version": { "const": 1 } },
+        "required": ["schema_version"]
+      },
+      "then": {
+        "properties": {
+          "distribution": {
+            "required": ["channel"],
+            "not": { "required": ["channels"] }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "distribution": {
+            "required": ["channels"],
+            "not": { "required": ["channel"] }
+          }
+        }
+      }
+    }
+  ]
 }

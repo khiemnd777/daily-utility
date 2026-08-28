@@ -29,7 +29,7 @@ Record the exact mapping in `products/<product-id>/marketing/knasoftware-listing
 - `Free` exposes repository, download, and documentation URLs.
 - `Contact` exposes display price, preferred contact channel, a product-specific message template, and documentation URL.
 
-There is currently no dedicated external purchase URL for paid products. For Gumroad products, use a truthful `Contact` configuration only if that matches the reviewed page behavior, and place the direct Gumroad purchase link in the product Markdown with an explicit anchor such as `Buy on Gumroad`. Do not put a sales URL in `Documentation URL` unless it is genuinely documentation. If the site later adds an external-purchase field, prefer it and verify its buyer-visible CTA.
+There is currently no dedicated external purchase URL for paid products. Use a truthful `Contact` configuration only if that matches the reviewed page behavior, and place separate direct Gumroad and Lemon Squeezy links in the product Markdown with explicit anchors such as `Buy on Gumroad` and `Buy on Lemon Squeezy`. Do not put either sales URL in `Documentation URL` unless it is genuinely documentation. If the site later adds external-purchase fields, prefer them and verify both buyer-visible CTAs.
 
 ### C. Media and demo
 
@@ -44,7 +44,7 @@ Keep the canonical override empty unless an exact reviewed need exists, which pr
 - product and maker name;
 - audience and problem;
 - version and update date;
-- price and approved purchase URL;
+- shared price and both approved purchase URLs;
 - capabilities and output formats;
 - operating environment and privacy behavior;
 - supported limits and explicit non-capabilities;

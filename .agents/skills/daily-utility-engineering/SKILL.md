@@ -1,6 +1,6 @@
 ---
 name: daily-utility-engineering
-description: Implement, harden, or review product code under products/, including architecture, design-pattern choices, code splitting, tests, and release packaging; do not use for idea-only, Gumroad, or promotion work.
+description: Implement, harden, or review product code under products/, including architecture, design-pattern choices, code splitting, tests, and release packaging; do not use for idea-only, sales-channel publishing, or promotion work.
 ---
 
 # Daily Utility Engineering
@@ -23,4 +23,4 @@ Test the actual delivered workflow, including representative success, malformed 
 
 Update the manifest only with observed results. Required checks remain `pending` or `failed` until the packaged artifact passes them. Run the product tests, inspect the release archive contents, verify checksums when present, then run `python3 factory/scripts/validate_manifest.py`.
 
-Stop at `READY_FOR_RELEASE`. Return the PR, linked issue, check evidence, remaining risks, and exact release-review commands. Do not publish or infer release approval.
+Before `READY_FOR_RELEASE`, ensure the reviewed artifacts include separate Gumroad and Lemon Squeezy listing sources plus a KNA catalog source with both purchase anchors and both reverse-link anchors. Stop at `READY_FOR_RELEASE`. Return the PR, linked issue, check evidence, remaining risks, and exact release-review commands. Do not publish or infer release approval.

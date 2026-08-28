@@ -7,7 +7,7 @@ description: Research current articles and communities, prepare truthful product
 
 ## Entry
 
-Verify the product is `PUBLISHED`, the Gumroad page is live, and the proposed claims match the product, acceptance evidence, price, support scope, and guarantee. Promotion cannot repair an incomplete release.
+Verify the product is `PUBLISHED`, both approved sales pages and the KNA Software catalog page are live, and the proposed claims match the product, acceptance evidence, shared price, support scope, and guarantee. Promotion cannot repair an incomplete release.
 
 Begin target research and tailored drafting automatically after `PUBLISHED`; do not wait for another reminder. Release approval does not authorize an external post.
 
@@ -29,7 +29,7 @@ Return one ranked shortlist that distinguishes reusable registry channels from n
 ## Prepare content
 
 - Lead with the buyer problem and a useful observation, not generic product hype.
-- State what the utility does, who it is for, what it does not do, price when relevant, and a single Gumroad call to action.
+- State what the utility does, who it is for, what it does not do, and the shared price when relevant. Use one reviewed call to action per draft: the KNA Software page or one verified sales channel chosen for the destination. Do not imply channel-exclusive pricing or availability unless the publication evidence supports it.
 - Disclose seller affiliation. Do not fabricate usage numbers, reviews, urgency, discounts, or guarantees.
 - Adapt the copy to each community; do not cross-post identical text in rapid succession.
 

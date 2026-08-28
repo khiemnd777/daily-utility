@@ -81,6 +81,15 @@ jobs:
 
               const publicationPath = path.join(productRoot, 'publication.json');
               const publication = JSON.parse(fs.readFileSync(publicationPath, 'utf8'));
+              const salesChannels = publication.schema_version === 1
+                ? [{
+                    channel: publication.channel,
+                    url: publication.url,
+                    price: publication.price,
+                    published_at: publication.published_at,
+                    delivered_artifact_sha256: publication.artifact_sha256
+                  }]
+                : publication.sales_channels;
               const issueNumber = manifest.source_issue;
               const { data: issue } = await github.rest.issues.get({
                 owner: context.repo.owner,
@@ -130,6 +139,20 @@ jobs:
                 per_page: 100
               });
               if (!comments.some((comment) => comment.body?.includes(marker))) {
+                const salesEvidence = salesChannels.flatMap((sale) => [
+                  `- ${sale.channel}: ${sale.url}`,
+                  `  - Price: $${(sale.price.amount_cents / 100).toFixed(2)} USD`,
+                  `  - Delivered SHA-256: \`${sale.delivered_artifact_sha256}\``,
+                  `  - Published at: ${sale.published_at}`
+                ]);
+                const catalogEvidence = publication.catalog
+                  ? [
+                      `- KNA Software: ${publication.catalog.url}`,
+                      `  - Published at: ${publication.catalog.published_at}`,
+                      `  - Gumroad link verified at: ${publication.catalog.gumroad_link_verified_at}`,
+                      `  - Lemon Squeezy link verified at: ${publication.catalog.lemon_squeezy_link_verified_at}`
+                    ]
+                  : [];
                 await github.rest.issues.createComment({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
@@ -139,14 +162,12 @@ jobs:
                     'Factory state: **APPROVED_RELEASE** → **PUBLISHED** via `release_completed`.',
                     '',
                     `- Product: \`${manifest.product_id}\``,
-                    `- Channel: ${publication.channel}`,
-                    `- URL: ${publication.url}`,
-                    `- Price: $${(publication.price.amount_cents / 100).toFixed(2)} USD`,
+                    ...salesEvidence,
+                    ...catalogEvidence,
                     `- Artifact: \`${publication.artifact}\``,
                     `- SHA-256: \`${publication.artifact_sha256}\``,
-                    `- Published at: ${publication.published_at}`,
                     '',
-                    'The release was published manually after approval. This job only verified and recorded the checked-in evidence; it did not call a publishing API.'
+                    'The release was published manually after approval. This job only verified and recorded the checked-in evidence; it did not call a sales or publishing API.'
                   ].join('\n')
                 });
               } else {

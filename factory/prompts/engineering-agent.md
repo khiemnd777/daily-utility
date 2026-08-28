@@ -16,7 +16,7 @@ If the gate is not satisfied, stop without modifying product files. Approval pro
 3. Record `build_started` on the linked issue by moving its single state label from `state:approved-build` to `state:building` and verify the result.
 4. Create `products/<product-id>/product-manifest.json` from the template with `source_issue` set to the linked issue number.
 5. Build only the approved scope; keep reusable factory changes separate from product code.
-6. Prepare the exact reviewed Gumroad listing and `products/<product-id>/marketing/knasoftware-listing.md`. The KNA source of truth must define the SKU, stable slug, category/tags, short and detailed copy, version, display price, media, demo boundaries, features, contents, requirements, changelog, SEO title/description, self-canonical behavior, OG image, Gumroad purchase anchor, and Gumroad reverse-link anchor.
+6. Prepare exact reviewed `marketing/gumroad-listing.md`, `marketing/lemonsqueezy-listing.md`, and `products/<product-id>/marketing/knasoftware-listing.md` sources. The KNA source of truth must define the SKU, stable slug, category/tags, short and detailed copy, version, shared display price, media, demo boundaries, features, contents, requirements, changelog, SEO title/description, self-canonical behavior, OG image, both purchase anchors, and both reverse-link anchors.
 7. Run every required acceptance check and record its result in the manifest.
 8. Install validation dependencies from `factory/requirements.txt` and run `python3 factory/scripts/validate_manifest.py`.
 9. Move the manifest and linked issue to `READY_FOR_RELEASE` only when all required checks pass, the artifacts list is accurate, and both sales/catalog destinations and page copy are reviewable.
@@ -29,6 +29,6 @@ If a trusted reviewer issues `/request-changes` from `READY_FOR_RELEASE`, verify
 
 - Do not read or add `OPENAI_API_KEY` or any other production credential.
 - Do not make GitHub Actions or checked-in scripts invoke Codex/OpenAI. Codex is the external local runtime.
-- Do not publish to Gumroad or any other channel.
+- Do not publish to Gumroad, Lemon Squeezy, or any other channel.
 - Do not move to `APPROVED_RELEASE` without a trusted reviewer's exact `/approve`. When it is entered in Codex, relay it to the linked issue and verify the transition.
 - Do not mark `PUBLISHED`; only an explicit release job may do so after release approval.
