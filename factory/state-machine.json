@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "control_plane": "codex",
   "state_ledger": "github_issue",
   "initial_state": "READY_FOR_BUILD",
@@ -11,7 +11,7 @@
     "APPROVED_RELEASE",
     "PUBLISHED"
   ],
-  "staged_release_path": [
+  "legacy_staged_release_path": [
     "READY_FOR_RELEASE",
     "APPROVED_RELEASE",
     "GUMROAD_PUBLISHED",
@@ -42,11 +42,13 @@
     },
     "GUMROAD_PUBLISHED": {
       "terminal": false,
-      "approval_checkpoint": null
+      "approval_checkpoint": null,
+      "deprecated": true
     },
     "READY_FOR_REMAINING_CHANNELS": {
       "terminal": false,
       "approval_checkpoint": "remaining_channels",
+      "deprecated": true,
       "review_modes": [
         "exact-url",
         "publish-bootstrap"
@@ -54,7 +56,8 @@
     },
     "APPROVED_REMAINING_CHANNELS": {
       "terminal": false,
-      "approval_checkpoint": null
+      "approval_checkpoint": null,
+      "deprecated": true
     },
     "PUBLISHED": {
       "terminal": true,
@@ -115,24 +118,6 @@
       "actor": "release_job"
     },
     {
-      "from": "APPROVED_RELEASE",
-      "event": "gumroad_release_completed",
-      "to": "GUMROAD_PUBLISHED",
-      "actor": "release_job"
-    },
-    {
-      "from": "GUMROAD_PUBLISHED",
-      "event": "remaining_channels_ready",
-      "to": "READY_FOR_REMAINING_CHANNELS",
-      "actor": "factory"
-    },
-    {
-      "from": "READY_FOR_REMAINING_CHANNELS",
-      "event": "/approve",
-      "to": "APPROVED_REMAINING_CHANNELS",
-      "actor": "trusted_reviewer"
-    },
-    {
       "from": "READY_FOR_REMAINING_CHANNELS",
       "event": "/request-changes",
       "to": "GUMROAD_PUBLISHED",
@@ -140,15 +125,27 @@
     },
     {
       "from": "APPROVED_REMAINING_CHANNELS",
-      "event": "release_completed",
+      "event": "publish_bootstrap_failed",
+      "to": "GUMROAD_PUBLISHED",
+      "actor": "factory"
+    },
+    {
+      "from": "GUMROAD_PUBLISHED",
+      "event": "remaining_channels_cancelled",
+      "to": "PUBLISHED",
+      "actor": "release_job"
+    },
+    {
+      "from": "READY_FOR_REMAINING_CHANNELS",
+      "event": "remaining_channels_cancelled",
       "to": "PUBLISHED",
       "actor": "release_job"
     },
     {
       "from": "APPROVED_REMAINING_CHANNELS",
-      "event": "publish_bootstrap_failed",
-      "to": "GUMROAD_PUBLISHED",
-      "actor": "factory"
+      "event": "remaining_channels_cancelled",
+      "to": "PUBLISHED",
+      "actor": "release_job"
     }
   ]
 }

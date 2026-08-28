@@ -26,9 +26,6 @@ STATE_MACHINE_PATH = ROOT / "factory" / "state-machine.json"
 TEMPLATE_PATH = ROOT / "templates" / "product-manifest.json"
 PUBLICATION_SCHEMA_PATH = ROOT / "factory" / "schemas" / "publication.schema.json"
 PUBLICATION_TEMPLATE_PATH = ROOT / "templates" / "publication.json"
-GUMROAD_FIRST_PUBLICATION_TEMPLATE_PATH = (
-    ROOT / "templates" / "publication-gumroad-first.json"
-)
 PROMOTION_CHANNELS_SCHEMA_PATH = (
     ROOT / "factory" / "schemas" / "promotion-channels.schema.json"
 )
@@ -43,7 +40,7 @@ REQUIRED_HAPPY_PATH = [
     "APPROVED_RELEASE",
     "PUBLISHED",
 ]
-REQUIRED_STAGED_RELEASE_PATH = [
+LEGACY_STAGED_RELEASE_PATH = [
     "READY_FOR_RELEASE",
     "APPROVED_RELEASE",
     "GUMROAD_PUBLISHED",
@@ -51,7 +48,7 @@ REQUIRED_STAGED_RELEASE_PATH = [
     "APPROVED_REMAINING_CHANNELS",
     "PUBLISHED",
 ]
-REQUIRED_REMAINING_CHANNEL_REVIEW_MODES = ["exact-url", "publish-bootstrap"]
+LEGACY_REMAINING_CHANNEL_REVIEW_MODES = ["exact-url", "publish-bootstrap"]
 GUMROAD_FIRST_STATES = {
     "GUMROAD_PUBLISHED",
     "READY_FOR_REMAINING_CHANNELS",
@@ -136,8 +133,8 @@ def publication_public_urls(publication: dict[str, Any]) -> set[str]:
 def validate_state_machine(machine: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     states = set(machine.get("states", {}))
-    if machine.get("version") != 3:
-        errors.append("state machine version must be 3")
+    if machine.get("version") != 4:
+        errors.append("state machine version must be 4")
     if machine.get("control_plane") != "codex":
         errors.append("state machine control_plane must be codex")
     if machine.get("state_ledger") != "github_issue":
@@ -146,20 +143,23 @@ def validate_state_machine(machine: dict[str, Any]) -> list[str]:
         errors.append("state machine initial_state must be READY_FOR_BUILD")
     if machine.get("happy_path") != REQUIRED_HAPPY_PATH:
         errors.append("state machine happy_path does not match the required lifecycle")
-    if machine.get("staged_release_path") != REQUIRED_STAGED_RELEASE_PATH:
+    if machine.get("legacy_staged_release_path") != LEGACY_STAGED_RELEASE_PATH:
         errors.append(
-            "state machine staged_release_path does not match the Gumroad-first lifecycle"
+            "state machine legacy_staged_release_path does not match the migration lifecycle"
         )
     remaining_channels_state = machine.get("states", {}).get(
         "READY_FOR_REMAINING_CHANNELS", {}
     )
     if (
         remaining_channels_state.get("review_modes")
-        != REQUIRED_REMAINING_CHANNEL_REVIEW_MODES
+        != LEGACY_REMAINING_CHANNEL_REVIEW_MODES
     ):
         errors.append(
-            "READY_FOR_REMAINING_CHANNELS must support exact-url and publish-bootstrap review modes"
+            "legacy READY_FOR_REMAINING_CHANNELS must preserve its historical review modes"
         )
+    for legacy_state in GUMROAD_FIRST_STATES:
+        if not machine.get("states", {}).get(legacy_state, {}).get("deprecated"):
+            errors.append(f"legacy state {legacy_state} must be marked deprecated")
 
     transitions = machine.get("transitions", [])
     edges = {(item.get("from"), item.get("event"), item.get("to")) for item in transitions}
@@ -172,6 +172,36 @@ def validate_state_machine(machine: dict[str, Any]) -> list[str]:
         ("READY_FOR_BUILD", "/reject", "REJECTED"),
         ("READY_FOR_RELEASE", "/reject", "REJECTED"),
         ("READY_FOR_RELEASE", "/request-changes", "BUILDING"),
+        (
+            "READY_FOR_REMAINING_CHANNELS",
+            "/request-changes",
+            "GUMROAD_PUBLISHED",
+        ),
+        (
+            "APPROVED_REMAINING_CHANNELS",
+            "publish_bootstrap_failed",
+            "GUMROAD_PUBLISHED",
+        ),
+        (
+            "GUMROAD_PUBLISHED",
+            "remaining_channels_cancelled",
+            "PUBLISHED",
+        ),
+        (
+            "READY_FOR_REMAINING_CHANNELS",
+            "remaining_channels_cancelled",
+            "PUBLISHED",
+        ),
+        (
+            "APPROVED_REMAINING_CHANNELS",
+            "remaining_channels_cancelled",
+            "PUBLISHED",
+        ),
+    }
+    for edge in sorted(required_edges - edges):
+        errors.append(f"missing transition: {edge[0]} --{edge[1]}--> {edge[2]}")
+
+    forbidden_edges = {
         ("APPROVED_RELEASE", "gumroad_release_completed", "GUMROAD_PUBLISHED"),
         (
             "GUMROAD_PUBLISHED",
@@ -184,23 +214,16 @@ def validate_state_machine(machine: dict[str, Any]) -> list[str]:
             "APPROVED_REMAINING_CHANNELS",
         ),
         (
-            "READY_FOR_REMAINING_CHANNELS",
-            "/request-changes",
-            "GUMROAD_PUBLISHED",
-        ),
-        (
             "APPROVED_REMAINING_CHANNELS",
             "release_completed",
             "PUBLISHED",
         ),
-        (
-            "APPROVED_REMAINING_CHANNELS",
-            "publish_bootstrap_failed",
-            "GUMROAD_PUBLISHED",
-        ),
     }
-    for edge in sorted(required_edges - edges):
-        errors.append(f"missing transition: {edge[0]} --{edge[1]}--> {edge[2]}")
+    for edge in sorted(forbidden_edges & edges):
+        errors.append(
+            f"deprecated forward transition is not allowed: "
+            f"{edge[0]} --{edge[1]}--> {edge[2]}"
+        )
 
     for index, transition in enumerate(transitions):
         if transition.get("from") not in states:
@@ -251,7 +274,14 @@ def validate_product_contract(
     if len(check_ids) != len(set(check_ids)):
         errors.append(f"{relative}: acceptance check ids must be unique")
 
-    if manifest.get("state") in RELEASE_STATES:
+    state = manifest.get("state")
+    manifest_channels = manifest_sales_channels(manifest)
+    if state not in GUMROAD_FIRST_STATES and manifest_channels != {"gumroad"}:
+        errors.append(
+            f"{relative}: active releases must use Gumroad as the only sales channel"
+        )
+
+    if state in RELEASE_STATES:
         for check in checks:
             if (
                 isinstance(check, dict)
@@ -267,7 +297,6 @@ def validate_product_contract(
                 errors.append(f"{relative}: release artifact does not exist: {artifact}")
 
     publication_path = path.parent / "publication.json"
-    state = manifest.get("state")
     if state in PUBLICATION_STATES:
         publication_relative = publication_path.relative_to(ROOT).as_posix()
         if publication_relative not in artifacts:
@@ -293,7 +322,6 @@ def validate_product_contract(
                     errors.append(
                         f"{publication_relative}: product_id must match the manifest"
                     )
-                manifest_channels = manifest_sales_channels(manifest)
                 release_sequence = manifest_release_sequence(manifest)
                 sales_records = publication_sales_records(publication)
                 publication_channels = {
@@ -348,6 +376,21 @@ def validate_product_contract(
                         if publication.get("pending_channels") != []:
                             errors.append(
                                 f"{publication_relative}: PUBLISHED schema v3 evidence cannot have pending channels"
+                            )
+                        retired_channels = publication.get("retired_channels")
+                        if retired_channels == ["lemon-squeezy"]:
+                            if publication_channels != {"gumroad"}:
+                                errors.append(
+                                    f"{publication_relative}: retired-channel completion must contain only Gumroad evidence"
+                                )
+                            retirement = publication.get("retirement")
+                            if not isinstance(retirement, dict):
+                                errors.append(
+                                    f"{publication_relative}: retired-channel completion requires retirement evidence"
+                                )
+                        elif publication_channels != REQUIRED_V2_SALES_CHANNELS:
+                            errors.append(
+                                f"{publication_relative}: completed legacy staged release requires Gumroad and Lemon Squeezy unless Lemon Squeezy is retired"
                             )
                 for record in sales_records:
                     if record.get("price") != manifest.get("pricing"):
@@ -550,10 +593,7 @@ def main() -> int:
         promotion_log_schema, format_checker=FormatChecker()
     )
 
-    for publication_template_path in (
-        PUBLICATION_TEMPLATE_PATH,
-        GUMROAD_FIRST_PUBLICATION_TEMPLATE_PATH,
-    ):
+    for publication_template_path in (PUBLICATION_TEMPLATE_PATH,):
         try:
             publication_template = load_json(publication_template_path)
             for error in sorted(
