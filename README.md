@@ -2,7 +2,7 @@
 
 Daily Utility Factory is a Codex-first, approval-gated workflow for proposing, building, reviewing, and eventually releasing one small utility product at a time.
 
-Codex runs outside GitHub Actions as the scheduler, control plane, and implementation runtime. GitHub stores proposal state, code, pull requests, and CI evidence. The repository does **not** contain an `OPENAI_API_KEY`, GitHub Actions do not invoke an AI provider, and Gumroad publishing is not configured.
+Codex runs outside GitHub Actions as the scheduler, control plane, and implementation runtime. GitHub stores proposal state, code, pull requests, and CI evidence. The repository does **not** contain an `OPENAI_API_KEY`, GitHub Actions do not invoke an AI provider, and Gumroad or Lemon Squeezy publishing is not configured in repository automation.
 
 The durable runtime contract is documented in [`factory/codex-first-workflow.md`](factory/codex-first-workflow.md).
 
@@ -79,6 +79,8 @@ Codex discovers the checked-in skills under `.agents/skills/` automatically:
 - `daily-utility-engineering` governs product architecture, design patterns, code splitting, testing, and packaging.
 - `daily-utility-git-delivery` handles focused branches, worktrees, pull requests, merges, and explicit cleanup.
 - `daily-utility-gumroad-release` handles approved manual Gumroad publication and release evidence.
+- `daily-utility-lemonsqueezy-release` handles approved manual Lemon Squeezy publication and release evidence.
+- `daily-utility-knasoftware-catalog` handles the reviewed first-party product page, both sales destinations, reciprocal links, and discovery verification.
 - `daily-utility-promotion` researches suitable communities and prepares or posts truthful promotion after exact target-and-copy approval.
 
 Repository-wide invariants remain in `AGENTS.md`; product-specific engineering and review rules live in `products/AGENTS.md`. Skills contain the reusable procedures rather than duplicating those rules.

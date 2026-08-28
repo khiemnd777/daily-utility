@@ -41,6 +41,7 @@ REQUIRED_HAPPY_PATH = [
     "PUBLISHED",
 ]
 RELEASE_STATES = {"READY_FOR_RELEASE", "APPROVED_RELEASE", "PUBLISHED"}
+REQUIRED_V2_SALES_CHANNELS = {"gumroad", "lemon-squeezy"}
 
 
 def load_json(path: Path) -> Any:
@@ -53,6 +54,51 @@ def load_json(path: Path) -> Any:
         raise ValueError(
             f"invalid JSON in {path.relative_to(ROOT)}:{exc.lineno}:{exc.colno}: {exc.msg}"
         ) from exc
+
+
+def manifest_sales_channels(manifest: dict[str, Any]) -> set[str]:
+    """Normalize legacy and dual-channel manifest distribution records."""
+    distribution = manifest.get("distribution")
+    if not isinstance(distribution, dict):
+        return set()
+    channels = distribution.get("channels")
+    if isinstance(channels, list):
+        return {channel for channel in channels if isinstance(channel, str)}
+    channel = distribution.get("channel")
+    return {channel} if isinstance(channel, str) else set()
+
+
+def publication_sales_records(publication: dict[str, Any]) -> list[dict[str, Any]]:
+    """Return a common sales-record list for publication schema v1 and v2."""
+    if publication.get("schema_version") == 1:
+        return [
+            {
+                "channel": publication.get("channel"),
+                "url": publication.get("url"),
+                "price": publication.get("price"),
+                "published_at": publication.get("published_at"),
+                "delivered_artifact_sha256": publication.get("artifact_sha256"),
+            }
+        ]
+    records = publication.get("sales_channels")
+    return (
+        [record for record in records if isinstance(record, dict)]
+        if isinstance(records, list)
+        else []
+    )
+
+
+def publication_public_urls(publication: dict[str, Any]) -> set[str]:
+    """Return verified buyer-facing sales and catalog URLs."""
+    urls = {
+        record.get("url")
+        for record in publication_sales_records(publication)
+        if isinstance(record.get("url"), str)
+    }
+    catalog = publication.get("catalog")
+    if isinstance(catalog, dict) and isinstance(catalog.get("url"), str):
+        urls.add(catalog["url"])
+    return urls
 
 
 def validate_state_machine(machine: dict[str, Any]) -> list[str]:
@@ -172,20 +218,29 @@ def validate_product_contract(
                     errors.append(
                         f"{publication_relative}: product_id must match the manifest"
                     )
-                distribution = manifest.get("distribution")
-                manifest_channel = (
-                    distribution.get("channel")
-                    if isinstance(distribution, dict)
-                    else None
-                )
-                if publication.get("channel") != manifest_channel:
+                manifest_channels = manifest_sales_channels(manifest)
+                sales_records = publication_sales_records(publication)
+                publication_channels = {
+                    record.get("channel")
+                    for record in sales_records
+                    if isinstance(record.get("channel"), str)
+                }
+                if publication_channels != manifest_channels:
                     errors.append(
-                        f"{publication_relative}: channel must match manifest distribution"
+                        f"{publication_relative}: sales channels must match manifest distribution"
                     )
-                if publication.get("price") != manifest.get("pricing"):
+                if (
+                    publication.get("schema_version") == 2
+                    and publication_channels != REQUIRED_V2_SALES_CHANNELS
+                ):
                     errors.append(
-                        f"{publication_relative}: price must match manifest pricing"
+                        f"{publication_relative}: schema v2 requires Gumroad and Lemon Squeezy"
                     )
+                for record in sales_records:
+                    if record.get("price") != manifest.get("pricing"):
+                        errors.append(
+                            f"{publication_relative}: {record.get('channel')} price must match manifest pricing"
+                        )
 
                 artifact = publication.get("artifact")
                 if artifact not in artifacts:
@@ -199,12 +254,27 @@ def validate_product_contract(
                             f"{publication_relative}: artifact_sha256 does not match {artifact}"
                         )
 
-                url = publication.get("url")
-                if isinstance(url, str):
-                    parsed = urlparse(url)
-                    if parsed.path.rstrip("/") != f"/l/{product_id}":
+                approved_digest = publication.get("artifact_sha256")
+                for record in sales_records:
+                    channel = record.get("channel")
+                    if record.get("delivered_artifact_sha256") != approved_digest:
                         errors.append(
-                            f"{publication_relative}: URL slug must match product_id"
+                            f"{publication_relative}: {channel} delivered artifact checksum must match the approved artifact"
+                        )
+                    url = record.get("url")
+                    if channel == "gumroad" and isinstance(url, str):
+                        parsed = urlparse(url)
+                        if parsed.path.rstrip("/") != f"/l/{product_id}":
+                            errors.append(
+                                f"{publication_relative}: Gumroad URL slug must match product_id"
+                            )
+
+                catalog = publication.get("catalog")
+                if isinstance(catalog, dict) and isinstance(catalog.get("url"), str):
+                    parsed = urlparse(catalog["url"])
+                    if parsed.path.rstrip("/") != f"/sources/{product_id}":
+                        errors.append(
+                            f"{publication_relative}: KNA Software URL slug must match product_id"
                         )
     elif publication_path.exists():
         errors.append(
@@ -289,11 +359,12 @@ def validate_promotion_contract(
         except ValueError as exc:
             errors.append(str(exc))
         else:
-            if (
-                isinstance(publication, dict)
-                and log.get("product_url") != publication.get("url")
-            ):
-                errors.append(f"{relative}: product_url must match publication.json")
+            if isinstance(publication, dict):
+                allowed_product_urls = publication_public_urls(publication)
+                if log.get("product_url") not in allowed_product_urls:
+                    errors.append(
+                        f"{relative}: product_url must match a verified publication or catalog URL"
+                    )
 
         raw_entries = log.get("entries", [])
         entries = raw_entries if isinstance(raw_entries, list) else []

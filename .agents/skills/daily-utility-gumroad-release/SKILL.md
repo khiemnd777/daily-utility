@@ -29,8 +29,8 @@ Use the authenticated browser session manually. Upload only the preflighted arti
 - the primary product workflow from delivered files;
 - the reviewed direct link from the Gumroad listing to the exact KNA Software product URL, when the release materials include that URL.
 
-## Record
+## Hand off to the second channel
 
-Gumroad verification alone does not complete a Daily Utility release. Continue with `daily-utility-knasoftware-catalog`, publish the exact reviewed first-party page, and verify both backlink directions. Only after those live checks may the release record set the manifest to `PUBLISHED` and move the issue to `PUBLISHED`.
+Gumroad verification alone does not complete a new Daily Utility release. Continue with `daily-utility-lemonsqueezy-release` using the same approved bytes and shared USD price, then use `daily-utility-knasoftware-catalog` to publish the exact reviewed first-party page and verify both reciprocal-link pairs. Only after every live check may the release record set the manifest to `PUBLISHED` and move the issue to `PUBLISHED`.
 
-Create or update `products/<product-id>/publication.json`, record the verified Gumroad URL, price, artifact path, checksum, and publication timestamp, and include or reference the KNA page and reciprocal-link evidence in the focused release record. Then open, verify, and merge that pull request under the release checkpoint's standing authorization. Publication recording does not authorize promotion posts.
+Record Gumroad evidence in the schema-v2 `products/<product-id>/publication.json` sales-channel entry: stable public URL, price, publication timestamp, buyer-delivered checksum, and KNA backlink verification timestamp. Do not finalize the focused release record until the Lemon Squeezy and KNA evidence are also complete. Publication recording does not authorize promotion posts.

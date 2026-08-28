@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "product_id": "example-utility",
   "name": "Example Utility",
   "summary": "Replace this example with one sentence describing the customer outcome.",
@@ -8,7 +8,7 @@
   "solution": "Describe the smallest useful deliverable that solves the problem.",
   "distribution": {
     "format": "download",
-    "channel": "manual"
+    "channels": ["gumroad", "lemon-squeezy"]
   },
   "pricing": {
     "currency": "USD",
