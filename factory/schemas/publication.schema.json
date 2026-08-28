@@ -107,6 +107,29 @@
           "format": "date-time"
         }
       }
+    },
+    "gumroadFirstCatalog": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "channel",
+        "url",
+        "published_at",
+        "gumroad_link_verified_at"
+      ],
+      "properties": {
+        "channel": { "const": "knasoftware" },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://knasoftware\\.com/sources/[a-z0-9]+(?:-[a-z0-9]+)*/?$"
+        },
+        "published_at": { "type": "string", "format": "date-time" },
+        "gumroad_link_verified_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
     }
   },
   "oneOf": [
@@ -179,6 +202,100 @@
               }
             }
           ]
+        },
+        "catalog": { "$ref": "#/$defs/catalog" },
+        "artifact": { "$ref": "#/$defs/artifact" },
+        "artifact_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "product_id",
+        "release_sequence",
+        "status",
+        "sales_channels",
+        "pending_channels",
+        "catalog",
+        "artifact",
+        "artifact_sha256"
+      ],
+      "properties": {
+        "schema_version": { "const": 3 },
+        "product_id": { "$ref": "#/$defs/productId" },
+        "release_sequence": { "const": "gumroad-first" },
+        "status": { "const": "partial" },
+        "sales_channels": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/gumroadSale" }
+        },
+        "pending_channels": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "uniqueItems": true,
+          "items": { "const": "lemon-squeezy" }
+        },
+        "catalog": { "$ref": "#/$defs/gumroadFirstCatalog" },
+        "artifact": { "$ref": "#/$defs/artifact" },
+        "artifact_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "product_id",
+        "release_sequence",
+        "status",
+        "sales_channels",
+        "pending_channels",
+        "catalog",
+        "artifact",
+        "artifact_sha256"
+      ],
+      "properties": {
+        "schema_version": { "const": 3 },
+        "product_id": { "$ref": "#/$defs/productId" },
+        "release_sequence": { "const": "gumroad-first" },
+        "status": { "const": "complete" },
+        "sales_channels": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "oneOf": [
+              { "$ref": "#/$defs/gumroadSale" },
+              { "$ref": "#/$defs/lemonSqueezySale" }
+            ]
+          },
+          "allOf": [
+            {
+              "contains": {
+                "type": "object",
+                "properties": { "channel": { "const": "gumroad" } },
+                "required": ["channel"]
+              }
+            },
+            {
+              "contains": {
+                "type": "object",
+                "properties": { "channel": { "const": "lemon-squeezy" } },
+                "required": ["channel"]
+              }
+            }
+          ]
+        },
+        "pending_channels": {
+          "type": "array",
+          "maxItems": 0
         },
         "catalog": { "$ref": "#/$defs/catalog" },
         "artifact": { "$ref": "#/$defs/artifact" },

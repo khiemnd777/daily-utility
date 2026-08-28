@@ -26,6 +26,9 @@ STATE_MACHINE_PATH = ROOT / "factory" / "state-machine.json"
 TEMPLATE_PATH = ROOT / "templates" / "product-manifest.json"
 PUBLICATION_SCHEMA_PATH = ROOT / "factory" / "schemas" / "publication.schema.json"
 PUBLICATION_TEMPLATE_PATH = ROOT / "templates" / "publication.json"
+GUMROAD_FIRST_PUBLICATION_TEMPLATE_PATH = (
+    ROOT / "templates" / "publication-gumroad-first.json"
+)
 PROMOTION_CHANNELS_SCHEMA_PATH = (
     ROOT / "factory" / "schemas" / "promotion-channels.schema.json"
 )
@@ -40,7 +43,26 @@ REQUIRED_HAPPY_PATH = [
     "APPROVED_RELEASE",
     "PUBLISHED",
 ]
-RELEASE_STATES = {"READY_FOR_RELEASE", "APPROVED_RELEASE", "PUBLISHED"}
+REQUIRED_STAGED_RELEASE_PATH = [
+    "READY_FOR_RELEASE",
+    "APPROVED_RELEASE",
+    "GUMROAD_PUBLISHED",
+    "READY_FOR_REMAINING_CHANNELS",
+    "APPROVED_REMAINING_CHANNELS",
+    "PUBLISHED",
+]
+GUMROAD_FIRST_STATES = {
+    "GUMROAD_PUBLISHED",
+    "READY_FOR_REMAINING_CHANNELS",
+    "APPROVED_REMAINING_CHANNELS",
+}
+RELEASE_STATES = {
+    "READY_FOR_RELEASE",
+    "APPROVED_RELEASE",
+    *GUMROAD_FIRST_STATES,
+    "PUBLISHED",
+}
+PUBLICATION_STATES = {*GUMROAD_FIRST_STATES, "PUBLISHED"}
 REQUIRED_V2_SALES_CHANNELS = {"gumroad", "lemon-squeezy"}
 
 
@@ -68,8 +90,17 @@ def manifest_sales_channels(manifest: dict[str, Any]) -> set[str]:
     return {channel} if isinstance(channel, str) else set()
 
 
+def manifest_release_sequence(manifest: dict[str, Any]) -> str:
+    """Return the explicit sequence or the backward-compatible default."""
+    distribution = manifest.get("distribution")
+    if not isinstance(distribution, dict):
+        return "simultaneous"
+    sequence = distribution.get("release_sequence")
+    return sequence if isinstance(sequence, str) else "simultaneous"
+
+
 def publication_sales_records(publication: dict[str, Any]) -> list[dict[str, Any]]:
-    """Return a common sales-record list for publication schema v1 and v2."""
+    """Return a common sales-record list for all publication schema versions."""
     if publication.get("schema_version") == 1:
         return [
             {
@@ -112,6 +143,10 @@ def validate_state_machine(machine: dict[str, Any]) -> list[str]:
         errors.append("state machine initial_state must be READY_FOR_BUILD")
     if machine.get("happy_path") != REQUIRED_HAPPY_PATH:
         errors.append("state machine happy_path does not match the required lifecycle")
+    if machine.get("staged_release_path") != REQUIRED_STAGED_RELEASE_PATH:
+        errors.append(
+            "state machine staged_release_path does not match the Gumroad-first lifecycle"
+        )
 
     transitions = machine.get("transitions", [])
     edges = {(item.get("from"), item.get("event"), item.get("to")) for item in transitions}
@@ -124,6 +159,27 @@ def validate_state_machine(machine: dict[str, Any]) -> list[str]:
         ("READY_FOR_BUILD", "/reject", "REJECTED"),
         ("READY_FOR_RELEASE", "/reject", "REJECTED"),
         ("READY_FOR_RELEASE", "/request-changes", "BUILDING"),
+        ("APPROVED_RELEASE", "gumroad_release_completed", "GUMROAD_PUBLISHED"),
+        (
+            "GUMROAD_PUBLISHED",
+            "remaining_channels_ready",
+            "READY_FOR_REMAINING_CHANNELS",
+        ),
+        (
+            "READY_FOR_REMAINING_CHANNELS",
+            "/approve",
+            "APPROVED_REMAINING_CHANNELS",
+        ),
+        (
+            "READY_FOR_REMAINING_CHANNELS",
+            "/request-changes",
+            "GUMROAD_PUBLISHED",
+        ),
+        (
+            "APPROVED_REMAINING_CHANNELS",
+            "release_completed",
+            "PUBLISHED",
+        ),
     }
     for edge in sorted(required_edges - edges):
         errors.append(f"missing transition: {edge[0]} --{edge[1]}--> {edge[2]}")
@@ -193,11 +249,12 @@ def validate_product_contract(
                 errors.append(f"{relative}: release artifact does not exist: {artifact}")
 
     publication_path = path.parent / "publication.json"
-    if manifest.get("state") == "PUBLISHED":
+    state = manifest.get("state")
+    if state in PUBLICATION_STATES:
         publication_relative = publication_path.relative_to(ROOT).as_posix()
         if publication_relative not in artifacts:
             errors.append(
-                f"{relative}: PUBLISHED manifest must list {publication_relative!r}"
+                f"{relative}: {state} manifest must list {publication_relative!r}"
             )
         try:
             publication = load_json(publication_path)
@@ -219,23 +276,61 @@ def validate_product_contract(
                         f"{publication_relative}: product_id must match the manifest"
                     )
                 manifest_channels = manifest_sales_channels(manifest)
+                release_sequence = manifest_release_sequence(manifest)
                 sales_records = publication_sales_records(publication)
                 publication_channels = {
                     record.get("channel")
                     for record in sales_records
                     if isinstance(record.get("channel"), str)
                 }
-                if publication_channels != manifest_channels:
-                    errors.append(
-                        f"{publication_relative}: sales channels must match manifest distribution"
-                    )
-                if (
-                    publication.get("schema_version") == 2
-                    and publication_channels != REQUIRED_V2_SALES_CHANNELS
-                ):
-                    errors.append(
-                        f"{publication_relative}: schema v2 requires Gumroad and Lemon Squeezy"
-                    )
+                schema_version = publication.get("schema_version")
+                if state in GUMROAD_FIRST_STATES:
+                    if release_sequence != "gumroad-first":
+                        errors.append(
+                            f"{relative}: {state} requires release_sequence gumroad-first"
+                        )
+                    if schema_version != 3 or publication.get("status") != "partial":
+                        errors.append(
+                            f"{publication_relative}: {state} requires schema v3 partial evidence"
+                        )
+                    if publication_channels != {"gumroad"}:
+                        errors.append(
+                            f"{publication_relative}: partial release must contain only Gumroad evidence"
+                        )
+                    pending_channels = publication.get("pending_channels")
+                    if pending_channels != ["lemon-squeezy"]:
+                        errors.append(
+                            f"{publication_relative}: partial release must keep Lemon Squeezy pending"
+                        )
+                else:
+                    if publication_channels != manifest_channels:
+                        errors.append(
+                            f"{publication_relative}: sales channels must match manifest distribution"
+                        )
+                    if (
+                        schema_version == 2
+                        and publication_channels != REQUIRED_V2_SALES_CHANNELS
+                    ):
+                        errors.append(
+                            f"{publication_relative}: schema v2 requires Gumroad and Lemon Squeezy"
+                        )
+                    if release_sequence == "gumroad-first" and schema_version != 3:
+                        errors.append(
+                            f"{publication_relative}: completed Gumroad-first release requires schema v3"
+                        )
+                    if schema_version == 3:
+                        if release_sequence != "gumroad-first":
+                            errors.append(
+                                f"{relative}: schema v3 publication requires release_sequence gumroad-first"
+                            )
+                        if publication.get("status") != "complete":
+                            errors.append(
+                                f"{publication_relative}: PUBLISHED schema v3 evidence must be complete"
+                            )
+                        if publication.get("pending_channels") != []:
+                            errors.append(
+                                f"{publication_relative}: PUBLISHED schema v3 evidence cannot have pending channels"
+                            )
                 for record in sales_records:
                     if record.get("price") != manifest.get("pricing"):
                         errors.append(
@@ -278,7 +373,7 @@ def validate_product_contract(
                         )
     elif publication_path.exists():
         errors.append(
-            f"{relative}: publication.json requires manifest state PUBLISHED"
+            f"{relative}: publication.json requires a partial or completed publication state"
         )
     return errors
 
@@ -437,18 +532,24 @@ def main() -> int:
         promotion_log_schema, format_checker=FormatChecker()
     )
 
-    try:
-        publication_template = load_json(PUBLICATION_TEMPLATE_PATH)
-        for error in sorted(
-            publication_validator.iter_errors(publication_template),
-            key=lambda item: list(item.path),
-        ):
-            location = ".".join(str(part) for part in error.absolute_path) or "<root>"
-            failures.append(
-                f"{PUBLICATION_TEMPLATE_PATH.relative_to(ROOT)}:{location}: {error.message}"
-            )
-    except ValueError as exc:
-        failures.append(str(exc))
+    for publication_template_path in (
+        PUBLICATION_TEMPLATE_PATH,
+        GUMROAD_FIRST_PUBLICATION_TEMPLATE_PATH,
+    ):
+        try:
+            publication_template = load_json(publication_template_path)
+            for error in sorted(
+                publication_validator.iter_errors(publication_template),
+                key=lambda item: list(item.path),
+            ):
+                location = (
+                    ".".join(str(part) for part in error.absolute_path) or "<root>"
+                )
+                failures.append(
+                    f"{publication_template_path.relative_to(ROOT)}:{location}: {error.message}"
+                )
+        except ValueError as exc:
+            failures.append(str(exc))
     manifests = discover_manifests(sys.argv[1:])
     if not manifests:
         failures.append("no manifests found")

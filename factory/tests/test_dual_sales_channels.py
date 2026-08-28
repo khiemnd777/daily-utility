@@ -67,6 +67,135 @@ class DualSalesChannelSchemaTests(unittest.TestCase):
         lemon["url"] = "https://seller.lemonsqueezy.com/checkout/?cart=single-use"
         self.assertTrue(list(self.publication_validator.iter_errors(publication)))
 
+    def test_v3_gumroad_first_template_requires_pending_lemon_squeezy(self) -> None:
+        publication = load_json("templates/publication-gumroad-first.json")
+        self.assertEqual([], list(self.publication_validator.iter_errors(publication)))
+
+        publication["pending_channels"] = []
+        self.assertTrue(list(self.publication_validator.iter_errors(publication)))
+
+    def test_v3_partial_and_complete_contracts(self) -> None:
+        product_id = "gumroad-first-contract-test"
+        manifest = copy.deepcopy(load_json("templates/product-manifest.json"))
+        manifest.update(
+            {
+                "product_id": product_id,
+                "name": "Gumroad First Contract Test",
+                "state": "GUMROAD_PUBLISHED",
+                "source_issue": 24,
+            }
+        )
+        manifest["distribution"]["release_sequence"] = "gumroad-first"
+        manifest["pricing"]["amount_cents"] = 1900
+        manifest["acceptance_checks"][0]["status"] = "passed"
+
+        publication = copy.deepcopy(
+            load_json("templates/publication-gumroad-first.json")
+        )
+        publication["product_id"] = product_id
+        publication["sales_channels"][0]["url"] = (
+            f"https://seller.gumroad.com/l/{product_id}"
+        )
+        publication["sales_channels"][0]["price"]["amount_cents"] = 1900
+        publication["catalog"]["url"] = (
+            f"https://knasoftware.com/sources/{product_id}"
+        )
+
+        with tempfile.TemporaryDirectory() as temporary_root:
+            root = Path(temporary_root)
+            product_root = root / "products" / product_id
+            release_root = product_root / "release"
+            release_root.mkdir(parents=True)
+            artifact_relative = (
+                f"products/{product_id}/release/{product_id}-v1.0.0.zip"
+            )
+            publication_relative = f"products/{product_id}/publication.json"
+            artifact_path = root / artifact_relative
+            artifact_path.write_bytes(b"approved staged release bytes")
+            digest = hashlib.sha256(artifact_path.read_bytes()).hexdigest()
+
+            manifest["artifacts"] = [artifact_relative, publication_relative]
+            publication["artifact"] = artifact_relative
+            publication["artifact_sha256"] = digest
+            publication["sales_channels"][0][
+                "delivered_artifact_sha256"
+            ] = digest
+
+            manifest_path = product_root / "product-manifest.json"
+            publication_path = product_root / "publication.json"
+            manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+            publication_path.write_text(json.dumps(publication), encoding="utf-8")
+
+            original_root = manifest_contract.ROOT
+            manifest_contract.ROOT = root
+            try:
+                self.assertEqual(
+                    [],
+                    manifest_contract.validate_product_contract(
+                        manifest_path,
+                        manifest,
+                        self.publication_validator,
+                    ),
+                )
+
+                manifest["distribution"]["release_sequence"] = "simultaneous"
+                errors = manifest_contract.validate_product_contract(
+                    manifest_path,
+                    manifest,
+                    self.publication_validator,
+                )
+                self.assertTrue(
+                    any("requires release_sequence gumroad-first" in error for error in errors)
+                )
+
+                manifest["distribution"]["release_sequence"] = "gumroad-first"
+                manifest["state"] = "PUBLISHED"
+                publication["status"] = "complete"
+                publication["pending_channels"] = []
+                lemon = copy.deepcopy(
+                    load_json("templates/publication.json")["sales_channels"][1]
+                )
+                lemon["url"] = (
+                    "https://seller.lemonsqueezy.com/checkout/buy/gumroad-first-test"
+                )
+                lemon["price"]["amount_cents"] = 1900
+                lemon["delivered_artifact_sha256"] = digest
+                publication["sales_channels"].append(lemon)
+                publication["catalog"]["lemon_squeezy_link_verified_at"] = (
+                    "2026-01-02T00:00:00Z"
+                )
+                manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+                publication_path.write_text(
+                    json.dumps(publication), encoding="utf-8"
+                )
+
+                self.assertEqual(
+                    [],
+                    manifest_contract.validate_product_contract(
+                        manifest_path,
+                        manifest,
+                        self.publication_validator,
+                    ),
+                )
+
+                publication["schema_version"] = 2
+                publication_path.write_text(
+                    json.dumps(publication), encoding="utf-8"
+                )
+                errors = manifest_contract.validate_product_contract(
+                    manifest_path,
+                    manifest,
+                    self.publication_validator,
+                )
+                self.assertTrue(
+                    any(
+                        "completed Gumroad-first release requires schema v3" in error
+                        for error in errors
+                    )
+                )
+            finally:
+                manifest_contract.ROOT = original_root
+
     def test_v2_contract_requires_matching_prices_and_delivered_bytes(self) -> None:
         product_id = "dual-channel-contract-test"
         manifest = copy.deepcopy(load_json("templates/product-manifest.json"))
