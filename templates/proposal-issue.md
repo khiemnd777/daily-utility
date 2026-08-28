@@ -19,10 +19,9 @@ What is the smallest useful deliverable? State explicit out-of-scope items.
 ## Distribution and price
 
 - Format: `<download | template | script | web-app | guide | bundle>`
-- Sales channels: `Gumroad` and `Lemon Squeezy` (manual through Codex after release approval)
-- Release sequence: `simultaneous` unless an observed channel-access dependency justifies reviewed `gumroad-first`
+- Sales channel: `Gumroad` (manual through Codex after release approval)
 - First-party catalog: `https://knasoftware.com/sources/<product-id>`
-- Reciprocal links: Gumroad → KNA, Lemon Squeezy → KNA, and KNA → both sales listings
+- Reciprocal links: Gumroad → KNA product page and KNA product page → Gumroad listing
 - Proposed price: `$<amount> USD`
 - Why the customer would pay:
 
@@ -30,11 +29,9 @@ What is the smallest useful deliverable? State explicit out-of-scope items.
 
 - KNA slug: `<product-id>`
 - Distinct first-party angle:
-- Gumroad sales-link anchor:
-- Lemon Squeezy sales-link anchor:
+- Primary sales-link anchor:
 - Gumroad reverse-link anchor:
-- Lemon Squeezy reverse-link anchor:
-- SEO/AI-discovery facts to expose: audience, problem, maker, version, shared price, capabilities, limits, privacy behavior, support, and both purchase URLs
+- SEO/AI-discovery facts to expose: audience, problem, maker, version, price, capabilities, limits, privacy behavior, support, and purchase URL
 - Platform gaps that must be verified rather than assumed: sitemap membership, structured data, and `llms.txt`
 
 ## Acceptance checks

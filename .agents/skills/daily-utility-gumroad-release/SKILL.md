@@ -7,7 +7,7 @@ description: Prepare, manually upload, publish, verify, and record an approved D
 
 ## Gate
 
-Read `AGENTS.md`, the linked issue, product manifest, approved proposal, release artifact, and existing publication evidence. Continue only when the issue is `APPROVED_RELEASE` and required checks passed. The verified release `/approve` is standing authorization to publish the exact reviewed Gumroad version, so do not request another publish confirmation while the artifact, price, listing copy, support terms, seller destination, KNA reverse-link destination, and reviewed release sequence remain unchanged. Do not request or store credentials, cookies, tokens, or a Gumroad API key.
+Read `AGENTS.md`, the linked issue, product manifest, approved proposal, release artifact, and existing publication evidence. Continue only when the issue is `APPROVED_RELEASE` and required checks passed. The verified release `/approve` is standing authorization to publish the exact reviewed version, so do not request another publish confirmation while the artifact, price, listing copy, support terms, seller destination, and reviewed KNA Software reverse-link destination remain unchanged. Do not request or store credentials, cookies, tokens, or a Gumroad API key.
 
 ## Preflight
 
@@ -29,8 +29,8 @@ Use the authenticated browser session manually. Upload only the preflighted arti
 - the primary product workflow from delivered files;
 - the reviewed direct link from the Gumroad listing to the exact KNA Software product URL, when the release materials include that URL.
 
-## Hand off to the second channel
+## Record
 
-Gumroad verification alone does not complete a new Daily Utility release. For `simultaneous`, continue with `daily-utility-lemonsqueezy-release` using the same approved bytes and shared USD price, then publish the KNA page and finish `PUBLISHED`. For `gumroad-first`, publish the exact reviewed first-stage KNA page with the Gumroad purchase link and no inactive Lemon Squeezy link, verify the Gumroad reciprocal-link pair, then create schema-v3 partial evidence and stop at `GUMROAD_PUBLISHED`.
+Gumroad verification alone does not complete a Daily Utility release. Continue with `daily-utility-knasoftware-catalog`, publish the exact reviewed first-party page, and verify both backlink directions. Only after those live checks may the release record set the manifest to `PUBLISHED` and move the issue to `PUBLISHED`.
 
-Record Gumroad evidence with the stable public URL, price, publication timestamp, buyer-delivered checksum, and KNA backlink verification timestamp. Simultaneous releases use schema v2. Gumroad-first releases use schema v3 with `status: partial` and `pending_channels: ["lemon-squeezy"]`; that partial record is durable release evidence but does not authorize promotion or claim full publication.
+Create or update `products/<product-id>/publication.json`, record the verified Gumroad URL, price, artifact path, checksum, and publication timestamp, and include or reference the KNA page and reciprocal-link evidence in the focused release record. Then open, verify, and merge that pull request under the release checkpoint's standing authorization. Publication recording does not authorize promotion posts.

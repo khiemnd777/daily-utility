@@ -2,7 +2,7 @@
   "schema_version": 3,
   "product_id": "presentation-template-preflight",
   "release_sequence": "gumroad-first",
-  "status": "partial",
+  "status": "complete",
   "sales_channels": [
     {
       "channel": "gumroad",
@@ -16,9 +16,18 @@
       "catalog_backlink_verified_at": "2026-08-28T05:35:40Z"
     }
   ],
-  "pending_channels": [
+  "pending_channels": [],
+  "retired_channels": [
     "lemon-squeezy"
   ],
+  "retirement": {
+    "channel": "lemon-squeezy",
+    "reason": "owner-retired-channel",
+    "seller_product_id": "1323100",
+    "checkout_url": "https://knasoftware.lemonsqueezy.com/checkout/buy/429ed96b-ad38-4f63-92c4-bdcac78059a7",
+    "retired_at": "2026-08-28T16:22:36Z",
+    "checkout_inactive_verified_at": "2026-08-28T16:41:39Z"
+  },
   "catalog": {
     "channel": "knasoftware",
     "url": "https://knasoftware.com/sources/presentation-template-preflight",

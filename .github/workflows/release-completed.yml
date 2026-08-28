@@ -43,9 +43,9 @@ jobs:
 
             const productsRoot = path.join(process.env.GITHUB_WORKSPACE, 'products');
             const definitions = {
-              'state:gumroad-published': ['0e8a16', 'Gumroad and KNA live; remaining channels pending'],
-              'state:ready-for-remaining-channels': ['f9d0c4', 'Awaiting remaining-channel approval'],
-              'state:approved-remaining-channels': ['1d76db', 'Approved to publish remaining channels'],
+              'state:gumroad-published': ['0e8a16', 'Deprecated staged state; Gumroad and KNA are live'],
+              'state:ready-for-remaining-channels': ['f9d0c4', 'Deprecated staged state retained for migration'],
+              'state:approved-remaining-channels': ['1d76db', 'Deprecated staged state; new channel publication disabled'],
               'state:published': ['0969da', 'Published']
             };
             for (const [name, [color, description]] of Object.entries(definitions)) {
@@ -88,7 +88,7 @@ jobs:
               if (!fs.existsSync(manifestPath)) continue;
 
               const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-              if (!['GUMROAD_PUBLISHED', 'PUBLISHED'].includes(manifest.state)) {
+              if (manifest.state !== 'PUBLISHED') {
                 continue;
               }
 
@@ -123,22 +123,28 @@ jobs:
                   `Issue #${issueNumber} must have exactly one state label; found ${activeStates.length}.`
                 );
               }
-              const partial = manifest.state === 'GUMROAD_PUBLISHED';
               const stagedCompletion =
                 manifest.state === 'PUBLISHED' &&
                 publication.schema_version === 3 &&
                 publication.release_sequence === 'gumroad-first';
-              const targetState = partial
-                ? 'state:gumroad-published'
-                : 'state:published';
-              const allowedReleaseStates = partial
-                ? new Set(['state:approved-release', 'state:gumroad-published'])
-                : stagedCompletion
-                  ? new Set([
-                      'state:approved-remaining-channels',
-                      'state:published'
-                    ])
-                  : new Set(['state:approved-release', 'state:published']);
+              const cancelledRemainingChannels =
+                stagedCompletion &&
+                Array.isArray(publication.retired_channels) &&
+                publication.retired_channels.includes('lemon-squeezy');
+              if (stagedCompletion && !cancelledRemainingChannels) {
+                throw new Error(
+                  'Deprecated staged releases may complete only by recording verified channel retirement.'
+                );
+              }
+              const targetState = 'state:published';
+              const allowedReleaseStates = cancelledRemainingChannels
+                ? new Set([
+                    'state:gumroad-published',
+                    'state:ready-for-remaining-channels',
+                    'state:approved-remaining-channels',
+                    'state:published'
+                  ])
+                : new Set(['state:approved-release', 'state:published']);
               if (!allowedReleaseStates.has(activeStates[0])) {
                 throw new Error(
                   `Issue #${issueNumber} cannot record ${manifest.state} from ${activeStates[0]}.`
@@ -157,8 +163,8 @@ jobs:
                 });
               }
 
-              const eventName = partial
-                ? 'gumroad_release_completed'
+              const eventName = cancelledRemainingChannels
+                ? 'remaining_channels_cancelled'
                 : 'release_completed';
               const marker = `<!-- ${eventName}:${manifest.product_id}:${publication.artifact_sha256} -->`;
               const comments = await github.paginate(github.rest.issues.listComments, {
@@ -201,11 +207,16 @@ jobs:
                     ...catalogEvidence,
                     `- Artifact: \`${publication.artifact}\``,
                     `- SHA-256: \`${publication.artifact_sha256}\``,
-                    ...(partial
-                      ? ['- Pending channel: Lemon Squeezy']
+                    ...(cancelledRemainingChannels
+                      ? [
+                          '- Retired channel: Lemon Squeezy',
+                          `  - Reason: ${publication.retirement.reason}`,
+                          `  - Seller product: ${publication.retirement.seller_product_id}`,
+                          `  - Checkout inactive verified at: ${publication.retirement.checkout_inactive_verified_at}`
+                        ]
                       : []),
                     '',
-                    'The release evidence was produced manually after approval. This job only verified and recorded checked-in evidence; it did not call a sales or publishing API.'
+                    'The release evidence was produced manually after approval or an explicit channel-retirement decision. This job only verified and recorded checked-in evidence; it did not call a sales or publishing API.'
                   ].join('\n')
                 });
               } else {

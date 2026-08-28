@@ -2,7 +2,7 @@
 
 Daily Utility Factory is a Codex-first, approval-gated workflow for proposing, building, reviewing, and eventually releasing one small utility product at a time.
 
-Codex runs outside GitHub Actions as the scheduler, control plane, and implementation runtime. GitHub stores proposal state, code, pull requests, and CI evidence. The repository does **not** contain an `OPENAI_API_KEY`, GitHub Actions do not invoke an AI provider, and Gumroad or Lemon Squeezy publishing is not configured in repository automation.
+Codex runs outside GitHub Actions as the scheduler, control plane, and implementation runtime. GitHub stores proposal state, code, pull requests, and CI evidence. The repository does **not** contain an `OPENAI_API_KEY`, GitHub Actions do not invoke an AI provider, and Gumroad publishing is not configured.
 
 The durable runtime contract is documented in [`factory/codex-first-workflow.md`](factory/codex-first-workflow.md).
 
@@ -31,7 +31,7 @@ Every Codex idea run creates a complete GitHub proposal issue carrying `factory:
 - Codex verifies the resulting issue label before starting or continuing work.
 - A trusted reviewer may comment directly on the issue as a fallback.
 
-Approval alone never publishes a product. Build work starts only after `APPROVED_BUILD`, and publishing remains a separate, unconfigured step after `APPROVED_RELEASE`.
+Build approval never publishes a product. After the separate release `/approve` produces `APPROVED_RELEASE`, Codex is authorized to perform the reviewed Gumroad and KNA Software publication manually; repository automation still does not call either publishing system.
 
 ## Repository layout
 
@@ -79,11 +79,12 @@ Codex discovers the checked-in skills under `.agents/skills/` automatically:
 - `daily-utility-engineering` governs product architecture, design patterns, code splitting, testing, and packaging.
 - `daily-utility-git-delivery` handles focused branches, worktrees, pull requests, merges, and explicit cleanup.
 - `daily-utility-gumroad-release` handles approved manual Gumroad publication and release evidence.
-- `daily-utility-lemonsqueezy-release` handles approved manual Lemon Squeezy publication and release evidence.
-- `daily-utility-knasoftware-catalog` handles the reviewed first-party product page, both sales destinations, reciprocal links, and discovery verification.
+- `daily-utility-knasoftware-catalog` handles the reviewed KNA Software product page and reciprocal links.
 - `daily-utility-promotion` researches suitable communities and prepares or posts truthful promotion after exact target-and-copy approval.
 
 Repository-wide invariants remain in `AGENTS.md`; product-specific engineering and review rules live in `products/AGENTS.md`. Skills contain the reusable procedures rather than duplicating those rules.
+
+The active release model is Gumroad plus the KNA Software catalog. Legacy schema-v2/v3 records and deprecated remaining-channel states are retained only long enough to migrate previously staged products with explicit, verified channel-retirement evidence.
 
 ## Automation ownership
 

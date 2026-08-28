@@ -8,21 +8,20 @@
   "solution": "A downloadable offline browser utility that non-destructively scans one .pptx or .potx package, inventories its structure, applies deterministic release checks, and exports self-contained HTML and CSV evidence reports.",
   "distribution": {
     "format": "download",
-    "channels": ["gumroad", "lemon-squeezy"],
+    "channels": ["gumroad"],
     "release_sequence": "gumroad-first"
   },
   "pricing": {
     "currency": "USD",
     "amount_cents": 1900
   },
-  "state": "GUMROAD_PUBLISHED",
+  "state": "PUBLISHED",
   "source_issue": 23,
   "artifacts": [
     "products/presentation-template-preflight/README.md",
     "products/presentation-template-preflight/publication.json",
     "products/presentation-template-preflight/release/presentation-template-preflight-v1.0.0.zip",
     "products/presentation-template-preflight/marketing/gumroad-listing.md",
-    "products/presentation-template-preflight/marketing/lemonsqueezy-listing.md",
     "products/presentation-template-preflight/marketing/knasoftware-listing.md",
     "products/presentation-template-preflight/marketing/sales-workflow.png",
     "products/presentation-template-preflight/marketing/sales-results.png",
@@ -65,5 +64,5 @@
     }
   ],
   "created_at": "2026-08-28T01:56:15Z",
-  "updated_at": "2026-08-28T13:09:37Z"
+  "updated_at": "2026-08-28T16:41:39Z"
 }
