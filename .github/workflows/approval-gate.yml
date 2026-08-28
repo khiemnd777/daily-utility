@@ -51,6 +51,9 @@ jobs:
               'state:building': 'BUILDING',
               'state:ready-for-release': 'READY_FOR_RELEASE',
               'state:approved-release': 'APPROVED_RELEASE',
+              'state:gumroad-published': 'GUMROAD_PUBLISHED',
+              'state:ready-for-remaining-channels': 'READY_FOR_REMAINING_CHANNELS',
+              'state:approved-remaining-channels': 'APPROVED_REMAINING_CHANNELS',
               'state:published': 'PUBLISHED',
               'state:rejected': 'REJECTED'
             };
@@ -69,6 +72,10 @@ jobs:
                 '/approve': 'state:approved-release',
                 '/reject': 'state:rejected',
                 '/request-changes': 'state:building'
+              },
+              'state:ready-for-remaining-channels': {
+                '/approve': 'state:approved-remaining-channels',
+                '/request-changes': 'state:gumroad-published'
               }
             };
             const current = active[0];
@@ -85,6 +92,9 @@ jobs:
               'state:building': ['fbca04', 'Build in progress'],
               'state:ready-for-release': ['f9d0c4', 'Awaiting release approval'],
               'state:approved-release': ['1d76db', 'Approved to release'],
+              'state:gumroad-published': ['0e8a16', 'Gumroad and KNA live; remaining channels pending'],
+              'state:ready-for-remaining-channels': ['f9d0c4', 'Awaiting remaining-channel approval'],
+              'state:approved-remaining-channels': ['1d76db', 'Approved to publish remaining channels'],
               'state:published': ['0969da', 'Published'],
               'state:rejected': ['b60205', 'Rejected at an approval gate']
             };

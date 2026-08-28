@@ -79,6 +79,10 @@
             { "contains": { "const": "gumroad" } },
             { "contains": { "const": "lemon-squeezy" } }
           ]
+        },
+        "release_sequence": {
+          "type": "string",
+          "enum": ["simultaneous", "gumroad-first"]
         }
       }
     },
@@ -104,6 +108,9 @@
         "BUILDING",
         "READY_FOR_RELEASE",
         "APPROVED_RELEASE",
+        "GUMROAD_PUBLISHED",
+        "READY_FOR_REMAINING_CHANNELS",
+        "APPROVED_REMAINING_CHANNELS",
         "PUBLISHED",
         "REJECTED"
       ]

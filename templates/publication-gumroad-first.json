@@ -1,0 +1,28 @@
+{
+  "schema_version": 3,
+  "product_id": "replace-me",
+  "release_sequence": "gumroad-first",
+  "status": "partial",
+  "sales_channels": [
+    {
+      "channel": "gumroad",
+      "url": "https://seller.gumroad.com/l/replace-me",
+      "price": {
+        "currency": "USD",
+        "amount_cents": 0
+      },
+      "published_at": "2026-01-01T00:00:00Z",
+      "delivered_artifact_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "catalog_backlink_verified_at": "2026-01-01T00:00:00Z"
+    }
+  ],
+  "pending_channels": ["lemon-squeezy"],
+  "catalog": {
+    "channel": "knasoftware",
+    "url": "https://knasoftware.com/sources/replace-me",
+    "published_at": "2026-01-01T00:00:00Z",
+    "gumroad_link_verified_at": "2026-01-01T00:00:00Z"
+  },
+  "artifact": "products/replace-me/release/replace-me-v1.0.0.zip",
+  "artifact_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+}

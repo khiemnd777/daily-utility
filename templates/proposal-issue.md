@@ -20,6 +20,7 @@ What is the smallest useful deliverable? State explicit out-of-scope items.
 
 - Format: `<download | template | script | web-app | guide | bundle>`
 - Sales channels: `Gumroad` and `Lemon Squeezy` (manual through Codex after release approval)
+- Release sequence: `simultaneous` unless an observed channel-access dependency justifies reviewed `gumroad-first`
 - First-party catalog: `https://knasoftware.com/sources/<product-id>`
 - Reciprocal links: Gumroad → KNA, Lemon Squeezy → KNA, and KNA → both sales listings
 - Proposed price: `$<amount> USD`
