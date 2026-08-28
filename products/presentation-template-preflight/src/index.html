@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' data: blob:; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'"
+    >
+    <meta name="referrer" content="no-referrer">
+    <title>Presentation Template Preflight</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Offline release QA for presentation sellers</p>
+          <h1>Find the hidden delivery risks inside your PowerPoint template.</h1>
+          <p class="lede">
+            Check one editable <strong>.pptx</strong> or <strong>.potx</strong> package for broken internal targets,
+            linked assets, font portability warnings, notes, comments, macros, embedded objects, and author metadata.
+            Your presentation never leaves this browser.
+          </p>
+          <div class="trust-row" aria-label="Product guarantees">
+            <span>Local-only</span><span>No account</span><span>No file changes</span><span>Evidence reports</span>
+          </div>
+        </div>
+        <div class="deck-mark" aria-hidden="true">
+          <span></span><span></span><span></span>
+          <strong>QA</strong>
+        </div>
+      </header>
+
+      <section class="workspace" aria-labelledby="scan-title">
+        <div class="section-heading">
+          <div>
+            <p class="step">Step 1</p>
+            <h2 id="scan-title">Choose the delivery file</h2>
+          </div>
+          <p class="limits">One .pptx or .potx · up to 100 MB · current desktop browser</p>
+        </div>
+
+        <label class="drop-zone" id="drop-zone" for="file-input">
+          <span class="drop-icon" aria-hidden="true">↑</span>
+          <strong>Drop one PowerPoint template here</strong>
+          <span>or choose the release file from this computer</span>
+          <span class="choose-button">Choose presentation</span>
+          <input id="file-input" type="file" accept=".pptx,.potx,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.presentationml.template">
+        </label>
+
+        <div id="status" class="status" role="status" aria-live="polite">
+          Ready. Nothing is read until you choose a file.
+        </div>
+      </section>
+
+      <section id="results" class="results" aria-labelledby="results-title" tabindex="-1" hidden>
+        <div class="section-heading results-heading">
+          <div>
+            <p class="step">Step 2</p>
+            <h2 id="results-title">Review the release evidence</h2>
+            <p id="file-meta" class="file-meta"></p>
+          </div>
+          <div class="actions">
+            <button id="export-csv" type="button">Export CSV</button>
+            <button id="export-html" class="primary" type="button">Export HTML report</button>
+          </div>
+        </div>
+
+        <div class="summary-grid" aria-label="Presentation inventory and findings">
+          <article><span>Slides</span><strong id="slide-count">0</strong></article>
+          <article><span>Layouts / masters</span><strong id="structure-count">0 / 0</strong></article>
+          <article><span>Resolved / external links</span><strong id="relationship-count">0 / 0</strong></article>
+          <article class="danger"><span>Blockers</span><strong id="blocker-count">0</strong></article>
+          <article class="warning"><span>Review warnings</span><strong id="warning-count">0</strong></article>
+        </div>
+
+        <div class="inventory-bar">
+          <p><span>Canvas</span><strong id="dimension-value">Not declared</strong></p>
+          <p><span>Fonts</span><strong id="font-summary">No font inventory yet</strong></p>
+        </div>
+
+        <div class="legend" aria-label="Finding legend">
+          <span><i class="dot blocker"></i> Blocker: package integrity or macro risk</span>
+          <span><i class="dot review"></i> Warning: review before delivery</span>
+          <span><i class="dot passed"></i> Passed: no static findings</span>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Severity</th><th>Check</th><th>Slide or package part</th><th>Evidence</th></tr></thead>
+            <tbody id="finding-rows"></tbody>
+          </table>
+        </div>
+
+        <aside class="boundary-note">
+          <strong>Static OOXML audit, not a rendering guarantee.</strong>
+          Open the final file in the target PowerPoint versions before release. This utility does not render or repair slides,
+          prove font licensing, certify accessibility, or execute macros and embedded objects.
+        </aside>
+      </section>
+    </main>
+
+    <footer>
+      <span>Presentation Template Preflight 1.0.0</span>
+      <span>Not affiliated with or endorsed by Microsoft.</span>
+    </footer>
+  </body>
+</html>
