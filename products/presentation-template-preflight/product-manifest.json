@@ -15,10 +15,11 @@
     "currency": "USD",
     "amount_cents": 1900
   },
-  "state": "READY_FOR_RELEASE",
+  "state": "GUMROAD_PUBLISHED",
   "source_issue": 23,
   "artifacts": [
     "products/presentation-template-preflight/README.md",
+    "products/presentation-template-preflight/publication.json",
     "products/presentation-template-preflight/release/presentation-template-preflight-v1.0.0.zip",
     "products/presentation-template-preflight/marketing/gumroad-listing.md",
     "products/presentation-template-preflight/marketing/lemonsqueezy-listing.md",
@@ -64,5 +65,5 @@
     }
   ],
   "created_at": "2026-08-28T01:56:15Z",
-  "updated_at": "2026-08-28T04:55:35Z"
+  "updated_at": "2026-08-28T05:35:40Z"
 }

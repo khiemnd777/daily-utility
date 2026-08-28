@@ -1,0 +1,30 @@
+{
+  "schema_version": 3,
+  "product_id": "presentation-template-preflight",
+  "release_sequence": "gumroad-first",
+  "status": "partial",
+  "sales_channels": [
+    {
+      "channel": "gumroad",
+      "url": "https://khiemnd2.gumroad.com/l/presentation-template-preflight",
+      "price": {
+        "currency": "USD",
+        "amount_cents": 1900
+      },
+      "published_at": "2026-08-28T05:35:40Z",
+      "delivered_artifact_sha256": "720002d28820022b957653fb945ee772162c278b61023d3d9b5d54891266b550",
+      "catalog_backlink_verified_at": "2026-08-28T05:35:40Z"
+    }
+  ],
+  "pending_channels": [
+    "lemon-squeezy"
+  ],
+  "catalog": {
+    "channel": "knasoftware",
+    "url": "https://knasoftware.com/sources/presentation-template-preflight",
+    "published_at": "2026-08-28T05:35:40Z",
+    "gumroad_link_verified_at": "2026-08-28T05:35:40Z"
+  },
+  "artifact": "products/presentation-template-preflight/release/presentation-template-preflight-v1.0.0.zip",
+  "artifact_sha256": "720002d28820022b957653fb945ee772162c278b61023d3d9b5d54891266b550"
+}
