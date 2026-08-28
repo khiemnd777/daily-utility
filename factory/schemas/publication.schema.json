@@ -130,6 +130,36 @@
           "format": "date-time"
         }
       }
+    },
+    "retiredChannel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "channel",
+        "reason",
+        "seller_product_id",
+        "checkout_url",
+        "retired_at",
+        "checkout_inactive_verified_at"
+      ],
+      "properties": {
+        "channel": { "const": "lemon-squeezy" },
+        "reason": { "const": "owner-retired-channel" },
+        "seller_product_id": {
+          "type": "string",
+          "pattern": "^[0-9]+$"
+        },
+        "checkout_url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://[a-z0-9-]+\\.lemonsqueezy\\.com/checkout/buy/[A-Za-z0-9-]+/?$"
+        },
+        "retired_at": { "type": "string", "format": "date-time" },
+        "checkout_inactive_verified_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
     }
   },
   "oneOf": [
@@ -159,6 +189,32 @@
         "artifact": { "$ref": "#/$defs/artifact" },
         "artifact_sha256": { "$ref": "#/$defs/sha256" },
         "published_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "product_id",
+        "sales_channels",
+        "catalog",
+        "artifact",
+        "artifact_sha256"
+      ],
+      "properties": {
+        "schema_version": { "const": 4 },
+        "product_id": { "$ref": "#/$defs/productId" },
+        "sales_channels": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/gumroadSale" }
+        },
+        "catalog": { "$ref": "#/$defs/gumroadFirstCatalog" },
+        "artifact": { "$ref": "#/$defs/artifact" },
+        "artifact_sha256": { "$ref": "#/$defs/sha256" }
       }
     },
     {
@@ -298,6 +354,51 @@
           "maxItems": 0
         },
         "catalog": { "$ref": "#/$defs/catalog" },
+        "artifact": { "$ref": "#/$defs/artifact" },
+        "artifact_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "product_id",
+        "release_sequence",
+        "status",
+        "sales_channels",
+        "pending_channels",
+        "retired_channels",
+        "retirement",
+        "catalog",
+        "artifact",
+        "artifact_sha256"
+      ],
+      "properties": {
+        "schema_version": { "const": 3 },
+        "product_id": { "$ref": "#/$defs/productId" },
+        "release_sequence": { "const": "gumroad-first" },
+        "status": { "const": "complete" },
+        "sales_channels": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/gumroadSale" }
+        },
+        "pending_channels": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "retired_channels": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "uniqueItems": true,
+          "items": { "const": "lemon-squeezy" }
+        },
+        "retirement": { "$ref": "#/$defs/retiredChannel" },
+        "catalog": { "$ref": "#/$defs/gumroadFirstCatalog" },
         "artifact": { "$ref": "#/$defs/artifact" },
         "artifact_sha256": { "$ref": "#/$defs/sha256" }
       }

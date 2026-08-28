@@ -1,6 +1,6 @@
 ---
 name: daily-utility-engineering
-description: Implement, harden, or review product code under products/, including architecture, design-pattern choices, code splitting, tests, and release packaging; do not use for idea-only, sales-channel publishing, or promotion work.
+description: Implement, harden, or review product code under products/, including architecture, design-pattern choices, code splitting, tests, and release packaging; do not use for idea-only, Gumroad, or promotion work.
 ---
 
 # Daily Utility Engineering
@@ -23,4 +23,6 @@ Test the actual delivered workflow, including representative success, malformed 
 
 Update the manifest only with observed results. Required checks remain `pending` or `failed` until the packaged artifact passes them. Run the product tests, inspect the release archive contents, verify checksums when present, then run `python3 factory/scripts/validate_manifest.py`.
 
-Before `READY_FOR_RELEASE`, ensure the reviewed artifacts include separate Gumroad and Lemon Squeezy listing sources plus a KNA catalog source. A simultaneous release requires both exact sales URLs, purchase anchors, and reverse-link pairs. A Gumroad-first release must explicitly set `distribution.release_sequence` to `gumroad-first`; it may keep the final Lemon Squeezy URL pending while requiring exact Gumroad/KNA first-stage fields, reviewed Lemon Squeezy copy/price/artifact, and truthful pending-channel copy with no public placeholder link. Stop at `READY_FOR_RELEASE`. Return the PR, linked issue, check evidence, remaining risks, and exact release-review commands. Do not publish or infer release approval.
+Before `READY_FOR_RELEASE`, ensure the reviewed artifacts include `marketing/gumroad-listing.md` and `marketing/knasoftware-listing.md` with the exact Gumroad and KNA Software destinations, purchase anchor, reverse-link anchor, price, version, support terms, and release facts.
+
+Stop at `READY_FOR_RELEASE`. Return the PR, linked issue, check evidence, remaining risks, and exact release-review commands. Do not publish or infer release approval.

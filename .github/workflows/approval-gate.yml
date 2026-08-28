@@ -74,7 +74,6 @@ jobs:
                 '/request-changes': 'state:building'
               },
               'state:ready-for-remaining-channels': {
-                '/approve': 'state:approved-remaining-channels',
                 '/request-changes': 'state:gumroad-published'
               }
             };
@@ -92,9 +91,9 @@ jobs:
               'state:building': ['fbca04', 'Build in progress'],
               'state:ready-for-release': ['f9d0c4', 'Awaiting release approval'],
               'state:approved-release': ['1d76db', 'Approved to release'],
-              'state:gumroad-published': ['0e8a16', 'Gumroad and KNA live; remaining channels pending'],
-              'state:ready-for-remaining-channels': ['f9d0c4', 'Awaiting remaining-channel approval'],
-              'state:approved-remaining-channels': ['1d76db', 'Approved to publish remaining channels'],
+              'state:gumroad-published': ['0e8a16', 'Deprecated staged state; Gumroad and KNA are live'],
+              'state:ready-for-remaining-channels': ['f9d0c4', 'Deprecated staged state retained for migration'],
+              'state:approved-remaining-channels': ['1d76db', 'Deprecated staged state; new channel publication disabled'],
               'state:published': ['0969da', 'Published'],
               'state:rejected': ['b60205', 'Rejected at an approval gate']
             };
