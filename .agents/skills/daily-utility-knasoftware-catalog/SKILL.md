@@ -11,7 +11,7 @@ Read `AGENTS.md`, the linked issue, product manifest, approved release copy, `pr
 
 - the issue is `APPROVED_RELEASE` for a simultaneous release and the exact KNA page fields, both sales URLs, and both reciprocal-link pairs were reviewed; or
 - the issue is `APPROVED_RELEASE` for an explicit Gumroad-first release and the exact first-stage KNA fields, Gumroad URL, Gumroad reciprocal-link pair, and truthful Lemon Squeezy-pending copy were reviewed; or
-- the issue is `APPROVED_REMAINING_CHANNELS` and the exact Lemon Squeezy URL, KNA purchase-link update, and Lemon Squeezy reciprocal-link pair were reviewed; or
+- the issue is `APPROVED_REMAINING_CHANNELS` and either the exact Lemon Squeezy URL was reviewed or the approved `publish-bootstrap` has just produced a URL matching the reviewed storefront host and `/checkout/buy/` constraint; in both cases the KNA purchase anchor, every other KNA field, and the Lemon Squeezy reciprocal-link destination must have been reviewed; or
 - the product is already `PUBLISHED` and the user explicitly approved a backfill with the exact page copy and sales-listing change.
 
 Use the Google-authenticated admin UI through the Codex desktop browser. Never request, expose, or store Google credentials, Firebase tokens, cookies, customer data, or private demo credentials. Stop on missing admin access, CAPTCHA, a material form change, an unreviewed destination, or a mismatch in price, version, support, or product claims.
@@ -20,7 +20,7 @@ Before using the live CMS, read [references/admin-and-seo.md](references/admin-a
 
 ## Prepare
 
-- Treat `products/<product-id>/marketing/knasoftware-listing.md` as the release-review source of truth. It must define every CMS field needed for the applicable checkpoint. A simultaneous release includes both purchase anchors and reverse links. A Gumroad-first first stage includes the exact Gumroad pair and explicit Lemon Squeezy-pending copy, with no placeholder or inactive Lemon Squeezy purchase link.
+- Treat `products/<product-id>/marketing/knasoftware-listing.md` as the release-review source of truth. It must define every CMS field needed for the applicable checkpoint. A simultaneous release includes both purchase anchors and reverse links. A Gumroad-first first stage includes the exact Gumroad pair and explicit Lemon Squeezy-pending copy, with no placeholder or inactive Lemon Squeezy purchase link. A remaining-channel `publish-bootstrap` review fixes the Lemon Squeezy purchase anchor and all page fields while declaring the approved Live draft and bounded generated-URL rule; persist the exact URL after bootstrap and before editing the live CMS.
 - Use the approved product name, stable lowercase slug, version, price, media, factual feature set, support terms, and limitations.
 - Write a first-party KNA description that represents the same product facts without copying either sales listing word-for-word.
 - For paid utilities, keep the KNA distribution mode truthful. Do not disguise a purchase link as documentation. Put every active approved sales URL behind its own descriptive purchase anchor. During a Gumroad-first partial release, show Gumroad only and state that Lemon Squeezy is pending; add the Lemon Squeezy anchor only after its remaining-channel approval.
@@ -30,7 +30,7 @@ Before using the live CMS, read [references/admin-and-seo.md](references/admin-a
 
 ## Publish and verify
 
-1. Create or update the KNA product as a draft and inspect every field before publishing.
+1. Create or update the KNA product as a draft and inspect every field before publishing. For `publish-bootstrap`, do not add the Lemon Squeezy purchase link until the exact generated URL has passed its host/path and checkout checks.
 2. Verify every sales listing active in the applicable checkpoint is live and its reverse-link destination exactly matches the planned KNA URL. The URL may not resolve publicly while the KNA page is still a draft.
 3. Publish the KNA page once the reviewed data and all destinations remain exact.
 4. Verify the public KNA URL, catalog visibility, name, version, shared price, media, Markdown, support and limitation facts, plus every outbound sales link and backlink required by the applicable checkpoint.

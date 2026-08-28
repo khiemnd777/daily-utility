@@ -20,7 +20,7 @@ Use the repository state machine as the lifecycle authority and GitHub proposal 
 - Product implementation or hardening uses `daily-utility-engineering` and `daily-utility-git-delivery`.
 - Manual Gumroad publishing uses `daily-utility-gumroad-release` only after `APPROVED_RELEASE`; the verified release `/approve` is the explicit publish instruction for the reviewed version and release sequence.
 - Manual Lemon Squeezy publishing uses `daily-utility-lemonsqueezy-release` under `APPROVED_RELEASE` for simultaneous releases or `APPROVED_REMAINING_CHANNELS` for an explicitly reviewed Gumroad-first release.
-- An unpublished Lemon Squeezy review draft may be prepared from `GUMROAD_PUBLISHED` under that skill solely to obtain the exact remaining-channel URL; it must not be published before the second approval.
+- An unpublished Lemon Squeezy Live draft may be prepared from `GUMROAD_PUBLISHED` under that skill. Prefer `exact-url` review when the draft exposes the reusable URL. Use the constrained `publish-bootstrap` review mode only when the platform demonstrably withholds that URL until publication; it must lock the exact draft identifier, expected storefront host and `/checkout/buy/` shape, and every other release and KNA fact before the second approval. Neither mode permits publication before that approval.
 - First-party catalog publication and reciprocal sales-channel linking use `daily-utility-knasoftware-catalog` after `APPROVED_RELEASE`, after `APPROVED_REMAINING_CHANNELS` for a staged update, or under an explicitly approved backfill for an already `PUBLISHED` product.
 - Community research or posting uses `daily-utility-promotion` only after the product is `PUBLISHED`.
 
