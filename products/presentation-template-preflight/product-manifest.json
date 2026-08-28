@@ -23,6 +23,7 @@
     "products/presentation-template-preflight/release/presentation-template-preflight-v1.0.0.zip",
     "products/presentation-template-preflight/marketing/gumroad-listing.md",
     "products/presentation-template-preflight/marketing/knasoftware-listing.md",
+    "products/presentation-template-preflight/marketing/promotion-log.json",
     "products/presentation-template-preflight/marketing/sales-workflow.png",
     "products/presentation-template-preflight/marketing/sales-results.png",
     "products/presentation-template-preflight/marketing/sales-report-preview.png",
@@ -64,5 +65,5 @@
     }
   ],
   "created_at": "2026-08-28T01:56:15Z",
-  "updated_at": "2026-08-28T16:41:39Z"
+  "updated_at": "2026-08-28T17:00:45Z"
 }

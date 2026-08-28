@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-27T15:06:30Z",
+  "updated_at": "2026-08-28T17:00:45Z",
   "channels": [
     {
       "id": "facebook-group-1486520659655365",
@@ -89,6 +89,28 @@
       },
       "last_verified_at": "2026-08-27T15:06:30Z",
       "verification_notes": "The seller account can access the group, and a prior public SVG-related product post was verified."
+    },
+    {
+      "id": "reddit-r-powerpoint-products-tools",
+      "platform": "reddit",
+      "name": "r/PowerPoint — Products & Tools",
+      "url": "https://www.reddit.com/r/powerpoint/comments/1ktliik/products_tools/",
+      "destination_type": "forum",
+      "audience": ["PowerPoint users", "presentation professionals", "PowerPoint tool buyers"],
+      "product_fit": {
+        "scope": "topic-specific",
+        "tags": ["powerpoint", "presentation-tools", "seller-tools"],
+        "notes": "Reusable for PowerPoint-related utilities that fit the designated Products & Tools megathread after a fresh rule check."
+      },
+      "membership_status": "approved",
+      "posting_flow": "direct",
+      "reuse_policy": "reuse-after-rule-check",
+      "rules": {
+        "status": "must-recheck-before-post",
+        "notes": "Post only in the designated Products & Tools megathread; state whether the product is commercial, disclose the poster's relationship to it, and direct questions to DMs because moderators lock replies."
+      },
+      "last_verified_at": "2026-08-28T17:00:45Z",
+      "verification_notes": "The seller account could comment, and the approved commercial product introduction was immediately visible at its public Reddit permalink."
     }
   ]
 }
