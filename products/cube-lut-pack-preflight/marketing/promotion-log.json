@@ -2,7 +2,7 @@
   "schema_version": 1,
   "product_id": "cube-lut-pack-preflight",
   "product_url": "https://khiemnd2.gumroad.com/l/cube-lut-pack-preflight",
-  "updated_at": "2026-08-29T03:29:03Z",
+  "updated_at": "2026-08-29T05:17:06Z",
   "entries": [
     {
       "channel_id": "reddit-r-digitalproductsellers",
@@ -14,6 +14,28 @@
       "post_url": "https://www.reddit.com/r/DigitalProductSellers/comments/1w1bf57/i_built_an_offline_preflight_tool_for_sellers/",
       "last_verified_at": "2026-08-29T03:29:03Z",
       "evidence_notes": "Reddit created the permalink and briefly showed the approved post in the community feed, but the direct post page immediately displayed 'Sorry, this post was removed by Reddit’s filters.' The PROMOTION flair, Brand Affiliate disclosure, exact approved copy, and seller account were visible. No CAPTCHA or pre-submit warning appeared, and no retry was attempted."
+    },
+    {
+      "channel_id": "facebook-group-1486520659655365",
+      "destination_url": "https://www.facebook.com/groups/1486520659655365/",
+      "status": "pending",
+      "account_context": "Nguyễn Khiêm (Facebook)",
+      "submitted_at": "2026-08-29T05:17:06Z",
+      "published_at": null,
+      "post_url": null,
+      "last_verified_at": "2026-08-29T05:17:06Z",
+      "evidence_notes": "Facebook accepted the exact approved copy once with the KNA Software link preview and displayed it under Your content > Pending as the group's single pending post. The authenticated seller account remained joined; no CAPTCHA, warning, or public permalink appeared before admin approval."
+    },
+    {
+      "channel_id": "facebook-group-4056998801242895",
+      "destination_url": "https://www.facebook.com/groups/4056998801242895/",
+      "status": "pending",
+      "account_context": "Nguyễn Khiêm (Facebook)",
+      "submitted_at": "2026-08-29T05:17:06Z",
+      "published_at": null,
+      "post_url": null,
+      "last_verified_at": "2026-08-29T05:17:06Z",
+      "evidence_notes": "Facebook accepted the exact approved copy once with the direct Gumroad link preview and displayed it first under Your content > Pending above the earlier 26 August submission. The pending queue showed two posts total; no CAPTCHA, warning, or public permalink appeared before admin approval."
     }
   ]
 }
