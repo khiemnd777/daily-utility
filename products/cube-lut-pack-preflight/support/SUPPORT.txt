@@ -1,0 +1,20 @@
+CUBE LUT PACK PREFLIGHT SUPPORT
+
+Primary route: reply to your Gumroad purchase receipt.
+Fallback: khiemnd777@gmail.com
+Subject: CUBE LUT Pack Preflight support — <Gumroad order ID>
+Normal response target: two business days.
+
+Please include your purchase email or order ID, browser and version, operating system,
+exact error message, reproducible steps, and a minimal sanitized LUT or ZIP if needed.
+
+Do not send payment data, credentials, customer information, confidential footage,
+client assets, or LUT files you are not permitted to share.
+
+Support covers purchase access and defects in documented core functionality for the
+verified purchaser. It does not include LUT repair, creative grading, pipeline
+certification, licensing review, custom integrations, marketplace uploads, or a
+guarantee that a structurally valid LUT works in every application or device.
+
+The seven-day limited functionality guarantee and its exclusions are stated on the
+Gumroad listing and purchase receipt. Those terms control refund eligibility.
