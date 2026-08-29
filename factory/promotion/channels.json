@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-28T17:00:45Z",
+  "updated_at": "2026-08-29T03:29:03Z",
   "channels": [
     {
       "id": "facebook-group-1486520659655365",
@@ -111,6 +111,28 @@
       },
       "last_verified_at": "2026-08-28T17:00:45Z",
       "verification_notes": "The seller account could comment, and the approved commercial product introduction was immediately visible at its public Reddit permalink."
+    },
+    {
+      "id": "reddit-r-digitalproductsellers",
+      "platform": "reddit",
+      "name": "r/DigitalProductSellers",
+      "url": "https://www.reddit.com/r/DigitalProductSellers/",
+      "destination_type": "forum",
+      "audience": ["digital product sellers", "Gumroad sellers", "creator-tool buyers"],
+      "product_fit": {
+        "scope": "general-digital-products",
+        "tags": ["digital-products", "gumroad", "seller-tools", "creator-tools"],
+        "notes": "Potential fit for narrow seller utilities when the current community rules and Reddit account standing permit a transparent product introduction."
+      },
+      "membership_status": "not-required",
+      "posting_flow": "direct",
+      "reuse_policy": "reuse-after-rule-check",
+      "rules": {
+        "status": "must-recheck-before-post",
+        "notes": "Use the PROMOTION flair for product introductions, disclose commercial intent, and re-read the rules, guide, activity, and external-link policy before each attempt. Do not retry a filtered same-product post without explicit approval after a relevant state change."
+      },
+      "last_verified_at": "2026-08-29T03:29:03Z",
+      "verification_notes": "The public community exposed PROMOTION flair and current outbound commercial posts. The authenticated seller account could submit directly with Brand Affiliate disclosure, but the CUBE LUT Pack Preflight post was immediately removed by Reddit's automated filters despite receiving a permalink."
     }
   ]
 }

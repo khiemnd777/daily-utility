@@ -21,6 +21,7 @@
     "products/cube-lut-pack-preflight/release/cube-lut-pack-preflight-v1.0.0.zip",
     "products/cube-lut-pack-preflight/marketing/gumroad-listing.md",
     "products/cube-lut-pack-preflight/marketing/knasoftware-listing.md",
+    "products/cube-lut-pack-preflight/marketing/promotion-log.json",
     "products/cube-lut-pack-preflight/marketing/gumroad-workflow.png",
     "products/cube-lut-pack-preflight/marketing/gumroad-results.png",
     "products/cube-lut-pack-preflight/marketing/gumroad-report-preview.png",
@@ -87,5 +88,5 @@
     }
   ],
   "created_at": "2026-08-29T01:54:06Z",
-  "updated_at": "2026-08-29T03:06:41Z"
+  "updated_at": "2026-08-29T03:29:03Z"
 }
