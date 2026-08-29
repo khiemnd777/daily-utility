@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' data: blob:; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'"
+    >
+    <meta name="referrer" content="no-referrer">
+    <title>CUBE LUT Pack Preflight</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <header class="hero">
+        <div class="eyebrow">Offline release QA for LUT sellers</div>
+        <h1>Audit the pack before buyers install it.</h1>
+        <p class="lede">
+          Check one release ZIP or up to 100 CUBE LUTs for structural blockers, duplicate transforms,
+          repeated titles, mixed grids, and filename collisions. Files stay on this device.
+        </p>
+        <div class="trust-row" aria-label="Product guarantees">
+          <span>Local-only</span><span>No account</span><span>No file changes</span><span>English evidence</span>
+        </div>
+      </header>
+
+      <section class="workspace" aria-labelledby="scan-title">
+        <div class="section-heading">
+          <div>
+            <p class="step">Step 1</p>
+            <h2 id="scan-title">Choose release files</h2>
+          </div>
+          <p class="limits">1 ZIP up to 100 MB · 150 MB expanded · 100 LUTs · 20 MB per LUT</p>
+        </div>
+
+        <label class="drop-zone" id="drop-zone" for="file-input">
+          <span class="drop-icon" aria-hidden="true">◇</span>
+          <strong>Drop one ZIP or CUBE LUT files here</strong>
+          <span>or choose files from this computer</span>
+          <span class="choose-button">Choose files</span>
+          <input id="file-input" type="file" accept=".zip,.cube,application/zip,text/plain" multiple>
+        </label>
+
+        <div id="status" class="status" role="status" aria-live="polite">
+          Ready. Nothing is read until you choose files.
+        </div>
+      </section>
+
+      <section id="results" class="results" aria-labelledby="results-title" hidden>
+        <div class="section-heading results-heading">
+          <div>
+            <p class="step">Step 2</p>
+            <h2 id="results-title">Review release evidence</h2>
+            <p id="release-meta" class="release-meta"></p>
+          </div>
+          <div class="actions">
+            <button id="export-csv" type="button">Export CSV</button>
+            <button id="export-html" class="primary" type="button">Export HTML report</button>
+          </div>
+        </div>
+
+        <div class="summary-grid" aria-label="Scan summary">
+          <article><span>LUT files</span><strong id="file-count">0</strong></article>
+          <article><span>LUT bytes</span><strong id="byte-count">0 B</strong></article>
+          <article class="danger"><span>Blockers</span><strong id="blocker-count">0</strong></article>
+          <article class="warning"><span>Review</span><strong id="review-count">0</strong></article>
+          <article><span>Duplicate groups</span><strong id="duplicate-count">0</strong></article>
+        </div>
+
+        <aside id="bundle-findings" class="bundle-findings" hidden>
+          <strong>Other release files to confirm</strong>
+          <ul id="bundle-finding-list"></ul>
+        </aside>
+
+        <div class="legend" aria-label="Finding legend">
+          <span><i class="dot blocker"></i> Blocker: outside the selected structure profile</span>
+          <span><i class="dot review"></i> Review: verify intentional release behavior</span>
+          <span><i class="dot passed"></i> Passed: no structural or bundle findings</span>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Status</th><th>File and declared properties</th><th>SHA-256</th><th>Findings and evidence</th></tr></thead>
+            <tbody id="result-rows"></tbody>
+          </table>
+        </div>
+
+        <aside class="boundary-note">
+          <strong>Structural preflight, not a color guarantee.</strong>
+          A valid file can still be mislabeled, visually poor, or unsuitable for a target color pipeline. Test representative LUTs in every application or device you claim to support.
+        </aside>
+      </section>
+    </main>
+
+    <footer>
+      <span>CUBE LUT Pack Preflight 1.0.0</span>
+      <span>Not affiliated with or endorsed by Adobe, Blackmagic Design, or Gumroad.</span>
+    </footer>
+  </body>
+</html>

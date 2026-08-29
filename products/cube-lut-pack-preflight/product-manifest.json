@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "product_id": "cube-lut-pack-preflight",
+  "name": "CUBE LUT Pack Preflight",
+  "summary": "Offline release QA for CUBE LUT packs: validate structure, detect duplicate transforms and naming collisions, and export file-level evidence.",
+  "customer": "Independent English-market creators who sell ZIP packs containing roughly 10 to 100 original CUBE LUT files through Gumroad.",
+  "problem": "A LUT pack can ship with malformed tables, repeated titles, duplicate transforms, inconsistent grids, filename collisions, or accidental non-LUT files that are tedious to catch by opening files one at a time.",
+  "solution": "A downloadable offline browser utility that audits one ZIP or direct CUBE selection with deterministic structural and bundle-hygiene rules, hashes files locally, and exports CSV and self-contained HTML evidence.",
+  "distribution": {
+    "format": "download",
+    "channel": "gumroad"
+  },
+  "pricing": {
+    "currency": "USD",
+    "amount_cents": 1900
+  },
+  "state": "BUILDING",
+  "source_issue": 36,
+  "artifacts": [
+    "products/cube-lut-pack-preflight/README.md",
+    "products/cube-lut-pack-preflight/release/cube-lut-pack-preflight-v1.0.0.zip",
+    "products/cube-lut-pack-preflight/marketing/gumroad-listing.md",
+    "products/cube-lut-pack-preflight/marketing/knasoftware-listing.md",
+    "products/cube-lut-pack-preflight/marketing/gumroad-workflow.png",
+    "products/cube-lut-pack-preflight/marketing/gumroad-results.png",
+    "products/cube-lut-pack-preflight/marketing/gumroad-report-preview.png",
+    "products/cube-lut-pack-preflight/marketing/gumroad-contents.png",
+    "products/cube-lut-pack-preflight/marketing/sample-report.html",
+    "products/cube-lut-pack-preflight/marketing/sample-report.csv",
+    "products/cube-lut-pack-preflight/support/SUPPORT.txt"
+  ],
+  "acceptance_checks": [
+    {
+      "id": "clean-cube-inventory",
+      "description": "Clean standalone 1D and 3D fixtures report the exact path, type, grid, row count, domain, title, byte size, and SHA-256 with zero structural blockers.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "documented-blocker-corpus",
+      "description": "Missing or repeated declarations, late keywords, invalid triplets, non-finite or out-of-profile numbers, invalid domains, and short or extra tables report stable check IDs and line evidence.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "bundle-hygiene-groups",
+      "description": "Exact bytes, equivalent parsed payloads, duplicate titles, mixed grids, case-insensitive paths, and non-CUBE files are grouped correctly without false duplicate grouping.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "complete-evidence-reports",
+      "description": "CSV and self-contained HTML reports contain release metadata, totals, every file, declared properties, SHA-256, check ID, severity, and evidence without changing input bytes.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "offline-private-artifact",
+      "description": "The packaged utility scans fixtures from file:// with the network disabled, uses bundled assets only, makes no outbound request, and creates no persistent browser storage.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "bounded-safe-failures",
+      "description": "Unsafe paths, invalid UTF-8, damaged archives, unsupported selections, nested archives, and file, archive, count, entry, and expansion limits fail safely with customer-facing messages.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "release-package-integrity",
+      "description": "The versioned release ZIP is deterministic, contains only intended buyer assets and dependency notices, enforces restrictive CSP, and includes no source maps or development files.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "github-ci",
+      "description": "The product pull request passes manifest validation plus clean-install unit, release, and Chromium offline-browser checks on GitHub Actions.",
+      "required": true,
+      "status": "pending"
+    },
+    {
+      "id": "buyer-facing-trust-assets",
+      "description": "Deterministic sanitized fixtures generate four 1600x900 buyer-facing evidence images plus exact sample HTML and CSV reports without customer, payment, or confidential data.",
+      "required": true,
+      "status": "passed"
+    }
+  ],
+  "created_at": "2026-08-29T01:54:06Z",
+  "updated_at": "2026-08-29T01:54:06Z"
+}
