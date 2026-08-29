@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "product_id": "cube-lut-pack-preflight",
+  "product_url": "https://khiemnd2.gumroad.com/l/cube-lut-pack-preflight",
+  "updated_at": "2026-08-29T03:29:03Z",
+  "entries": [
+    {
+      "channel_id": "reddit-r-digitalproductsellers",
+      "destination_url": "https://www.reddit.com/r/DigitalProductSellers/",
+      "status": "rejected",
+      "account_context": "u/Rare-Star-8120 (Reddit)",
+      "submitted_at": "2026-08-29T03:28:08.194Z",
+      "published_at": null,
+      "post_url": "https://www.reddit.com/r/DigitalProductSellers/comments/1w1bf57/i_built_an_offline_preflight_tool_for_sellers/",
+      "last_verified_at": "2026-08-29T03:29:03Z",
+      "evidence_notes": "Reddit created the permalink and briefly showed the approved post in the community feed, but the direct post page immediately displayed 'Sorry, this post was removed by Reddit’s filters.' The PROMOTION flair, Brand Affiliate disclosure, exact approved copy, and seller account were visible. No CAPTCHA or pre-submit warning appeared, and no retry was attempted."
+    }
+  ]
+}
