@@ -14,7 +14,7 @@
     "currency": "USD",
     "amount_cents": 1900
   },
-  "state": "APPROVED_RELEASE",
+  "state": "PUBLISHED",
   "source_issue": 36,
   "artifacts": [
     "products/cube-lut-pack-preflight/README.md",
@@ -27,7 +27,8 @@
     "products/cube-lut-pack-preflight/marketing/gumroad-contents.png",
     "products/cube-lut-pack-preflight/marketing/sample-report.html",
     "products/cube-lut-pack-preflight/marketing/sample-report.csv",
-    "products/cube-lut-pack-preflight/support/SUPPORT.txt"
+    "products/cube-lut-pack-preflight/support/SUPPORT.txt",
+    "products/cube-lut-pack-preflight/publication.json"
   ],
   "acceptance_checks": [
     {
@@ -86,5 +87,5 @@
     }
   ],
   "created_at": "2026-08-29T01:54:06Z",
-  "updated_at": "2026-08-29T02:32:25Z"
+  "updated_at": "2026-08-29T03:06:41Z"
 }

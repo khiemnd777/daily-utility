@@ -1,9 +1,9 @@
 # KNA Software listing: CUBE LUT Pack Preflight
 
-- Status: `DRAFT — DO NOT PUBLISH`
+- Status: `VERIFIED_LIVE`
 - Factory source issue: [#36](https://github.com/khiemnd777/daily-utility/issues/36)
-- Planned Gumroad listing: <https://khiemnd2.gumroad.com/l/cube-lut-pack-preflight>
-- Planned canonical KNA URL: <https://knasoftware.com/sources/cube-lut-pack-preflight>
+- Live Gumroad listing: <https://khiemnd2.gumroad.com/l/cube-lut-pack-preflight>
+- Live canonical KNA URL: <https://knasoftware.com/sources/cube-lut-pack-preflight>
 
 This file is the exact release-review source for every KNA CMS field and both reciprocal-link destinations. Create the product as a draft first and publish only after issue #36 reaches `APPROVED_RELEASE`. Stop if the live form, product facts, artifact, price, or destinations differ.
 
@@ -203,3 +203,26 @@ Create the product as `Draft`. Do not select `Published` during preparation or r
 5. Publish both reviewed destinations only under the verified release approval.
 6. Verify Gumroad price, buyer delivery, support route, downloaded checksum, public KNA page, direct purchase CTA, reciprocal links, self-canonical URL, metadata, OG image, crawlability, sitemap membership, structured data, and `llms.txt` behavior.
 7. Record supported evidence and platform gaps without claiming ranking improvement.
+
+## Live verification evidence
+
+Verified at `2026-08-29 10:06:41 ICT (UTC+07:00)` under the exact release approval on factory issue #36.
+
+### Publication and delivery
+
+- The Gumroad product is public at the reviewed URL with the exact `$19` price, version `1.0.0`, four approved images, reviewed copy, support route, seven-day functionality guarantee, and `Download the ZIP` receipt/content button.
+- The buyer-visible ZIP downloaded from Gumroad is 56,861 bytes and has SHA-256 `35e773db153f6efdc7833bf5c1a15db8c8411588e49d0b529d581bd07c248ea9`, matching the reviewed repository artifact.
+- KNA CMS record `NHNYPVxIYJ2pKKvJpGhC` is public at the canonical KNA URL with the approved category, tags, price, version, media, distinct copy, requirements, support facts, and purchase destination.
+
+### Reciprocal links
+
+- KNA → Gumroad: the buyer-visible anchor `Buy CUBE LUT Pack Preflight on Gumroad — $19 USD` resolves to the reviewed Gumroad URL with `rel="noopener noreferrer"`.
+- Gumroad → KNA: the buyer-visible anchor `official KNA Software page for CUBE LUT Pack Preflight` resolves to the canonical KNA URL with `rel="noopener noreferrer nofollow"`.
+- The reciprocal links improve buyer navigation and corroborate the first-party product identity. No ranking improvement is claimed, and Gumroad's `nofollow` limits the reverse link's direct search-ranking signal.
+
+### SEO and AI-discovery verification
+
+- The JavaScript-rendered page sets the approved title, meta description, self-canonical URL, Open Graph title/description/image, and `index,follow,max-image-preview:large` robots directive.
+- The rendered page emits `Product` JSON-LD with the exact name, SKU, version, four images, `$19.00 USD` in-stock Gumroad offer, KNA canonical URL, and a `BreadcrumbList`.
+- `robots.txt` allows `/` for general crawlers plus OAI-SearchBot and Claude-SearchBot, disallows `/admin`, declares the sitemap, and separately disallows GPTBot and ClaudeBot.
+- Current platform gaps: `sitemap-products.xml`, `llms.txt`, and `llms-full.txt` do not yet include this product. The raw non-JavaScript HTML and `.md` endpoint return the generic KNA shell, home canonical, and generic catalog JSON-LD rather than product-specific evidence. Crawlers or AI agents that do not render JavaScript therefore receive weaker or stale product evidence.

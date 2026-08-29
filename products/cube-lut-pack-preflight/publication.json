@@ -1,0 +1,25 @@
+{
+  "schema_version": 4,
+  "product_id": "cube-lut-pack-preflight",
+  "sales_channels": [
+    {
+      "channel": "gumroad",
+      "url": "https://khiemnd2.gumroad.com/l/cube-lut-pack-preflight",
+      "price": {
+        "currency": "USD",
+        "amount_cents": 1900
+      },
+      "published_at": "2026-08-29T03:06:41Z",
+      "delivered_artifact_sha256": "35e773db153f6efdc7833bf5c1a15db8c8411588e49d0b529d581bd07c248ea9",
+      "catalog_backlink_verified_at": "2026-08-29T03:06:41Z"
+    }
+  ],
+  "catalog": {
+    "channel": "knasoftware",
+    "url": "https://knasoftware.com/sources/cube-lut-pack-preflight",
+    "published_at": "2026-08-29T03:06:41Z",
+    "gumroad_link_verified_at": "2026-08-29T03:06:41Z"
+  },
+  "artifact": "products/cube-lut-pack-preflight/release/cube-lut-pack-preflight-v1.0.0.zip",
+  "artifact_sha256": "35e773db153f6efdc7833bf5c1a15db8c8411588e49d0b529d581bd07c248ea9"
+}

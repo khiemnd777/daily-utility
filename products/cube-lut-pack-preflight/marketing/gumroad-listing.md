@@ -1,8 +1,8 @@
 # Gumroad listing: CUBE LUT Pack Preflight
 
-- Status: `DRAFT — DO NOT PUBLISH`
+- Status: `VERIFIED_LIVE`
 - Factory source issue: [#36](https://github.com/khiemnd777/daily-utility/issues/36)
-- Planned Gumroad URL: <https://khiemnd2.gumroad.com/l/cube-lut-pack-preflight>
+- Live Gumroad URL: <https://khiemnd2.gumroad.com/l/cube-lut-pack-preflight>
 - Required KNA backlink: <https://knasoftware.com/sources/cube-lut-pack-preflight>
 
 This file is the exact release-review source for the Gumroad product. Do not upload, create, or publish the listing before issue #36 reaches `APPROVED_RELEASE`.
