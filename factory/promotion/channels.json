@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-29T03:29:03Z",
+  "updated_at": "2026-08-29T05:17:06Z",
   "channels": [
     {
       "id": "facebook-group-1486520659655365",
@@ -21,8 +21,8 @@
         "status": "must-recheck-before-post",
         "notes": "Re-read the visible group rules and link policy at action time; prior acceptance does not authorize a new post."
       },
-      "last_verified_at": "2026-08-27T15:06:30Z",
-      "verification_notes": "The seller account can access the group, and a prior approved public product post was verified."
+      "last_verified_at": "2026-08-29T05:17:06Z",
+      "verification_notes": "The authenticated Nguyễn Khiêm seller account remains joined. The public description invites Gumroad tips, product ideas, marketing strategies, and real results; Facebook accepted the exact approved CUBE LUT Pack Preflight introduction into the group's admin-review queue."
     },
     {
       "id": "facebook-group-4056998801242895",
@@ -43,8 +43,8 @@
         "status": "must-recheck-before-post",
         "notes": "Re-read the visible group rules and moderation requirements before each submission."
       },
-      "last_verified_at": "2026-08-27T15:06:30Z",
-      "verification_notes": "The seller account can access the group; one prior product submission remains in Facebook's pending-content queue."
+      "last_verified_at": "2026-08-29T05:17:06Z",
+      "verification_notes": "The authenticated Nguyễn Khiêm seller account remains joined. The public description explicitly permits direct Gumroad store links; Facebook accepted the exact approved CUBE LUT Pack Preflight introduction into the admin-review queue, which also contains one earlier product submission."
     },
     {
       "id": "facebook-group-485483650066909",
