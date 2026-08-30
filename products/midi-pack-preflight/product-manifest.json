@@ -14,7 +14,7 @@
     "currency": "USD",
     "amount_cents": 1900
   },
-  "state": "BUILDING",
+  "state": "READY_FOR_RELEASE",
   "source_issue": 41,
   "artifacts": [
     "products/midi-pack-preflight/README.md",
@@ -82,9 +82,9 @@
       "id": "github-ci",
       "description": "The product pull request passes manifest validation plus clean-install unit, release-package, and Chromium offline-browser checks on GitHub Actions.",
       "required": true,
-      "status": "pending"
+      "status": "passed"
     }
   ],
   "created_at": "2026-08-30T04:40:30Z",
-  "updated_at": "2026-08-30T05:01:44Z"
+  "updated_at": "2026-08-30T05:05:00Z"
 }
