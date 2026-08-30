@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src data:; font-src 'none'; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; base-uri 'none'; form-action 'none'">
+    <title>MIDI Pack Preflight</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#main" aria-label="MIDI Pack Preflight home">
+        <span class="brand-mark" aria-hidden="true">MP</span>
+        <span>MIDI Pack Preflight</span>
+      </a>
+      <span class="version">v1.0.0 · local-only</span>
+    </header>
+
+    <main id="main">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">Release QA for MIDI pack sellers</p>
+          <h1 id="hero-title">Catch the silent clip before your buyer does.</h1>
+          <p class="lede">Audit one release ZIP or up to 2,000 Standard MIDI files for malformed structure, empty musical content, portability risks, duplicate performances, and colliding paths—without uploading anything.</p>
+          <ul class="trust-list" aria-label="Product properties">
+            <li>No account or installer</li>
+            <li>No uploads or telemetry</li>
+            <li>CSV + self-contained HTML</li>
+          </ul>
+        </div>
+        <aside class="workflow-card" aria-label="Three-step workflow">
+          <p class="card-label">One focused workflow</p>
+          <ol>
+            <li><span>01</span><div><strong>Choose</strong><small>One ZIP or direct MIDI files</small></div></li>
+            <li><span>02</span><div><strong>Review</strong><small>Structure, content, and bundle risks</small></div></li>
+            <li><span>03</span><div><strong>Export</strong><small>Keep release evidence with the pack</small></div></li>
+          </ol>
+        </aside>
+      </section>
+
+      <section class="workspace" aria-labelledby="workspace-title">
+        <div class="section-heading">
+          <div><p class="eyebrow">Private workspace</p><h2 id="workspace-title">Select the buyer release</h2></div>
+          <p>100 MB ZIP · 150 MB expanded · 10 MB per MIDI</p>
+        </div>
+        <label id="dropzone" class="dropzone" for="release-files">
+          <span class="drop-icon" aria-hidden="true">↥</span>
+          <strong>Drop one ZIP here</strong>
+          <span>or choose up to 2,000 `.mid` / `.midi` files</span>
+          <span class="choose">Choose release files</span>
+          <input id="release-files" type="file" accept=".zip,.mid,.midi,application/zip,audio/midi,audio/x-midi" multiple>
+        </label>
+        <p id="status" class="status" data-tone="neutral" role="status" aria-live="polite">No release selected. Your files stay on this device.</p>
+      </section>
+
+      <section id="results" class="results" aria-labelledby="results-title" hidden>
+        <div class="section-heading results-heading">
+          <div><p class="eyebrow">Release evidence</p><h2 id="results-title">Preflight results</h2></div>
+          <div class="actions">
+            <button id="export-csv" type="button" disabled>Export CSV</button>
+            <button id="export-html" class="primary" type="button" disabled>Export HTML report</button>
+            <button id="clear" class="quiet" type="button" disabled>Clear</button>
+          </div>
+        </div>
+        <div id="summary" class="summary" aria-label="Scan summary"></div>
+        <div class="table-shell">
+          <table>
+            <thead><tr><th>File evidence</th><th>Structure</th><th>Musical facts</th><th>Findings</th></tr></thead>
+            <tbody id="results-body"></tbody>
+          </table>
+        </div>
+        <div id="other-files" class="other-files" hidden>
+          <h3>Other release files</h3>
+          <p>Confirm these are intentional. Nested archives are not opened.</p>
+          <ul id="other-files-list"></ul>
+        </div>
+      </section>
+
+      <section class="boundaries" aria-labelledby="boundaries-title">
+        <div><p class="eyebrow">Know the boundary</p><h2 id="boundaries-title">Evidence, not certification.</h2></div>
+        <div class="boundary-grid">
+          <p><strong>It checks</strong> deterministic Standard MIDI structure, empty content, declared facts, duplicates, paths, and release inventory.</p>
+          <p><strong>It does not</strong> repair files, play audio, judge composition, infer labels, review rights, or promise identical behavior everywhere.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer><span>MIDI Pack Preflight 1.0.0</span><span>Offline by design · Input bytes are never modified</span></footer>
+  </body>
+</html>

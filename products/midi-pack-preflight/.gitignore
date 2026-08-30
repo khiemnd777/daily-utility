@@ -1,0 +1,4 @@
+node_modules/
+dist/
+.work/
+tests/fixtures/browser-acceptance.png
