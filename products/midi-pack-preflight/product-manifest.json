@@ -14,11 +14,12 @@
     "currency": "USD",
     "amount_cents": 1900
   },
-  "state": "APPROVED_RELEASE",
+  "state": "PUBLISHED",
   "source_issue": 41,
   "artifacts": [
     "products/midi-pack-preflight/README.md",
     "products/midi-pack-preflight/release/midi-pack-preflight-v1.0.0.zip",
+    "products/midi-pack-preflight/publication.json",
     "products/midi-pack-preflight/marketing/gumroad-listing.md",
     "products/midi-pack-preflight/marketing/knasoftware-listing.md",
     "products/midi-pack-preflight/marketing/gumroad-workflow.png",
@@ -86,5 +87,5 @@
     }
   ],
   "created_at": "2026-08-30T04:40:30Z",
-  "updated_at": "2026-08-30T05:18:28Z"
+  "updated_at": "2026-08-30T05:43:03Z"
 }
