@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "product_id": "midi-pack-preflight",
+  "product_url": "https://khiemnd2.gumroad.com/l/midi-pack-preflight",
+  "updated_at": "2026-08-30T06:03:01Z",
+  "entries": [
+    {
+      "channel_id": "reddit-r-edmproduction-weekly-marketplace",
+      "destination_url": "https://www.reddit.com/r/edmproduction/comments/1vx0sqt/weekly_marketplace_thread_august_24_2026/",
+      "status": "published",
+      "account_context": "u/Rare-Star-8120 (Reddit)",
+      "submitted_at": "2026-08-30T06:03:01Z",
+      "published_at": "2026-08-30T06:03:01Z",
+      "post_url": "https://www.reddit.com/r/edmproduction/comments/1vx0sqt/comment/p6qu37l/",
+      "last_verified_at": "2026-08-30T06:03:01Z",
+      "evidence_notes": "The exact action-time-approved English comment was submitted once in the current r/edmproduction Weekly Marketplace Thread. The direct permalink publicly rendered the authenticated seller account, paid-maker disclosure, approved product facts and limits, and single KNA Software CTA. No removal/filter notice, CAPTCHA, posting restriction, moderation warning, duplicate submission, edit, reply, reaction, or retry was observed."
+    }
+  ]
+}

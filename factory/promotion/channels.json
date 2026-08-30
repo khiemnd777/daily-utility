@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-29T05:17:06Z",
+  "updated_at": "2026-08-30T06:03:01Z",
   "channels": [
     {
       "id": "facebook-group-1486520659655365",
@@ -133,6 +133,28 @@
       },
       "last_verified_at": "2026-08-29T03:29:03Z",
       "verification_notes": "The public community exposed PROMOTION flair and current outbound commercial posts. The authenticated seller account could submit directly with Brand Affiliate disclosure, but the CUBE LUT Pack Preflight post was immediately removed by Reddit's automated filters despite receiving a permalink."
+    },
+    {
+      "id": "reddit-r-edmproduction-weekly-marketplace",
+      "platform": "reddit",
+      "name": "r/edmproduction — Weekly Marketplace Thread",
+      "url": "https://www.reddit.com/r/edmproduction/comments/1vx0sqt/weekly_marketplace_thread_august_24_2026/",
+      "destination_type": "forum",
+      "audience": ["electronic music producers", "MIDI pack creators", "audio software users"],
+      "product_fit": {
+        "scope": "topic-specific",
+        "tags": ["music-production", "midi", "sample-packs", "producer-tools"],
+        "notes": "Reusable only for music-production products or services that fit the current Weekly Marketplace Thread after a fresh rule and activity check."
+      },
+      "membership_status": "not-required",
+      "posting_flow": "direct",
+      "reuse_policy": "reuse-after-rule-check",
+      "rules": {
+        "status": "must-recheck-before-post",
+        "notes": "Use only the current Weekly Marketplace Thread; clearly mark the offering as paid or free, disclose the poster's relationship, avoid music posts, and never repeat the same product in one thread. A newer weekly thread still requires fresh destination-and-copy approval."
+      },
+      "last_verified_at": "2026-08-30T06:03:01Z",
+      "verification_notes": "The authenticated u/Rare-Star-8120 account could comment directly. The thread explicitly accepted programs, plugins, services, websites, presets, sample packs, and labels; required paid/free disclosure; and prohibited repeated same-product comments. The exact approved MIDI Pack Preflight comment remained public at its direct permalink without a removal warning."
     }
   ]
 }
