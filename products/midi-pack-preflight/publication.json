@@ -1,0 +1,25 @@
+{
+  "schema_version": 4,
+  "product_id": "midi-pack-preflight",
+  "sales_channels": [
+    {
+      "channel": "gumroad",
+      "url": "https://khiemnd2.gumroad.com/l/midi-pack-preflight",
+      "price": {
+        "currency": "USD",
+        "amount_cents": 1900
+      },
+      "published_at": "2026-08-30T05:43:03Z",
+      "delivered_artifact_sha256": "e24d14d0bb871c010cad66d22b5db9d7a359e061f2c9ef31383e9de15fda08eb",
+      "catalog_backlink_verified_at": "2026-08-30T05:43:03Z"
+    }
+  ],
+  "catalog": {
+    "channel": "knasoftware",
+    "url": "https://knasoftware.com/sources/midi-pack-preflight",
+    "published_at": "2026-08-30T05:43:03Z",
+    "gumroad_link_verified_at": "2026-08-30T05:43:03Z"
+  },
+  "artifact": "products/midi-pack-preflight/release/midi-pack-preflight-v1.0.0.zip",
+  "artifact_sha256": "e24d14d0bb871c010cad66d22b5db9d7a359e061f2c9ef31383e9de15fda08eb"
+}
