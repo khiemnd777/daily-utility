@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:; font-src 'none'; connect-src 'none'; script-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>fictional-midi-release.zip — MIDI Pack Preflight report</title>
+<style>body{max-width:1180px;margin:40px auto;padding:0 24px;color:#17211d;background:#f4f8f5;font:15px/1.5 system-ui,sans-serif}header,section{background:#fff;border:1px solid #cfddd4;border-radius:16px;padding:24px;margin-bottom:18px}h1{margin:0 0 6px;font:700 36px/1.1 Georgia,serif}h2{margin-top:26px}dl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}dt{color:#5b6a62;font-size:12px;text-transform:uppercase}dd{margin:2px 0 0;font-size:22px;font-weight:700}table{width:100%;border-collapse:collapse}th,td{padding:12px;border-bottom:1px solid #dce6df;text-align:left;vertical-align:top}th{color:#536158;font-size:12px;text-transform:uppercase}code{font-size:11px;overflow-wrap:anywhere}.pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:700}.passed{background:#dff6e8;color:#155d35}.review{background:#fff1c9;color:#765100}.blocker{background:#ffe0dd;color:#862b22}li{margin:7px 0}@media(max-width:760px){dl{grid-template-columns:1fr 1fr}table{display:block;overflow:auto}}</style></head>
+<body><header><p>MIDI Pack Preflight 1.0.0</p><h1>fictional-midi-release.zip</h1><p>Scanned 2026-08-30T05:00:00.000Z · 100 MB ZIP · 150 MB expanded · 2,000 MIDI files · 10 MB per MIDI · 5,000 entries · 240-character paths</p><dl><div><dt>MIDI files</dt><dd>7</dd></div><div><dt>Blockers</dt><dd>0</dd></div><div><dt>Review</dt><dd>8</dd></div><div><dt>Status</dt><dd>review</dd></div></dl></header>
+<section><h2>File evidence</h2><table><thead><tr><th>Path and SHA-256</th><th>Structure</th><th>Musical facts</th><th>Findings</th></tr></thead><tbody>
+    <tr>
+      <td><strong>bass/clean-bass.midi</strong><br><code>1b828a2bd2aba0f2b5225ebec0574aa0208652297374fdf8e8bae82da7967042</code></td>
+      <td>Format 1<br>480 PPQ<br>2 track(s)</td>
+      <td>1 note-on<br>Pitch 36–36<br>1.000 seconds</td>
+      <td><span class="pill passed">passed</span></td>
+    </tr>
+    <tr>
+      <td><strong>chords/clean-chord.mid</strong><br><code>adb3da3d01330e08888d0b891e5a9bf073d7f7c866129091cbb2cdb96a18a41c</code></td>
+      <td>Format 0<br>480 PPQ<br>1 track(s)</td>
+      <td>2 note-on<br>Pitch 60–64<br>0.500 seconds</td>
+      <td><ul><li><strong>probable-performance-duplicate</strong> <span class="pill review">review</span><br>The normalized performance stream also appears at: duplicates/exact-copy.mid, duplicates/exact.mid, duplicates/performance-a.mid, duplicates/performance-b.mid</li></ul></td>
+    </tr>
+    <tr>
+      <td><strong>distinct/lead.mid</strong><br><code>bd8a00c4f48e56eb9f22e7eb87216372d4d9170e4b5ce9e6e28dc161c2fed83f</code></td>
+      <td>Format 0<br>480 PPQ<br>1 track(s)</td>
+      <td>1 note-on<br>Pitch 72–72<br>0.250 seconds</td>
+      <td><span class="pill passed">passed</span></td>
+    </tr>
+    <tr>
+      <td><strong>duplicates/exact-copy.mid</strong><br><code>5df65ea410da90725ac438b8929eac295193455ddf4626ad740d389637385b02</code></td>
+      <td>Format 0<br>480 PPQ<br>1 track(s)</td>
+      <td>2 note-on<br>Pitch 60–64<br>0.500 seconds</td>
+      <td><ul><li><strong>exact-duplicate</strong> <span class="pill review">review</span><br>Identical bytes also appear at: duplicates/exact.mid</li><li><strong>probable-performance-duplicate</strong> <span class="pill review">review</span><br>The normalized performance stream also appears at: chords/clean-chord.mid, duplicates/exact.mid, duplicates/performance-a.mid, duplicates/performance-b.mid</li></ul></td>
+    </tr>
+    <tr>
+      <td><strong>duplicates/exact.mid</strong><br><code>5df65ea410da90725ac438b8929eac295193455ddf4626ad740d389637385b02</code></td>
+      <td>Format 0<br>480 PPQ<br>1 track(s)</td>
+      <td>2 note-on<br>Pitch 60–64<br>0.500 seconds</td>
+      <td><ul><li><strong>exact-duplicate</strong> <span class="pill review">review</span><br>Identical bytes also appear at: duplicates/exact-copy.mid</li><li><strong>probable-performance-duplicate</strong> <span class="pill review">review</span><br>The normalized performance stream also appears at: chords/clean-chord.mid, duplicates/exact-copy.mid, duplicates/performance-a.mid, duplicates/performance-b.mid</li></ul></td>
+    </tr>
+    <tr>
+      <td><strong>duplicates/performance-a.mid</strong><br><code>0a87a881bf0a5572b94844fd538abf6ebbb6e8bd4efee48dde61aee522932426</code></td>
+      <td>Format 0<br>480 PPQ<br>1 track(s)</td>
+      <td>2 note-on<br>Pitch 60–64<br>0.500 seconds</td>
+      <td><ul><li><strong>probable-performance-duplicate</strong> <span class="pill review">review</span><br>The normalized performance stream also appears at: chords/clean-chord.mid, duplicates/exact-copy.mid, duplicates/exact.mid, duplicates/performance-b.mid</li></ul></td>
+    </tr>
+    <tr>
+      <td><strong>duplicates/performance-b.mid</strong><br><code>9b0bc1bf3b59d7a8508710ee77a2602713ef761025915346136f5fa9ea7a6f4d</code></td>
+      <td>Format 0<br>480 PPQ<br>1 track(s)</td>
+      <td>2 note-on<br>Pitch 60–64<br>0.500 seconds</td>
+      <td><ul><li><strong>probable-performance-duplicate</strong> <span class="pill review">review</span><br>The normalized performance stream also appears at: chords/clean-chord.mid, duplicates/exact-copy.mid, duplicates/exact.mid, duplicates/performance-a.mid</li></ul></td>
+    </tr></tbody></table><h2>Other release files</h2><ul><li><strong>README.txt</strong> — Confirm this non-MIDI file is intentional buyer content.</li></ul></section>
+<section><h2>Important limits</h2><ul><li>Structural preflight is not MIDI repair, musical review, rights advice, or a universal compatibility guarantee.</li><li>Format 2, SMPTE timing, system-exclusive data, non-ASCII text, and unmatched notes are review signals, not automatic proof of failure.</li><li>Probable performance duplicates ignore non-performance text labels and serialization differences; they are not proof of copying.</li><li>Nested archives and non-MIDI files are inventoried but not opened or scanned.</li><li>Test representative files in every DAW, plugin, instrument, or device you claim to support.</li></ul><p>Inputs were read locally and were not modified. This report is evidence from deterministic static checks, not certification.</p></section></body></html>

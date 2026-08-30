@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "product_id": "midi-pack-preflight",
+  "name": "MIDI Pack Preflight",
+  "summary": "Audit a MIDI release pack locally for malformed or empty files, portability risks, duplicate performances, and path collisions before upload.",
+  "customer": "Independent English-market music producers and boutique sample-pack labels that sell original ZIP packs containing roughly 20 to 2,000 Standard MIDI files.",
+  "problem": "Large MIDI packs can contain malformed chunks, empty musical content, hanging notes, less-portable format features, duplicate performances, or colliding release paths that are tedious to catch by importing files one at a time.",
+  "solution": "A downloadable offline browser utility that audits one ZIP or direct MIDI selection with deterministic Standard MIDI and bundle-hygiene checks, hashes files locally, and exports CSV plus self-contained HTML evidence.",
+  "distribution": {
+    "format": "download",
+    "channel": "gumroad"
+  },
+  "pricing": {
+    "currency": "USD",
+    "amount_cents": 1900
+  },
+  "state": "APPROVED_RELEASE",
+  "source_issue": 41,
+  "artifacts": [
+    "products/midi-pack-preflight/README.md",
+    "products/midi-pack-preflight/release/midi-pack-preflight-v1.0.0.zip",
+    "products/midi-pack-preflight/marketing/gumroad-listing.md",
+    "products/midi-pack-preflight/marketing/knasoftware-listing.md",
+    "products/midi-pack-preflight/marketing/gumroad-workflow.png",
+    "products/midi-pack-preflight/marketing/gumroad-results.png",
+    "products/midi-pack-preflight/marketing/gumroad-report-preview.png",
+    "products/midi-pack-preflight/marketing/gumroad-contents.png",
+    "products/midi-pack-preflight/marketing/sample-report.html",
+    "products/midi-pack-preflight/marketing/sample-report.csv",
+    "products/midi-pack-preflight/support/SUPPORT.txt"
+  ],
+  "acceptance_checks": [
+    {
+      "id": "valid-midi-inventory",
+      "description": "Valid format 0 and format 1 fixtures report expected header, timing, track, channel, note, range, duration, tempo, key, and time-signature facts with zero structural blockers.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "malformed-midi-corpus",
+      "description": "Every approved malformed header, track, variable-length, running-status, data-byte, meta/system, and end-of-track fixture reports its stable check ID and path without crashing the remaining scan.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "reviewable-portability-corpus",
+      "description": "Empty content, unmatched notes, format 2, SMPTE timing, system-exclusive data, conflicting declarations, and non-ASCII text produce review findings rather than unsupported compatibility verdicts.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "bundle-hygiene-groups",
+      "description": "Exact bytes, normalized performance duplicates, distinct performances, case-insensitive path collisions, and non-MIDI release files are grouped exactly without modifying inputs.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "complete-private-reports",
+      "description": "CSV and self-contained HTML reports contain release facts, configured limits, every path, SHA-256, parsed MIDI facts, stable findings, evidence, and limitations in an offline no-storage workflow.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "bounded-safe-failures",
+      "description": "Unsafe paths, damaged archives, unsupported selections, nested archives, and file, archive, count, entry, expansion, and path limits fail safely with customer-facing messages.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "release-package-integrity",
+      "description": "The deterministic versioned buyer ZIP contains only the application, instructions, support, and dependency notices with restrictive CSP and no development files.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "buyer-facing-trust-assets",
+      "description": "Deterministic fictional fixtures generate four 1600x900 release-review images plus exact sample HTML and CSV reports without customer, payment, or confidential data.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "github-ci",
+      "description": "The product pull request passes manifest validation plus clean-install unit, release-package, and Chromium offline-browser checks on GitHub Actions.",
+      "required": true,
+      "status": "passed"
+    }
+  ],
+  "created_at": "2026-08-30T04:40:30Z",
+  "updated_at": "2026-08-30T05:18:28Z"
+}
