@@ -1,0 +1,31 @@
+XMP PRESET PACK PREFLIGHT SUPPORT
+
+Reply to the Gumroad receipt for the purchase.
+
+Subject: XMP Preset Pack Preflight support — <Gumroad order ID>
+
+Include the order ID, current desktop browser and operating system, utility version,
+exact error message, reproducible steps, and a minimal sanitized XMP or ZIP if needed.
+
+Do not send payment-card data, passwords, API keys, customer information, confidential
+client assets, unreleased work, or preset files you are not permitted to share.
+
+Support covers download access and reproducible core utility defects for the verified
+purchaser. It does not include preset repair or conversion, photo rendering, creative
+review, profile installation, custom development, or compatibility certification.
+Normal response target: two business days.
+
+CORE-DEFECT REFUND WINDOW
+
+Contact us through the Gumroad receipt within seven calendar days of purchase. If a
+reproducible defect prevents the utility's documented core workflow on a supported
+current desktop browser and remains unresolved, request a refund. A corrected copy may
+be offered, but the purchaser is not required to accept it instead of a refund for a
+confirmed unresolved core defect.
+
+Not covered: disclosed safety limits; corrupt, encrypted, nested, unsafe, or over-limit
+archives; unsupported file types or unusual third-party exporter behavior; Adobe,
+operating-system, marketplace, browser, camera-profile, or Gumroad changes; review
+findings; rendering, compatibility, creative, ownership, or rights disagreements;
+feature requests; customization; indirect losses; misuse; sharing; redistribution;
+resale; or repackaging. Accidental duplicate purchases will be reviewed promptly.

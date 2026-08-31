@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "product_id": "xmp-preset-pack-preflight",
+  "name": "XMP Preset Pack Preflight",
+  "summary": "Audit Lightroom and Camera Raw XMP preset packs locally for structural errors, identity collisions, duplicate settings, profile dependencies, and bundle hygiene.",
+  "customer": "Independent English-market photographers, retouchers, and boutique preset brands that sell original packs containing roughly 5 to 500 Lightroom or Camera Raw XMP develop presets.",
+  "problem": "Preset release ZIPs can contain malformed XMP, repeated identities or names, duplicate effective settings, profile-dependent compatibility facts, colliding paths, and accidental non-preset files that are tedious to review one at a time.",
+  "solution": "A downloadable offline browser utility that audits one ZIP or direct XMP selection with deterministic RDF/XML, identity, compatibility-fact, duplicate-settings, and bundle-hygiene checks and exports CSV plus self-contained HTML evidence.",
+  "distribution": {
+    "format": "download",
+    "channel": "gumroad"
+  },
+  "pricing": {
+    "currency": "USD",
+    "amount_cents": 1900
+  },
+  "state": "READY_FOR_RELEASE",
+  "source_issue": 45,
+  "artifacts": [
+    "products/xmp-preset-pack-preflight/README.md",
+    "products/xmp-preset-pack-preflight/release/xmp-preset-pack-preflight-v1.0.0.zip",
+    "products/xmp-preset-pack-preflight/marketing/gumroad-listing.md",
+    "products/xmp-preset-pack-preflight/marketing/knasoftware-listing.md",
+    "products/xmp-preset-pack-preflight/marketing/gumroad-workflow.png",
+    "products/xmp-preset-pack-preflight/marketing/gumroad-results.png",
+    "products/xmp-preset-pack-preflight/marketing/gumroad-report-preview.png",
+    "products/xmp-preset-pack-preflight/marketing/gumroad-contents.png",
+    "products/xmp-preset-pack-preflight/marketing/sample-report.html",
+    "products/xmp-preset-pack-preflight/marketing/sample-report.csv",
+    "products/xmp-preset-pack-preflight/support/SUPPORT.txt"
+  ],
+  "acceptance_checks": [
+    {
+      "id": "clean-xmp-inventory",
+      "description": "Clean develop-preset fixtures report exact file, hash, namespace, identity, type, process, compatibility, profile, and active-setting facts with zero structural blockers.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "malformed-xmp-corpus",
+      "description": "Invalid XML, missing XMP or RDF containers, absent Camera Raw descriptions, empty payloads, and oversized entries report stable check IDs without stopping valid siblings.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "identity-and-duplicate-groups",
+      "description": "Exact bytes, repeated identifiers, duplicate group names, normalized-setting matches, distinct settings, and case-insensitive path collisions are grouped exactly.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "compatibility-review-facts",
+      "description": "Profile references, support differences, mixed process versions, unknown Camera Raw properties, legacy presets, and non-preset files remain factual review findings without import or rendering claims.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "complete-private-reports",
+      "description": "CSV and self-contained HTML reports contain release limits, every file and hash, extracted facts, stable findings, evidence, duplicate groups, and limitations in an offline no-storage workflow.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "bounded-safe-failures",
+      "description": "Unsafe paths, damaged archives, unsupported selections, nested archives, and file, archive, count, entry, expansion, and path limits fail safely with customer-facing messages.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "release-package-integrity",
+      "description": "The deterministic versioned buyer ZIP contains only the application, instructions, support, and dependency notices with restrictive CSP and no development files.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "buyer-facing-trust-assets",
+      "description": "Deterministic fictional fixtures generate four 1600x900 release-review images plus exact sample HTML and CSV reports without customer, payment, or confidential data.",
+      "required": true,
+      "status": "passed"
+    },
+    {
+      "id": "github-ci",
+      "description": "The product pull request passes manifest validation plus clean-install unit, release-package, and Chromium offline-browser checks on GitHub Actions.",
+      "required": true,
+      "status": "passed"
+    }
+  ],
+  "created_at": "2026-08-31T03:21:23Z",
+  "updated_at": "2026-08-31T03:51:29Z"
+}
