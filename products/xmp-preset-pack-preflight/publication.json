@@ -1,0 +1,25 @@
+{
+  "schema_version": 4,
+  "product_id": "xmp-preset-pack-preflight",
+  "sales_channels": [
+    {
+      "channel": "gumroad",
+      "url": "https://khiemnd2.gumroad.com/l/xmp-preset-pack-preflight",
+      "price": {
+        "currency": "USD",
+        "amount_cents": 1900
+      },
+      "published_at": "2026-08-31T04:22:26Z",
+      "delivered_artifact_sha256": "924f2816dc45153f6e2b04fe887975782bb176a46b9f546c3ee1bcccd31588bb",
+      "catalog_backlink_verified_at": "2026-08-31T04:22:26Z"
+    }
+  ],
+  "catalog": {
+    "channel": "knasoftware",
+    "url": "https://knasoftware.com/sources/xmp-preset-pack-preflight",
+    "published_at": "2026-08-31T04:22:26Z",
+    "gumroad_link_verified_at": "2026-08-31T04:22:26Z"
+  },
+  "artifact": "products/xmp-preset-pack-preflight/release/xmp-preset-pack-preflight-v1.0.0.zip",
+  "artifact_sha256": "924f2816dc45153f6e2b04fe887975782bb176a46b9f546c3ee1bcccd31588bb"
+}
