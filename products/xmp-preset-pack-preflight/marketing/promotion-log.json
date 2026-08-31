@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "product_id": "xmp-preset-pack-preflight",
+  "product_url": "https://khiemnd2.gumroad.com/l/xmp-preset-pack-preflight",
+  "updated_at": "2026-08-31T04:41:03Z",
+  "entries": [
+    {
+      "channel_id": "facebook-group-1486520659655365",
+      "destination_url": "https://www.facebook.com/groups/1486520659655365/",
+      "status": "pending",
+      "account_context": "Nguyễn Khiêm (Facebook)",
+      "submitted_at": "2026-08-31T04:39:53.789Z",
+      "published_at": null,
+      "post_url": null,
+      "last_verified_at": "2026-08-31T04:41:03Z",
+      "evidence_notes": "Facebook accepted the exact action-time-approved English copy once under the joined Nguyễn Khiêm profile with the KNA Software link preview. The group displayed the submitted post card together with 'Your post is pending' and stated that it is awaiting admin approval; no public permalink was available. No CAPTCHA, restriction, warning, duplicate submission, edit, reaction, message, or retry occurred."
+    }
+  ]
+}
