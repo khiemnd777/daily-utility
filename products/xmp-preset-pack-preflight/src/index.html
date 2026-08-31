@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' blob:; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+    <title>XMP Preset Pack Preflight</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#main" aria-label="XMP Preset Pack Preflight home">
+        <span class="brand-mark" aria-hidden="true">XMP</span>
+        <span>XMP Preset Pack Preflight</span>
+      </a>
+      <span class="version">Local-only analysis</span>
+    </header>
+
+    <main id="main">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Release QA for preset-pack sellers</p>
+          <h1>Audit the preset pack before buyers import it.</h1>
+          <p class="lede">Inspect one release ZIP or up to 500 .xmp presets for malformed XML, missing identity, profile and compatibility facts, duplicate settings, path collisions, and accidental bundle files—without uploading anything.</p>
+          <ul class="trust-list" aria-label="Product properties">
+            <li>Offline</li><li>Deterministic</li><li>CSV + HTML evidence</li>
+          </ul>
+        </div>
+        <aside class="workflow-card" aria-label="Three-step workflow">
+          <p class="card-label">One pass. Three steps.</p>
+          <ol>
+            <li><span>01</span><div><strong>Choose</strong><small>One ZIP or direct XMP files</small></div></li>
+            <li><span>02</span><div><strong>Review</strong><small>Blockers, facts, and pack-level matches</small></div></li>
+            <li><span>03</span><div><strong>Export</strong><small>CSV and self-contained HTML</small></div></li>
+          </ol>
+        </aside>
+      </section>
+
+      <section class="workspace" aria-labelledby="workspace-title">
+        <div class="section-heading">
+          <div><p class="eyebrow">Private workspace</p><h2 id="workspace-title">Run a local preflight</h2></div>
+          <p>50 MB ZIP · 100 MB expanded · 500 XMP · 2 MB each</p>
+        </div>
+        <label id="drop-zone" class="dropzone" for="release-files">
+          <span class="drop-icon" aria-hidden="true">↧</span>
+          <strong>Drop one release ZIP here</strong>
+          <span>or choose up to 500 .xmp files</span>
+          <span class="choose">Choose local files</span>
+          <input id="release-files" type="file" accept=".zip,.xmp,application/zip,application/rdf+xml,application/xml,text/xml" multiple>
+        </label>
+        <div class="status-row">
+          <p id="status" class="status" role="status" aria-live="polite">Choose one ZIP or direct .xmp files to begin.</p>
+          <button id="clear-selection" class="text-button" type="button">Clear</button>
+        </div>
+      </section>
+
+      <section id="results" class="results" hidden aria-labelledby="results-title">
+        <div class="section-heading results-heading">
+          <div><p class="eyebrow">Evidence</p><h2 id="results-title">Release findings</h2></div>
+          <div class="actions">
+            <button id="export-csv" type="button">Export CSV</button>
+            <button id="export-html" class="secondary" type="button">Export HTML</button>
+          </div>
+        </div>
+        <div id="summary" class="summary"></div>
+        <div class="table-shell">
+          <table>
+            <thead><tr><th>File evidence</th><th>Identity</th><th>Preset facts</th><th>Findings</th></tr></thead>
+            <tbody id="result-rows"></tbody>
+          </table>
+        </div>
+        <div id="other-files" class="other-files"></div>
+      </section>
+
+      <section class="boundary-grid" aria-label="Scope and limits">
+        <article><p class="eyebrow">What it checks</p><h2>Static release evidence</h2><p><strong>It checks</strong> XMP/RDF structure, Camera Raw identity and group fields, declared profile and support facts, normalized-setting matches, paths, and release inventory.</p></article>
+        <article><p class="eyebrow">What it cannot promise</p><h2>Import and rendering still need testing</h2><p><strong>It does not</strong> import presets, render photos, repair files, certify Adobe compatibility, prove visual equivalence, or judge ownership. Test representative presets in every workflow you claim to support.</p></article>
+      </section>
+    </main>
+
+    <footer><span>XMP Preset Pack Preflight 1.0.0</span><span>Offline by design · Input bytes are never modified</span></footer>
+  </body>
+</html>
